@@ -1,0 +1,170 @@
+// Prisma schema for hotel website (offers, enquiries, analytics, social posting)
+// Update the DATABASE_URL in .env before running migrations.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  password    String?  // hashed; used for OWNER credentials login
+  role        UserRole @default(CUSTOMER)
+  createdAt   DateTime @default(now())
+  lastVisitAt DateTime?
+
+  visits   Visit[]
+  events   AnalyticsEvent[]
+  enquiries Enquiry[] @relation("UserEnquiries")
+}
+
+model Visit {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  sessionId String
+  ip        String?
+  userAgent String?
+  path      String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([sessionId])
+}
+
+model Enquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  checkIn   DateTime
+  checkOut  DateTime
+  guests    Int
+  source    String        @default("website")
+  status    EnquiryStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  offerId String?
+  offer   Offer?  @relation(fields: [offerId], references: [id])
+
+  userId String?
+  user   User?   @relation("UserEnquiries", fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([offerId])
+  @@index([status, createdAt])
+}
+
+model Offer {
+  id           String          @id @default(cuid())
+  title        String
+  description  String
+  price        Decimal
+  validFrom    DateTime
+  validTo      DateTime
+  isActive     Boolean         @default(true)
+  heroImageUrl String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  features      OfferFeature[]
+  publications  OfferPublication[]
+  analytics     AnalyticsEvent[]
+  enquiries     Enquiry[]
+
+  @@index([createdAt])
+  @@index([isActive, validFrom, validTo])
+}
+
+model OfferFeature {
+  id     String @id @default(cuid())
+  label  String
+  value  String
+
+  offerId String
+  offer   Offer  @relation(fields: [offerId], references: [id], onDelete: Cascade)
+}
+
+model SocialAccount {
+  id          String         @id @default(cuid())
+  platform    SocialPlatform
+  pageId      String?
+  accountId   String?
+  accessToken String
+  refreshToken String?
+  expiresAt   DateTime?
+  createdAt   DateTime      @default(now())
+
+  publications OfferPublication[]
+}
+
+model OfferPublication {
+  id            String                @id @default(cuid())
+  offerId       String
+  offer         Offer                 @relation(fields: [offerId], references: [id], onDelete: Cascade)
+  platform      SocialPlatform
+  status        PublicationStatus     @default(PENDING)
+  externalPostId String?
+  errorMessage  String?
+  createdAt     DateTime              @default(now())
+
+  socialAccountId String?
+  socialAccount   SocialAccount?      @relation(fields: [socialAccountId], references: [id])
+
+  @@index([offerId, createdAt])
+  @@index([platform, createdAt])
+}
+
+model AnalyticsEvent {
+  id        String         @id @default(cuid())
+  type      AnalyticsType
+  userId    String?
+  user      User?          @relation(fields: [userId], references: [id])
+  sessionId String
+  offerId   String?
+  offer     Offer?         @relation(fields: [offerId], references: [id])
+  path      String?
+  metadata  Json?
+  createdAt DateTime       @default(now())
+
+  @@index([createdAt])
+  @@index([type, createdAt])
+  @@index([offerId, createdAt])
+  @@index([sessionId, createdAt])
+}
+
+enum UserRole {
+  CUSTOMER
+  OWNER
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  BOOKED
+  CANCELLED
+}
+
+enum SocialPlatform {
+  FACEBOOK
+  INSTAGRAM
+}
+
+enum PublicationStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum AnalyticsType {
+  PAGE_VIEW
+  OFFER_CLICK
+  ENQUIRY_SUBMITTED
+}
+

@@ -1,0 +1,6 @@
+{
+    "recommendations": [
+        "ms-copilotstudio.vscode-copilotstudio",
+        "ms-azuretools.vscode-azure-github-copilot"
+    ]
+}
