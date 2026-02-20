@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
-export default function AdminLoginPage() {
+function AdminLoginPageContent() {
   const searchParams = useSearchParams();
   const callbackUrl =
     searchParams.get("callbackUrl") ?? "/admin";
@@ -84,5 +84,13 @@ export default function AdminLoginPage() {
         Use your owner account to manage offers and enquiries.
       </p>
     </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<div className="pt-12 text-sm text-slate-400">Loading login...</div>}>
+      <AdminLoginPageContent />
+    </Suspense>
   );
 }

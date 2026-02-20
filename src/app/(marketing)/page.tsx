@@ -1,30 +1,93 @@
+import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 
-const roomHighlights = [
+const roomCategories = [
   {
-    title: "Lakeview Suite",
-    description:
-      "Expansive views, king bed, private balcony, artisanal breakfast.",
-    badge: "Most popular",
+    title: "Deluxe Room",
+    description: "Quiet garden views with warm, understated interiors.",
+    badge: "Comfort choice",
+    price: "INR 2,800",
+    occupancy: "Up to 2 guests",
+    size: "220 sq ft",
+    bed: "Queen bed",
+    perks: ["Garden-facing", "Work desk", "Rain shower"],
   },
   {
-    title: "Garden Courtyard Rooms",
-    description:
-      "Sunlit rooms opening into a lush, candle-lit courtyard.",
-    badge: "Perfect for couples",
+    title: "Premium Room",
+    description: "More space with a balcony and lounge seating.",
+    badge: "Most booked",
+    price: "INR 3,600",
+    occupancy: "Up to 3 guests",
+    size: "280 sq ft",
+    bed: "King bed",
+    perks: ["Private balcony", "Lounge chair", "Premium linens"],
   },
   {
-    title: "Family Loft",
-    description:
-      "Two-level loft with reading nook and kid-friendly amenities.",
-    badge: "Great for families",
+    title: "Executive Room",
+    description: "Refined finishes with elevated amenities for longer stays.",
+    badge: "Business ready",
+    price: "INR 4,200",
+    occupancy: "Up to 3 guests",
+    size: "320 sq ft",
+    bed: "King bed",
+    perks: ["Minibar", "Ergonomic desk", "Evening turndown"],
   },
+  {
+    title: "Family Room",
+    description: "Flexible layout for families with extra storage.",
+    badge: "Family favorite",
+    price: "INR 4,800",
+    occupancy: "Up to 4 guests",
+    size: "360 sq ft",
+    bed: "King + twin",
+    perks: ["Extra bedding", "Kids amenities", "Pantry access"],
+  },
+  {
+    title: "Signature Suite",
+    description: "Separate living area with signature decor and privacy.",
+    badge: "Signature stay",
+    price: "INR 6,500",
+    occupancy: "Up to 4 guests",
+    size: "520 sq ft",
+    bed: "King bed",
+    perks: ["Living area", "Premium bath", "Priority dining"],
+  },
+];
+
+const featureHighlights = [
+  {
+    title: "Restaurant",
+    description: "All-day dining with seasonal menus and local favorites.",
+  },
+  {
+    title: "Swimming Pool",
+    description: "A calm pool deck for morning laps and evening rest.",
+  },
+  {
+    title: "Banquet",
+    description: "One elegant banquet space for weddings and celebrations.",
+  },
+  {
+    title: "Small Hall",
+    description: "Ideal for meetings, private dinners, or intimate events.",
+  },
+  {
+    title: "20 Rooms",
+    description: "A boutique inventory for attentive, personalized service.",
+  },
+];
+
+const signatureMoments = [
+  "Tea service on the terrace",
+  "Curated breakfast spreads",
+  "Evening poolside calm",
+  "Personalized event planning",
 ];
 
 function formatPrice(price: { toString: () => string }) {
   const n = Number(price);
-  return Number.isNaN(n) ? price.toString() : `₹${n.toLocaleString("en-IN")}`;
+  return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;
 }
 
 export default async function MarketingHomePage() {
@@ -41,35 +104,36 @@ export default async function MarketingHomePage() {
 
   return (
     <div className="space-y-16">
-      <section className="grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center">
+      <section className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
         <div className="space-y-6">
-          <p className="inline-flex items-center gap-2 rounded-full border border-amber-300/30 bg-amber-400/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.25em] text-amber-200">
-            Boutique escape
-            <span className="h-1 w-1 rounded-full bg-emerald-400" />
-            Open for bookings
+          <p className="inline-flex items-center gap-2 rounded-full border border-amber-200/30 bg-amber-200/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.3em] text-amber-100/80">
+            Hotel and events
+            <span className="h-1 w-1 rounded-full bg-amber-300" />
+            Now booking
           </p>
-          <h1 className="text-balance text-4xl font-semibold tracking-tight text-amber-50 sm:text-5xl lg:text-6xl">
-            Slow down at{" "}
-            <span className="bg-gradient-to-r from-amber-300 via-amber-100 to-rose-200 bg-clip-text text-transparent">
+          <h1 className="text-balance text-4xl font-semibold tracking-tight text-amber-50 sm:text-5xl lg:text-6xl font-[var(--font-display)]">
+            A refined stay at{" "}
+            <span className="bg-gradient-to-r from-amber-200 via-amber-100 to-rose-200 bg-clip-text text-transparent">
               Kishori Villa
             </span>
             .
           </h1>
           <p className="max-w-xl text-balance text-base text-slate-200/80 sm:text-lg">
-            A handful of thoughtfully designed rooms, warm hospitality, and a
-            view that invites you to linger. Wake up to birdsong, locally
-            roasted coffee, and the sound of distant river currents.
+            A boutique hotel with 20 rooms, five room categories, and inviting
+            spaces for dining, celebrations, and quiet retreats. Thoughtful
+            service, elegant interiors, and the calm you expect from a proper
+            hotel experience.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
               href="/enquiry"
-              className="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/40 transition hover:bg-amber-300"
+              className="inline-flex items-center justify-center rounded-full bg-amber-300 px-6 py-3 text-sm font-semibold text-stone-950 shadow-lg shadow-amber-400/40 transition hover:bg-amber-200"
             >
               Check availability
             </Link>
             <Link
               href="/offers"
-              className="inline-flex items-center justify-center rounded-full border border-slate-600/70 bg-slate-900/40 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:border-amber-300/60 hover:text-amber-100"
+              className="inline-flex items-center justify-center rounded-full border border-amber-200/30 bg-stone-900/40 px-6 py-3 text-sm font-semibold text-amber-100 transition hover:border-amber-200/60 hover:text-amber-50"
             >
               View current offers
             </Link>
@@ -79,38 +143,45 @@ export default async function MarketingHomePage() {
               <dt className="text-xs uppercase tracking-[0.2em] text-slate-400">
                 Check-in / Check-out
               </dt>
-              <dd>2:00 pm · 11:00 am</dd>
+              <dd>2:00 pm - 11:00 am</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Location
+                Rooms inventory
               </dt>
-              <dd>Quiet hillside, 10 mins from city center</dd>
+              <dd>20 rooms across five categories</dd>
             </div>
             <div>
               <dt className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                Highlights
+                Event spaces
               </dt>
-              <dd>Infinity deck · Bonfire dinners · Curated trails</dd>
+              <dd>1 banquet, 1 small hall</dd>
             </div>
           </dl>
         </div>
 
         <div className="relative">
-          <div className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-amber-500/20 blur-3xl" />
-          <div className="absolute -right-6 bottom-0 h-40 w-52 rounded-full bg-emerald-400/10 blur-3xl" />
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl shadow-black/60">
-            <div className="h-64 bg-[radial-gradient(circle_at_20%_0%,rgba(250,204,21,0.25),transparent_55%),radial-gradient(circle_at_80%_100%,rgba(52,211,153,0.18),transparent_55%)]" />
-            <div className="space-y-3 border-t border-white/10 bg-slate-950/70 p-5">
+          <div className="absolute -left-10 -top-10 h-40 w-40 rounded-full bg-amber-400/15 blur-3xl" />
+          <div className="absolute -right-6 bottom-0 h-40 w-52 rounded-full bg-rose-300/10 blur-3xl" />
+          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-stone-900 to-stone-800 shadow-2xl shadow-black/60">
+            <Image
+              src="/hero-hotel.svg"
+              alt="Elegant hotel lobby illustration"
+              width={720}
+              height={520}
+              className="h-72 w-full object-cover sm:h-80"
+              priority
+            />
+            <div className="space-y-3 border-t border-white/10 bg-stone-950/70 p-5">
               <p className="text-xs font-medium uppercase tracking-[0.3em] text-amber-200/80">
-                Tonight at Kishori Villa
+                Stay the Kishori way
               </p>
               <p className="text-sm text-slate-200">
-                Golden hour on the deck, soft jazz, and a chef&apos;s tasting
-                menu inspired by local produce.
+                Morning coffee, warm light, and a quiet pool deck set the pace
+                for a refined, restful stay.
               </p>
               <p className="text-xs text-slate-400">
-                &quot;The kind of stay that makes you forget your inbox exists.&quot; —
+                "Elegant rooms, attentive staff, and beautiful event spaces." -
                 recent guest
               </p>
             </div>
@@ -119,62 +190,170 @@ export default async function MarketingHomePage() {
       </section>
 
       <section className="space-y-6">
-        <div className="flex items-end justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-semibold text-amber-50 sm:text-2xl font-[var(--font-display)]">
+            Facilities at a glance
+          </h2>
+          <p className="text-sm text-slate-300">
+            Everything you need for stays, dining, and celebrations in one
+            thoughtfully designed property.
+          </p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {featureHighlights.map((feature) => (
+            <article
+              key={feature.title}
+              className="rounded-2xl border border-white/10 bg-stone-950/60 p-4 text-sm text-slate-200 shadow-lg shadow-black/30"
+            >
+              <h3 className="text-base font-semibold text-amber-50 font-[var(--font-display)]">
+                {feature.title}
+              </h3>
+              <p className="mt-2 text-sm text-slate-300">{feature.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="grid gap-8 rounded-3xl border border-amber-200/20 bg-gradient-to-br from-stone-900/70 via-stone-950 to-stone-900/80 p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+        <div className="space-y-4">
+          <h2 className="text-xl font-semibold text-amber-50 sm:text-2xl font-[var(--font-display)]">
+            Signature experiences
+          </h2>
+          <p className="text-sm text-slate-300">
+            A boutique hotel atmosphere with warm hospitality, calm interiors,
+            and events designed with care.
+          </p>
+          <ul className="space-y-2 text-sm text-slate-300">
+            {signatureMoments.map((moment) => (
+              <li key={moment} className="flex items-center gap-2">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-300" />
+                {moment}
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 text-sm font-medium text-amber-200 hover:text-amber-100"
+          >
+            Speak with our team ->
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-white/10 bg-stone-950/70 p-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-200/70">
+              Restaurant
+            </p>
+            <p className="mt-2 text-sm text-slate-200">
+              Seasonal menus, private dining, and curated tasting evenings.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-stone-950/70 p-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-200/70">
+              Events
+            </p>
+            <p className="mt-2 text-sm text-slate-200">
+              Host weddings, conferences, and family celebrations with ease.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-stone-950/70 p-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-200/70">
+              Pool deck
+            </p>
+            <p className="mt-2 text-sm text-slate-200">
+              A serene pool setting with loungers and evening ambience.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-stone-950/70 p-4">
+            <p className="text-xs uppercase tracking-[0.3em] text-amber-200/70">
+              Service
+            </p>
+            <p className="mt-2 text-sm text-slate-200">
+              Attentive concierge, curated itineraries, and flexible requests.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-amber-50 sm:text-2xl">
-              Rooms & Suites
+            <h2 className="text-xl font-semibold text-amber-50 sm:text-2xl font-[var(--font-display)]">
+              Room categories
             </h2>
             <p className="text-sm text-slate-300">
-              A small collection of rooms, each with its own mood and view.
+              Five categories designed for couples, families, and business stays.
             </p>
           </div>
           <Link
             href="/offers"
-            className="hidden text-sm font-medium text-amber-200 hover:text-amber-100 sm:inline-flex"
+            className="text-sm font-medium text-amber-200 hover:text-amber-100"
           >
-            Explore current offers →
+            Explore current offers ->
           </Link>
         </div>
-        <div className="grid gap-5 md:grid-cols-3">
-          {roomHighlights.map((room) => (
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {roomCategories.map((room) => (
             <article
               key={room.title}
-              className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-slate-950/60 p-4 shadow-lg shadow-black/40 transition hover:border-amber-300/60 hover:bg-slate-900/80"
+              className="group flex flex-col justify-between rounded-2xl border border-white/10 bg-stone-950/60 p-5 shadow-lg shadow-black/40 transition hover:border-amber-200/50 hover:bg-stone-900/80"
             >
               <div className="space-y-3">
-                <span className="inline-flex rounded-full bg-amber-400/10 px-2 py-1 text-[11px] font-medium text-amber-200">
+                <span className="inline-flex rounded-full bg-amber-200/10 px-2 py-1 text-[11px] font-medium text-amber-200">
                   {room.badge}
                 </span>
-                <h3 className="text-base font-semibold text-amber-50">
+                <h3 className="text-base font-semibold text-amber-50 font-[var(--font-display)]">
                   {room.title}
                 </h3>
                 <p className="text-sm text-slate-300">{room.description}</p>
+                <div className="rounded-xl border border-amber-200/10 bg-stone-950/70 p-3 text-xs text-slate-300">
+                  <div className="flex items-center justify-between">
+                    <span className="text-amber-200/80">From</span>
+                    <span className="text-sm font-semibold text-amber-100">
+                      {room.price}
+                    </span>
+                  </div>
+                  <div className="mt-2 grid gap-1">
+                    <span>{room.occupancy}</span>
+                    <span>{room.size}</span>
+                    <span>{room.bed}</span>
+                  </div>
+                </div>
+                <ul className="space-y-1 text-xs text-slate-400">
+                  {room.perks.map((perk) => (
+                    <li key={perk} className="flex items-center gap-2">
+                      <span className="h-1 w-1 rounded-full bg-amber-300" />
+                      {perk}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
-                <span>Complimentary breakfast · High-speed Wi‑Fi</span>
-                <span className="text-amber-200/80 group-hover:text-amber-100">
-                  View details
-                </span>
+              <div className="mt-5 flex items-center justify-between text-xs text-slate-400">
+                <span>Breakfast and Wi-Fi included</span>
+                <Link
+                  href="/enquiry"
+                  className="text-amber-200/80 group-hover:text-amber-100"
+                >
+                  Enquire
+                </Link>
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="space-y-6 rounded-3xl border border-emerald-300/25 bg-gradient-to-br from-emerald-900/40 via-slate-950 to-emerald-950/60 p-6 sm:p-8">
+      <section className="space-y-6 rounded-3xl border border-amber-200/20 bg-gradient-to-br from-amber-900/30 via-stone-950 to-amber-950/50 p-6 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-emerald-50 sm:text-2xl">
+            <h2 className="text-xl font-semibold text-amber-50 sm:text-2xl font-[var(--font-display)]">
               Current offers
             </h2>
-            <p className="text-sm text-emerald-100/80">
-              Curated stays with little extras built in—perfect for your next
-              escape.
+            <p className="text-sm text-amber-100/80">
+              Curated stays with thoughtful extras included.
             </p>
           </div>
           <Link
             href="/offers"
-            className="inline-flex items-center justify-center rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-emerald-500/40 transition hover:bg-emerald-300"
+            className="inline-flex items-center justify-center rounded-full bg-amber-300 px-5 py-2 text-sm font-semibold text-stone-950 shadow-lg shadow-amber-400/40 transition hover:bg-amber-200"
           >
             See all offers
           </Link>
@@ -184,41 +363,44 @@ export default async function MarketingHomePage() {
             {activeOffers.map((offer) => (
               <article
                 key={offer.id}
-                className="group flex flex-col justify-between rounded-2xl border border-emerald-200/25 bg-slate-950/60 p-4 transition hover:border-emerald-200/80 hover:bg-slate-950"
+                className="group flex flex-col justify-between rounded-2xl border border-amber-200/25 bg-stone-950/60 p-4 transition hover:border-amber-200/60 hover:bg-stone-950"
               >
                 <div className="space-y-2">
-                  <span className="inline-flex rounded-full bg-emerald-400/15 px-2 py-1 text-[11px] font-medium text-emerald-200">
+                  <span className="inline-flex rounded-full bg-amber-200/15 px-2 py-1 text-[11px] font-medium text-amber-200">
                     Limited time
                   </span>
-                  <h3 className="text-base font-semibold text-emerald-50">
+                  <h3 className="text-base font-semibold text-amber-50 font-[var(--font-display)]">
                     {offer.title}
                   </h3>
-                  <p className="line-clamp-2 text-sm text-emerald-50/80">
+                  <p className="line-clamp-2 text-sm text-amber-50/80">
                     {offer.description}
                   </p>
                 </div>
-                <div className="mt-3 flex justify-between text-xs text-emerald-100/80">
+                <div className="mt-3 flex justify-between text-xs text-amber-100/80">
                   <span>
-                    From {formatPrice(offer.price)} · Breakfast, Wi‑Fi, and taxes
+                    From {formatPrice(offer.price)} - Breakfast, Wi-Fi, and taxes
                     included.
                   </span>
                   <Link
                     href={`/offers/${offer.id}`}
-                    className="font-medium text-emerald-200 hover:text-emerald-50"
+                    className="font-medium text-amber-200 hover:text-amber-50"
                   >
-                    View →
+                    View ->
                   </Link>
                 </div>
               </article>
             ))}
           </div>
         ) : (
-          <p className="rounded-2xl border border-emerald-200/25 bg-slate-950/60 p-5 text-sm text-emerald-100/80">
+          <p className="rounded-2xl border border-amber-200/25 bg-stone-950/60 p-5 text-sm text-amber-100/80">
             No active offers at the moment. Check back soon or{" "}
-            <Link href="/enquiry" className="font-medium text-emerald-200 hover:text-emerald-50">
+            <Link
+              href="/enquiry"
+              className="font-medium text-amber-200 hover:text-amber-50"
+            >
               send an enquiry
             </Link>{" "}
-            and we&apos;ll tailor something for your dates.
+            and we will tailor something for your dates.
           </p>
         )}
       </section>

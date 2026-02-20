@@ -16,8 +16,13 @@ export function errorResponse(
   status: number,
   details?: unknown
 ): Response {
+  const payload: { error: string; details?: unknown } = { error: message };
+  if (details !== undefined) {
+    payload.details = details;
+  }
+
   return jsonResponse(
-    { error: message, ...(details && { details }) },
+    payload,
     { status }
   );
 }

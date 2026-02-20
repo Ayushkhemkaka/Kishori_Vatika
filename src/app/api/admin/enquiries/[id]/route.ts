@@ -14,9 +14,8 @@ export async function PATCH(
   const { id } = await params;
   try {
     const body = (await request.json()) as { status?: string };
-    const status = body.status as EnquiryStatus | undefined;
-    const valid = Object.values(EnquiryStatus).includes(status);
-    if (!valid) {
+    const status = body.status;
+    if (!status || !(Object.values(EnquiryStatus) as string[]).includes(status)) {
       return NextResponse.json(
         { error: "Invalid status" },
         { status: 400 }
@@ -24,7 +23,7 @@ export async function PATCH(
     }
     const enquiry = await prisma.enquiry.update({
       where: { id },
-      data: { status },
+      data: { status: status as EnquiryStatus },
     });
     return NextResponse.json({
       id: enquiry.id,

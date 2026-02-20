@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const display = Playfair_Display({
+  variable: "--font-display",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const body = Source_Sans_3({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: { default: "Kishori Villa", template: "%s · Kishori Villa" },
+  title: { default: "Kishori Villa", template: "%s - Kishori Villa" },
   description:
-    "Boutique hotel in the hills. Thoughtful rooms, warm hospitality, and a view worth waking up for.",
+    "Elegant boutique hotel with five room categories, dining, pool, and event spaces.",
 };
 
 export default function RootLayout({
@@ -26,9 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${display.variable} ${body.variable} antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

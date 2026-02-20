@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { ANALYTICS_SESSION_COOKIE } from "@/lib/analytics";
-import type { AnalyticsType } from "@prisma/client";
+import type { AnalyticsType, Prisma } from "@prisma/client";
 
 const VALID_TYPES: AnalyticsType[] = ["PAGE_VIEW", "OFFER_CLICK", "ENQUIRY_SUBMITTED"];
 
@@ -45,7 +45,9 @@ export async function POST(request: NextRequest) {
     const eventOfferId =
       typeof offerId === "string" && offerId.length > 0 ? offerId : undefined;
     const eventMetadata =
-      metadata && typeof metadata === "object" ? metadata : undefined;
+      metadata && typeof metadata === "object"
+        ? (metadata as Prisma.InputJsonValue)
+        : undefined;
 
     if (type === "PAGE_VIEW") {
       await prisma.visit.create({

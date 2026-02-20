@@ -1,11 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 type FormState = "idle" | "submitting" | "submitted" | "error";
 
-export default function EnquiryPage() {
+function EnquiryPageContent() {
   const searchParams = useSearchParams();
   const preselectedOfferId = searchParams.get("offer") ?? "";
   const [formState, setFormState] = useState<FormState>("idle");
@@ -264,5 +265,13 @@ export default function EnquiryPage() {
         </p>
       </aside>
     </div>
+  );
+}
+
+export default function EnquiryPage() {
+  return (
+    <Suspense fallback={<div className="text-sm text-slate-400">Loading enquiry form...</div>}>
+      <EnquiryPageContent />
+    </Suspense>
   );
 }

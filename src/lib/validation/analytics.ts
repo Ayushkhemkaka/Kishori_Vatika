@@ -14,7 +14,7 @@ export const analyticsEventSchema = z.object({
     .max(100, "sessionId too long"),
   offerId: z.string().cuid().optional(),
   path: z.string().max(500).optional(),
-  metadata: z.record(z.unknown()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 export type AnalyticsEventInput = z.infer<typeof analyticsEventSchema>;
