@@ -1,15 +1,41 @@
+import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { EnquiryStatusSelect } from "../_components/EnquiryStatusSelect";
 
-export default async function AdminEnquiriesPage() {
-  const enquiries = await prisma.enquiry.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { offer: { select: { id: true, title: true } } },
-  });
+const PAGE_SIZE = 25;
+
+export default async function AdminEnquiriesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { page } = await searchParams;
+  const currentPage = Math.max(1, Number(page ?? "1") || 1);
+  const skip = (currentPage - 1) * PAGE_SIZE;
+
+  const [enquiries, totalCount] = await Promise.all([
+    prisma.enquiry.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { offer: { select: { id: true, title: true } } },
+      skip,
+      take: PAGE_SIZE,
+    }),
+    prisma.enquiry.count(),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+  const hasPrev = currentPage > 1;
+  const hasNext = currentPage < totalPages;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-xl font-semibold text-amber-50">Enquiries</h1>
+      <div className="flex items-center justify-between gap-4">
+        <h1 className="text-xl font-semibold text-amber-50">Enquiries</h1>
+        <p className="text-sm text-slate-400">
+          {totalCount} total
+        </p>
+      </div>
+
       <div className="overflow-x-auto rounded-xl border border-white/10">
         <table className="w-full min-w-[640px] text-left text-sm">
           <thead className="border-b border-white/10 bg-slate-900/60">
@@ -63,6 +89,36 @@ export default async function AdminEnquiriesPage() {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-slate-400">
+          Page {currentPage} of {totalPages}
+        </p>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/admin/enquiries?page=${Math.max(1, currentPage - 1)}`}
+            aria-disabled={!hasPrev}
+            className={`rounded-full border px-4 py-2 text-sm ${
+              hasPrev
+                ? "border-white/20 text-slate-200 hover:bg-white/5"
+                : "pointer-events-none border-white/10 text-slate-500"
+            }`}
+          >
+            Previous
+          </Link>
+          <Link
+            href={`/admin/enquiries?page=${Math.min(totalPages, currentPage + 1)}`}
+            aria-disabled={!hasNext}
+            className={`rounded-full border px-4 py-2 text-sm ${
+              hasNext
+                ? "border-white/20 text-slate-200 hover:bg-white/5"
+                : "pointer-events-none border-white/10 text-slate-500"
+            }`}
+          >
+            Next
+          </Link>
+        </div>
       </div>
     </div>
   );

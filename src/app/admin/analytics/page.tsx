@@ -6,12 +6,22 @@ export default async function AdminAnalyticsPage() {
   const thirtyDaysAgo = new Date(now);
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-  const [visits, eventsByType, offerClicksByOffer, enquiriesWithOffer] = await Promise.all([
-    prisma.visit.findMany({
-      where: { createdAt: { gte: thirtyDaysAgo } },
-      select: { id: true, sessionId: true, path: true, createdAt: true },
-      orderBy: { createdAt: "asc" },
-    }),
+  const [visitsByDay, uniqueSessionsResult, eventsByType, offerClicksByOffer, enquiriesWithOffer] = await Promise.all([
+    prisma.$queryRaw<Array<{ date: string; visits: number; uniqueSessions: number }>>`
+      SELECT
+        to_char(date_trunc('day', "createdAt"), 'YYYY-MM-DD') AS date,
+        count(*)::int AS visits,
+        count(DISTINCT "sessionId")::int AS "uniqueSessions"
+      FROM "Visit"
+      WHERE "createdAt" >= ${thirtyDaysAgo}
+      GROUP BY 1
+      ORDER BY 1 ASC
+    `,
+    prisma.$queryRaw<Array<{ uniqueSessions: number }>>`
+      SELECT count(DISTINCT "sessionId")::int AS "uniqueSessions"
+      FROM "Visit"
+      WHERE "createdAt" >= ${thirtyDaysAgo}
+    `,
     prisma.analyticsEvent.groupBy({
       by: ["type"],
       where: { createdAt: { gte: thirtyDaysAgo } },
@@ -31,18 +41,6 @@ export default async function AdminAnalyticsPage() {
     }),
   ]);
 
-  const visitsByDay = new Map<string, number>();
-  const uniqueSessionsByDay = new Map<string, Set<string>>();
-  const uniqueSessionIds = new Set<string>();
-  for (const v of visits) {
-    const day = v.createdAt.toISOString().slice(0, 10);
-    visitsByDay.set(day, (visitsByDay.get(day) ?? 0) + 1);
-    uniqueSessionIds.add(v.sessionId);
-    if (!uniqueSessionsByDay.has(day))
-      uniqueSessionsByDay.set(day, new Set());
-    uniqueSessionsByDay.get(day)!.add(v.sessionId);
-  }
-
   const typeCounts = Object.fromEntries(
     eventsByType.map((e) => [e.type, e._count])
   );
@@ -61,13 +59,11 @@ export default async function AdminAnalyticsPage() {
     : [];
   const titleMap = Object.fromEntries(offerTitles.map((o) => [o.id, o.title]));
 
-  const chartData = [...visitsByDay.entries()]
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([date]) => ({
-      date,
-      visits: visitsByDay.get(date) ?? 0,
-      uniqueSessions: uniqueSessionsByDay.get(date)?.size ?? 0,
-    }));
+  const chartData = visitsByDay.map((entry) => ({
+    date: entry.date,
+    visits: entry.visits,
+    uniqueSessions: entry.uniqueSessions,
+  }));
 
   const offerData = offerIds.map((id) => ({
     offerId: id,
@@ -88,7 +84,7 @@ export default async function AdminAnalyticsPage() {
         </div>
         <div className="rounded-xl border border-white/10 bg-slate-900/60 p-5">
           <p className="text-2xl font-semibold text-amber-100">
-            {uniqueSessionIds.size}
+            {uniqueSessionsResult[0]?.uniqueSessions ?? 0}
           </p>
           <p className="text-sm text-slate-400">Unique sessions (30 days)</p>
         </div>
