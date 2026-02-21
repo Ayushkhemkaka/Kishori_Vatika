@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Kishori Villa, our rooms, dining, and event spaces designed for elegant stays.",
+    "Learn about Kishori Vatika, our rooms, dining, and event spaces designed for elegant stays.",
 };
 
 const values = [
@@ -44,7 +44,7 @@ export default function AboutPage() {
           A boutique hotel built for refined stays.
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
-          Kishori Villa is a thoughtfully designed hotel with elegant rooms,
+          Kishori Vatika is a thoughtfully designed hotel with elegant rooms,
           calm interiors, and warm hospitality. We focus on comfort, privacy,
           and the small details that make every stay feel effortless.
         </p>
@@ -80,7 +80,7 @@ export default function AboutPage() {
             Our story
           </h2>
           <p className="mt-3 text-sm text-stone-600">
-            We created Kishori Villa to feel like a proper hotel stay with
+            We created Kishori Vatika to feel like a proper hotel stay with
             boutique charm. Whether you are here for a weekend escape, a family
             gathering, or a formal celebration, our spaces are designed to keep
             things simple, elegant, and comfortable.

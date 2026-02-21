@@ -1,10 +1,17 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 
 function formatPrice(price: { toString: () => string }) {
   const n = Number(price);
   return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;
 }
+
+export const metadata: Metadata = {
+  title: "Offers",
+  description:
+    "Curated stay packages with dining, experiences, and event options at Kishori Vatika.",
+};
 
 const offerCategories = [
   "Weekend getaways",
@@ -97,7 +104,7 @@ export default async function OffersPage() {
                     href={`/enquiry?offer=${encodeURIComponent(offer.id)}`}
                     className="text-xs font-medium text-emerald-700 hover:text-emerald-600"
                   >
-                    Enquire about this ->
+                    Enquire about this &rarr;
                   </Link>
                 </div>
               </div>

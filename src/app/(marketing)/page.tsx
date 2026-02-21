@@ -114,7 +114,7 @@ export default async function MarketingHomePage() {
           <h1 className="text-balance text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl font-display">
             A refined stay at{" "}
             <span className="bg-gradient-to-r from-amber-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent">
-              Kishori Villa
+              Kishori Vatika
             </span>
             .
           </h1>
@@ -235,7 +235,7 @@ export default async function MarketingHomePage() {
             href="/contact"
             className="inline-flex items-center gap-2 text-sm font-medium text-emerald-700 hover:text-emerald-600"
           >
-            Speak with our team ->
+            Speak with our team &rarr;
           </Link>
         </div>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -288,7 +288,7 @@ export default async function MarketingHomePage() {
             href="/offers"
             className="text-sm font-medium text-emerald-700 hover:text-emerald-600"
           >
-            Explore current offers ->
+            Explore current offers &rarr;
           </Link>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -385,7 +385,7 @@ export default async function MarketingHomePage() {
                     href={`/offers/${offer.id}`}
                     className="font-medium text-emerald-700 hover:text-emerald-600"
                   >
-                    View ->
+                    View &rarr;
                   </Link>
                 </div>
               </article>

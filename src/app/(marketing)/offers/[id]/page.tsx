@@ -24,7 +24,7 @@ export async function generateMetadata({
   const { id } = await params;
   const offer = await getOfferById(id);
   return {
-    title: offer ? `${offer.title} - Kishori Villa` : "Offer - Kishori Villa",
+    title: offer ? `${offer.title} - Kishori Vatika` : "Offer - Kishori Vatika",
   };
 }
 

@@ -15,7 +15,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
             </div>
             <div className="leading-tight">
               <div className="text-sm font-semibold tracking-[0.25em] text-emerald-800/80 font-display">
-                Kishori Villa
+                Kishori Vatika
               </div>
               <div className="text-xs text-stone-500">Boutique Hotel - Since 2024</div>
             </div>
@@ -24,22 +24,13 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
             <Link href="/" className="transition-colors hover:text-emerald-700">
               Home
             </Link>
-            <Link
-              href="/offers"
-              className="transition-colors hover:text-emerald-700"
-            >
+            <Link href="/offers" className="transition-colors hover:text-emerald-700">
               Offers
             </Link>
-            <Link
-              href="/about"
-              className="transition-colors hover:text-emerald-700"
-            >
+            <Link href="/about" className="transition-colors hover:text-emerald-700">
               About
             </Link>
-            <Link
-              href="/contact"
-              className="transition-colors hover:text-emerald-700"
-            >
+            <Link href="/contact" className="transition-colors hover:text-emerald-700">
               Contact
             </Link>
           </nav>
@@ -61,7 +52,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
 
       <footer className="border-t border-emerald-200/60 bg-white/80">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-6 text-sm text-stone-500 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Kishori Villa. All rights reserved.</p>
+          <p>(c) {new Date().getFullYear()} Kishori Vatika. All rights reserved.</p>
           <div className="flex flex-wrap gap-4">
             <span className="text-stone-400">Boutique hotel and event spaces.</span>
             <span className="text-stone-400">Crafted with Next.js and Tailwind.</span>
