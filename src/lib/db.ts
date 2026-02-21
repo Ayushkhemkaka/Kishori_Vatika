@@ -9,8 +9,9 @@ const globalForPrisma = globalThis as unknown as {
 
 const connectionString = process.env.DATABASE_URL;
 
-const pool =
-  connectionString && (globalForPrisma.prismaPool ?? new Pool({ connectionString }));
+const pool: Pool | undefined = connectionString
+  ? globalForPrisma.prismaPool ?? new Pool({ connectionString })
+  : undefined;
 
 if (connectionString && process.env.NODE_ENV !== "production") {
   globalForPrisma.prismaPool = pool;
