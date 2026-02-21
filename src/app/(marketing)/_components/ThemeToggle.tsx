@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
+const STORAGE_KEY = "kv-theme-v2";
 
 function applyTheme(theme: Theme) {
   if (typeof document === "undefined") return;
@@ -13,7 +14,7 @@ export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("kv-theme") as Theme | null;
+    const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
     const preferred: Theme = stored ?? "light";
     setTheme(preferred);
     applyTheme(preferred);
@@ -22,7 +23,7 @@ export function ThemeToggle() {
   function toggleTheme() {
     const next: Theme = theme === "light" ? "dark" : "light";
     setTheme(next);
-    window.localStorage.setItem("kv-theme", next);
+    window.localStorage.setItem(STORAGE_KEY, next);
     applyTheme(next);
   }
 

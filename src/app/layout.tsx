@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="light" suppressHydrationWarning>
       <body className={`${display.variable} ${body.variable} antialiased`}>
         <Providers>{children}</Providers>
       </body>
