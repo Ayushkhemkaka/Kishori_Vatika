@@ -52,7 +52,9 @@ function EnquiryPageContent() {
 
       if (!res.ok) {
         setFormState("error");
-        const details = data?.details?.fieldErrors as Record<string, string[] | undefined> | undefined;
+        const details = data?.details?.fieldErrors as
+          | Record<string, string[] | undefined>
+          | undefined;
         const msg = details
           ? Object.entries(details)
               .map(([k, v]) => `${k}: ${Array.isArray(v) ? v[0] : v}`)
@@ -72,25 +74,25 @@ function EnquiryPageContent() {
   const isSubmitted = formState === "submitted";
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-start">
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-start">
       <section className="space-y-6">
         <header className="space-y-3">
-          <p className="text-xs font-medium uppercase tracking-[0.28em] text-amber-200/90">
+          <p className="text-xs font-medium uppercase tracking-[0.3em] text-amber-200/80">
             Enquiry
           </p>
-          <h1 className="text-2xl font-semibold text-amber-50 sm:text-3xl">
+          <h1 className="text-2xl font-semibold text-amber-50 sm:text-3xl font-display">
             Tell us about your stay.
           </h1>
           <p className="max-w-xl text-sm text-slate-300 sm:text-base">
-            Share your dates, number of guests, and any special occasion.
-            We&apos;ll get back to you with availability, pricing, and a couple
-            of suggestions that fit.
+            Share your dates, number of guests, and any special occasion. We
+            will respond with availability, pricing, and room suggestions that
+            fit your needs.
           </p>
         </header>
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-5 rounded-2xl border border-white/10 bg-slate-950/70 p-5 shadow-lg shadow-black/40"
+          className="space-y-5 rounded-2xl border border-amber-200/15 bg-stone-950/70 p-5 shadow-lg shadow-black/30"
         >
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
@@ -101,7 +103,7 @@ function EnquiryPageContent() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-slate-900 focus:outline-none"
+                className="w-full rounded-lg border border-stone-700 bg-stone-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-stone-900"
                 placeholder="Your full name"
               />
             </div>
@@ -114,7 +116,7 @@ function EnquiryPageContent() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-slate-900 focus:outline-none"
+                className="w-full rounded-lg border border-stone-700 bg-stone-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-stone-900"
                 placeholder="you@example.com"
               />
             </div>
@@ -125,8 +127,8 @@ function EnquiryPageContent() {
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-slate-900 focus:outline-none"
-                placeholder="With country code if outside India"
+                className="w-full rounded-lg border border-stone-700 bg-stone-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-stone-900"
+                placeholder="Include country code if outside India"
               />
             </div>
             <div className="space-y-1.5">
@@ -139,7 +141,7 @@ function EnquiryPageContent() {
                 type="number"
                 value={guests}
                 onChange={(e) => setGuests(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-slate-900 focus:outline-none"
+                className="w-full rounded-lg border border-stone-700 bg-stone-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-stone-900"
               />
             </div>
           </div>
@@ -154,7 +156,7 @@ function EnquiryPageContent() {
                 type="date"
                 value={checkIn}
                 onChange={(e) => setCheckIn(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-slate-900 focus:outline-none"
+                className="w-full rounded-lg border border-stone-700 bg-stone-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-stone-900"
               />
             </div>
             <div className="space-y-1.5">
@@ -166,7 +168,7 @@ function EnquiryPageContent() {
                 type="date"
                 value={checkOut}
                 onChange={(e) => setCheckOut(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-slate-900 focus:outline-none"
+                className="w-full rounded-lg border border-stone-700 bg-stone-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-stone-900"
               />
             </div>
           </div>
@@ -175,28 +177,28 @@ function EnquiryPageContent() {
             <label className="block text-xs font-medium text-slate-200">
               Interested in a specific offer?{" "}
               <span className="font-normal text-slate-400">
-                (optional—pre-filled if you came from an offer page)
+                (optional, pre-filled if you came from an offer page)
               </span>
             </label>
             <input
               value={offer}
               onChange={(e) => setOffer(e.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-slate-900 focus:outline-none"
+              className="w-full rounded-lg border border-stone-700 bg-stone-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-stone-900"
               placeholder="Offer name or leave blank for general enquiry"
             />
           </div>
 
           <div className="space-y-1.5">
             <label className="block text-xs font-medium text-slate-200">
-              Anything you&apos;d like us to know?
+              Anything you would like us to know?
             </label>
             <textarea
               required
               rows={4}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-slate-900 focus:outline-none"
-              placeholder="Share the purpose of your trip, any dietary preferences, or room preferences."
+              className="w-full rounded-lg border border-stone-700 bg-stone-900/80 px-3 py-2 text-sm text-slate-50 outline-none ring-0 transition focus:border-amber-300 focus:bg-stone-900"
+              placeholder="Share the purpose of your trip, dietary preferences, or room requests."
             />
           </div>
 
@@ -204,7 +206,7 @@ function EnquiryPageContent() {
             <button
               type="submit"
               disabled={formState === "submitting"}
-              className="inline-flex items-center justify-center rounded-full bg-amber-400 px-6 py-2.5 text-sm font-semibold text-slate-950 shadow-lg shadow-amber-500/40 transition hover:bg-amber-300 disabled:cursor-not-allowed disabled:bg-amber-300/60"
+              className="inline-flex items-center justify-center rounded-full bg-amber-300 px-6 py-2.5 text-sm font-semibold text-stone-950 shadow-lg shadow-amber-500/30 transition hover:bg-amber-200 disabled:cursor-not-allowed disabled:bg-amber-300/60"
             >
               {formState === "submitting"
                 ? "Sending your enquiry..."
@@ -226,43 +228,53 @@ function EnquiryPageContent() {
 
           {isSubmitted && (
             <p className="rounded-lg border border-emerald-400/40 bg-emerald-900/20 px-3 py-2 text-sm text-emerald-50">
-              Thank you for reaching out. We&apos;ve received your enquiry and will
+              Thank you for reaching out. We have received your enquiry and will
               get back to you with availability and pricing within 24 hours.
             </p>
           )}
         </form>
       </section>
 
-      <aside className="space-y-4 rounded-2xl border border-slate-700/80 bg-slate-950/70 p-5 text-sm text-slate-200">
-        <h2 className="text-sm font-semibold text-amber-50">
-          A few helpful notes
-        </h2>
-        <ul className="space-y-2 text-sm text-slate-200">
-          <li className="flex gap-2">
-            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
-            <span>
-              Children are welcome; let us know their ages and we&apos;ll suggest
-              the most comfortable room configuration.
-            </span>
-          </li>
-          <li className="flex gap-2">
-            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
-            <span>
-              We can accommodate certain dietary preferences with advance
-              notice—share details in your message.
-            </span>
-          </li>
-          <li className="flex gap-2">
-            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
-            <span>
-              Celebrating something? We&apos;d love to help—room decor, cake, or a
-              special dinner can be arranged.
-            </span>
-          </li>
-        </ul>
-        <p className="pt-1 text-xs text-slate-400">
-          You can also reach out by phone or WhatsApp if you prefer.
-        </p>
+      <aside className="space-y-6">
+        <div className="rounded-2xl border border-amber-200/15 bg-stone-950/70 p-5 text-sm text-slate-200">
+          <h2 className="text-sm font-semibold text-amber-50 font-display">
+            Helpful notes
+          </h2>
+          <ul className="mt-3 space-y-2 text-sm text-slate-200">
+            <li className="flex gap-2">
+              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
+              <span>
+                Children are welcome. Share ages and we will suggest the best
+                room configuration.
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
+              <span>
+                Dietary preferences can be accommodated with advance notice.
+              </span>
+            </li>
+            <li className="flex gap-2">
+              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
+              <span>
+                Celebrations can include room decor, cake, or a private dinner.
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div className="rounded-2xl border border-emerald-300/20 bg-emerald-900/15 p-5 text-sm text-emerald-50">
+          <h2 className="text-sm font-semibold text-emerald-50">
+            Need a faster response?
+          </h2>
+          <p className="mt-2 text-emerald-100/80">
+            Mention urgent timelines in your message and we will prioritize your
+            request.
+          </p>
+          <p className="mt-3 text-xs text-emerald-100/70">
+            Phone and WhatsApp details can be added here once ready to publish.
+          </p>
+        </div>
       </aside>
     </div>
   );
@@ -270,7 +282,9 @@ function EnquiryPageContent() {
 
 export default function EnquiryPage() {
   return (
-    <Suspense fallback={<div className="text-sm text-slate-400">Loading enquiry form...</div>}>
+    <Suspense
+      fallback={<div className="text-sm text-slate-400">Loading enquiry form...</div>}
+    >
       <EnquiryPageContent />
     </Suspense>
   );
