@@ -8,27 +8,34 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error("DATABASE_URL is required to initialize Prisma");
-}
 
 const pool =
-  globalForPrisma.prismaPool ?? new Pool({ connectionString });
+  connectionString && (globalForPrisma.prismaPool ?? new Pool({ connectionString }));
 
-if (process.env.NODE_ENV !== "production") {
+if (connectionString && process.env.NODE_ENV !== "production") {
   globalForPrisma.prismaPool = pool;
 }
 
-export const prisma =
-  globalForPrisma.prisma ??
+const createPrismaClient = () =>
   new PrismaClient({
-    adapter: new PrismaPg(pool),
+    adapter: new PrismaPg(pool as Pool),
     log:
       process.env.NODE_ENV === "development"
         ? ["query", "error", "warn"]
         : ["error"],
   });
 
-if (process.env.NODE_ENV !== "production") {
+export const prisma: PrismaClient = connectionString
+  ? globalForPrisma.prisma ?? createPrismaClient()
+  : (new Proxy(
+      {},
+      {
+        get() {
+          throw new Error("DATABASE_URL is required to initialize Prisma");
+        },
+      }
+    ) as PrismaClient);
+
+if (connectionString && process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
