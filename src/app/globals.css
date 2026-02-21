@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0c0a08;
-  --foreground: #f7f1e7;
+:root,
+[data-theme="light"] {
+  --background: #f9f8f2;
+  --foreground: #1f1a14;
+  --page-bg: radial-gradient(circle at top, #ffffff 0%, #f6f4ec 55%, #f0efe6 100%);
+  --page-pattern: linear-gradient(120deg, rgba(16, 185, 129, 0.05), transparent 45%),
+    linear-gradient(300deg, rgba(234, 179, 8, 0.08), transparent 40%);
+  --card-bg: #ffffff;
+  --card-border: rgba(16, 185, 129, 0.18);
+}
+
+[data-theme="dark"] {
+  --background: #0e0e0c;
+  --foreground: #f5f2ea;
+  --page-bg: radial-gradient(circle at top, #1c1a16 0%, #0e0e0c 60%, #0a0a09 100%);
+  --page-pattern: linear-gradient(120deg, rgba(16, 185, 129, 0.14), transparent 45%),
+    linear-gradient(300deg, rgba(234, 179, 8, 0.12), transparent 40%);
+  --card-bg: #171614;
+  --card-border: rgba(16, 185, 129, 0.25);
 }
 
 @theme inline {
@@ -13,7 +29,7 @@
 }
 
 body {
-  background: radial-gradient(circle at top, #1b1510 0%, #0c0a08 55%, #080604 100%);
+  background: var(--page-bg), var(--page-pattern);
   color: var(--foreground);
   font-family: var(--font-body), "Source Sans 3", "Segoe UI", sans-serif;
 }
@@ -26,5 +42,5 @@ h3,
 }
 
 ::selection {
-  background: rgba(246, 210, 122, 0.25);
+  background: rgba(234, 179, 8, 0.35);
 }
