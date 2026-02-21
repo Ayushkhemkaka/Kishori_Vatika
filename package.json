@@ -4,14 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 5001",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start -p 5001",
     "lint": "eslint",
     "test": "vitest run",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "npx tsx prisma/seed.ts"
+    "prisma:seed": "npx tsx prisma/seed.ts",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
