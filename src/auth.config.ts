@@ -1,7 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { supabase } from "@/lib/supabase";
-import bcrypt from "bcryptjs";
+import { supabase, supabaseAuth } from "@/lib/supabase";
 
 const OWNER_ROLE = "OWNER";
 
@@ -19,15 +18,19 @@ export const authConfig: NextAuthConfig = {
         const email = String(credentials.email).trim().toLowerCase();
         const password = String(credentials.password);
 
+        const { data: authData, error: authError } =
+          await supabaseAuth.auth.signInWithPassword({
+            email,
+            password,
+          });
+        if (authError || !authData?.user) return null;
+
         const { data: user } = await supabase
           .from('"User"')
-          .select("id,email,name,password,role")
+          .select("id,email,name,role")
           .eq("email", email)
           .maybeSingle();
-        if (!user || !user.password || user.role !== OWNER_ROLE) return null;
-
-        const ok = await bcrypt.compare(password, user.password);
-        if (!ok) return null;
+        if (!user || user.role !== OWNER_ROLE) return null;
 
         return {
           id: user.id,
