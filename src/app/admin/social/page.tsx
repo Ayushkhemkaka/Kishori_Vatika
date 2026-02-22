@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/db";
 import { SocialConnectForm } from "../_components/SocialConnectForm";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminSocialPage() {
   const accounts = await prisma.socialAccount.findMany({
     orderBy: { platform: "asc" },

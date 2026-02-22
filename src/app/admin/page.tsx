@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage() {
   const [visitCount, enquiryCount, offerCount] = await Promise.all([
     prisma.visit.count(),

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminOffersPage() {
   const offers = await prisma.offer.findMany({
     orderBy: { createdAt: "desc" },

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { EnquiryStatusSelect } from "../_components/EnquiryStatusSelect";
 
+export const dynamic = "force-dynamic";
+
 const PAGE_SIZE = 25;
 
 export default async function AdminEnquiriesPage({

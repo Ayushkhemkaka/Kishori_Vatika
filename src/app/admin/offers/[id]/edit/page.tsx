@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { OfferForm } from "../../_components/OfferForm";
 
+export const dynamic = "force-dynamic";
+
 export default async function EditOfferPage({
   params,
 }: {
