@@ -62,16 +62,21 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-session-id") ??
       identifier;
 
-    await supabase.from('"AnalyticsEvent"').insert({
-      type: ANALYTICS_TYPE,
-      sessionId,
-      offerId: data.offerId ?? null,
-      path: "/enquiry",
-      metadata: {
-        enquiryId: enquiry.id,
-        ...(data.offerSlug && { offerSlug: data.offerSlug }),
-      },
-    }).catch(() => {});
+    const { error: analyticsError } = await supabase
+      .from('"AnalyticsEvent"')
+      .insert({
+        type: ANALYTICS_TYPE,
+        sessionId,
+        offerId: data.offerId ?? null,
+        path: "/enquiry",
+        metadata: {
+          enquiryId: enquiry.id,
+          ...(data.offerSlug && { offerSlug: data.offerSlug }),
+        },
+      });
+    if (analyticsError) {
+      console.warn("[POST /api/enquiry] analytics insert failed", analyticsError);
+    }
 
     return jsonResponse(
       { id: enquiry.id, message: "Enquiry submitted successfully" },
