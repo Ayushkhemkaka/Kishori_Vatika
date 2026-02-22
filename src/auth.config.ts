@@ -41,14 +41,14 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    jwt({ token, user }) {
+    jwt({ token, user }: { token: { id?: string; role?: string }; user?: { id?: string; role?: string } }) {
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string }).role;
       }
       return token;
     },
-    session({ session, token }) {
+    session({ session, token }: { session: { user?: { id?: string; role?: string } }; token: { id?: string; role?: string } }) {
       if (session.user) {
         (session.user as { id?: string }).id = token.id as string;
         (session.user as { role?: string }).role = token.role as string;
