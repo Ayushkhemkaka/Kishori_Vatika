@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/db";
-import { EnquiryStatus } from "@prisma/client";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "edge";
+
+const VALID_STATUSES = ["NEW", "CONTACTED", "BOOKED", "CANCELLED"];
+
+type EnquiryRow = {
+  id: string;
+  status: string;
+};
 
 export async function PATCH(
   request: Request,
@@ -17,20 +23,26 @@ export async function PATCH(
   try {
     const body = (await request.json()) as { status?: string };
     const status = body.status;
-    if (!status || !(Object.values(EnquiryStatus) as string[]).includes(status)) {
+    if (!status || !VALID_STATUSES.includes(status)) {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
+    const { data: enquiry, error } = await supabase
+      .from('"Enquiry"')
+      .update({ status })
+      .eq("id", id)
+      .select("id,status")
+      .maybeSingle();
+
+    if (error || !enquiry) {
       return NextResponse.json(
-        { error: "Invalid status" },
-        { status: 400 }
+        { error: "Failed to update enquiry" },
+        { status: 500 }
       );
     }
-    const enquiry = await prisma.enquiry.update({
-      where: { id },
-      data: { status: status as EnquiryStatus },
-    });
-    return NextResponse.json({
-      id: enquiry.id,
-      status: enquiry.status,
-    });
+
+    const payload = enquiry as EnquiryRow;
+    return NextResponse.json({ id: payload.id, status: payload.status });
   } catch (e) {
     console.error("Enquiry update error:", e);
     return NextResponse.json(

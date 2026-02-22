@@ -1,20 +1,23 @@
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 import { SocialConnectForm } from "../_components/SocialConnectForm";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
+type SocialAccountRow = {
+  id: string;
+  platform: string;
+  pageId: string | null;
+  accountId: string | null;
+  createdAt: string;
+};
+
 export default async function AdminSocialPage() {
-  const accounts = await prisma.socialAccount.findMany({
-    orderBy: { platform: "asc" },
-    select: {
-      id: true,
-      platform: true,
-      pageId: true,
-      accountId: true,
-      createdAt: true,
-    },
-  });
+  const { data: accountsData } = await supabase
+    .from('"SocialAccount"')
+    .select("id,platform,pageId,accountId,createdAt")
+    .order("platform", { ascending: true });
+  const accounts = (accountsData ?? []) as SocialAccountRow[];
 
   return (
     <div className="space-y-8">

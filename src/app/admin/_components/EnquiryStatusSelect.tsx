@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { EnquiryStatus } from "@prisma/client";
+type EnquiryStatus = "NEW" | "CONTACTED" | "BOOKED" | "CANCELLED";
 
 const LABELS: Record<EnquiryStatus, string> = {
   NEW: "New",

@@ -1,11 +1,27 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 import { publishToFacebookPage, publishToInstagram } from "@/lib/meta-graph";
-import { SocialPlatform } from "@prisma/client";
-import { PublicationStatus } from "@prisma/client";
 
 export const runtime = "edge";
+
+type Platform = "FACEBOOK" | "INSTAGRAM";
+
+type OfferRow = {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  heroImageUrl: string | null;
+};
+
+type SocialAccountRow = {
+  id: string;
+  platform: Platform;
+  pageId: string | null;
+  accountId: string | null;
+  accessToken: string;
+};
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -26,14 +42,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const offer = await prisma.offer.findUnique({
-      where: { id: offerId },
-    });
+    const { data: offer } = await supabase
+      .from('"Offer"')
+      .select("id,title,description,price,heroImageUrl")
+      .eq("id", offerId)
+      .maybeSingle();
     if (!offer) {
       return NextResponse.json({ error: "Offer not found" }, { status: 404 });
     }
 
     const baseUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ??
       process.env.NEXTAUTH_URL ??
       (process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}`
@@ -44,26 +63,28 @@ export async function POST(request: Request) {
       description: offer.description,
       offerUrl,
       imageUrl: offer.heroImageUrl,
-      price: `₹${Number(offer.price).toLocaleString("en-IN")}`,
+      price: `INR ${Number(offer.price).toLocaleString("en-IN")}`,
     };
 
-    const accounts = await prisma.socialAccount.findMany({
-      where: { platform: { in: platforms as SocialPlatform[] } },
-    });
-    const accountByPlatform = new Map(accounts.map((a) => [a.platform, a]));
+    const { data: accounts } = await supabase
+      .from('"SocialAccount"')
+      .select("id,platform,pageId,accountId,accessToken")
+      .in("platform", platforms as Platform[]);
+
+    const accountByPlatform = new Map(
+      (accounts ?? []).map((a) => [a.platform, a as SocialAccountRow])
+    );
 
     const results: { platform: string; status: string; error?: string }[] = [];
 
-    for (const platform of platforms as SocialPlatform[]) {
+    for (const platform of platforms as Platform[]) {
       const account = accountByPlatform.get(platform);
       if (!account) {
-        await prisma.offerPublication.create({
-          data: {
-            offerId,
-            platform,
-            status: PublicationStatus.FAILED,
-            errorMessage: "No social account connected for this platform",
-          },
+        await supabase.from('"OfferPublication"').insert({
+          offerId,
+          platform,
+          status: "FAILED",
+          errorMessage: "No social account connected for this platform",
         });
         results.push({
           platform,
@@ -74,64 +95,56 @@ export async function POST(request: Request) {
       }
 
       try {
-        if (platform === SocialPlatform.FACEBOOK && account.pageId) {
+        if (platform === "FACEBOOK" && account.pageId) {
           const { postId } = await publishToFacebookPage(
             account.pageId,
             account.accessToken,
             payload
           );
-          await prisma.offerPublication.create({
-            data: {
-              offerId,
-              platform,
-              status: PublicationStatus.SUCCESS,
-              externalPostId: postId,
-              socialAccountId: account.id,
-            },
+          await supabase.from('"OfferPublication"').insert({
+            offerId,
+            platform,
+            status: "SUCCESS",
+            externalPostId: postId,
+            socialAccountId: account.id,
           });
           results.push({ platform, status: "SUCCESS" });
-        } else if (platform === SocialPlatform.INSTAGRAM && account.accountId) {
+        } else if (platform === "INSTAGRAM" && account.accountId) {
           const { mediaId } = await publishToInstagram(
             account.accountId,
             account.accessToken,
             payload
           );
-          await prisma.offerPublication.create({
-            data: {
-              offerId,
-              platform,
-              status: PublicationStatus.SUCCESS,
-              externalPostId: mediaId,
-              socialAccountId: account.id,
-            },
+          await supabase.from('"OfferPublication"').insert({
+            offerId,
+            platform,
+            status: "SUCCESS",
+            externalPostId: mediaId,
+            socialAccountId: account.id,
           });
           results.push({ platform, status: "SUCCESS" });
         } else {
           const msg =
-            platform === SocialPlatform.FACEBOOK
+            platform === "FACEBOOK"
               ? "Facebook page ID missing"
               : "Instagram account ID missing";
-          await prisma.offerPublication.create({
-            data: {
-              offerId,
-              platform,
-              status: PublicationStatus.FAILED,
-              errorMessage: msg,
-              socialAccountId: account.id,
-            },
+          await supabase.from('"OfferPublication"').insert({
+            offerId,
+            platform,
+            status: "FAILED",
+            errorMessage: msg,
+            socialAccountId: account.id,
           });
           results.push({ platform, status: "FAILED", error: msg });
         }
       } catch (err) {
         const message = err instanceof Error ? err.message : "Unknown error";
-        await prisma.offerPublication.create({
-          data: {
-            offerId,
-            platform,
-            status: PublicationStatus.FAILED,
-            errorMessage: message,
-            socialAccountId: account.id,
-          },
+        await supabase.from('"OfferPublication"').insert({
+          offerId,
+          platform,
+          status: "FAILED",
+          errorMessage: message,
+          socialAccountId: account.id,
         });
         results.push({ platform, status: "FAILED", error: message });
       }

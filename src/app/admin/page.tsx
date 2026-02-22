@@ -1,15 +1,21 @@
 import Link from "next/link";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const [visitCount, enquiryCount, offerCount] = await Promise.all([
-    prisma.visit.count(),
-    prisma.enquiry.count(),
-    prisma.offer.count({ where: { isActive: true } }),
+  const [visitCountRes, enquiryCountRes, offerCountRes] = await Promise.all([
+    supabase.from('"Visit"').select("id", { count: "exact", head: true }),
+    supabase.from('"Enquiry"').select("id", { count: "exact", head: true }),
+    supabase
+      .from('"Offer"')
+      .select("id", { count: "exact", head: true })
+      .eq("isActive", true),
   ]);
+  const visitCount = visitCountRes.count ?? 0;
+  const enquiryCount = enquiryCountRes.count ?? 0;
+  const offerCount = offerCountRes.count ?? 0;
 
   return (
     <div className="space-y-6">

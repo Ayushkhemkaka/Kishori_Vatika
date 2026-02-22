@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 import { EnquiryStatusSelect } from "../_components/EnquiryStatusSelect";
 
 export const runtime = "edge";
@@ -16,15 +16,27 @@ export default async function AdminEnquiriesPage({
   const currentPage = Math.max(1, Number(page ?? "1") || 1);
   const skip = (currentPage - 1) * PAGE_SIZE;
 
-  const [enquiries, totalCount] = await Promise.all([
-    prisma.enquiry.findMany({
-      orderBy: { createdAt: "desc" },
-      include: { offer: { select: { id: true, title: true } } },
-      skip,
-      take: PAGE_SIZE,
-    }),
-    prisma.enquiry.count(),
+  const [enquiriesRes, totalCountRes] = await Promise.all([
+    supabase
+      .from('"Enquiry"')
+      .select("id,name,email,checkIn,checkOut,status,createdAt,offerId")
+      .order("createdAt", { ascending: false })
+      .range(skip, skip + PAGE_SIZE - 1),
+    supabase.from('"Enquiry"').select("id", { count: "exact", head: true }),
   ]);
+  const enquiries = enquiriesRes.data ?? [];
+  const totalCount = totalCountRes.count ?? 0;
+
+  const offerIds = enquiries
+    .map((e) => e.offerId)
+    .filter((id): id is string => Boolean(id));
+  const { data: offers } = offerIds.length
+    ? await supabase
+        .from('"Offer"')
+        .select("id,title")
+        .in("id", offerIds)
+    : { data: [] };
+  const offerMap = new Map((offers ?? []).map((o) => [o.id, o.title]));
 
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
   const hasPrev = currentPage > 1;
@@ -34,9 +46,7 @@ export default async function AdminEnquiriesPage({
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-xl font-semibold text-amber-50">Enquiries</h1>
-        <p className="text-sm text-slate-400">
-          {totalCount} total
-        </p>
+        <p className="text-sm text-slate-400">{totalCount} total</p>
       </div>
 
       <div className="overflow-x-auto rounded-xl border border-white/10">
@@ -68,14 +78,14 @@ export default async function AdminEnquiriesPage({
                       day: "numeric",
                       month: "short",
                     })}{" "}
-                    –{" "}
+                    -{" "}
                     {new Date(e.checkOut).toLocaleDateString("en-IN", {
                       day: "numeric",
                       month: "short",
                     })}
                   </td>
                   <td className="px-4 py-3 text-slate-300">
-                    {e.offer ? e.offer.title : "—"}
+                    {e.offerId ? offerMap.get(e.offerId) ?? "-" : "-"}
                   </td>
                   <td className="px-4 py-3">
                     <EnquiryStatusSelect enquiryId={e.id} currentStatus={e.status} />

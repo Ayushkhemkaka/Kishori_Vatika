@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/db";
-import { SocialPlatform } from "@prisma/client";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "edge";
+
+type Platform = "FACEBOOK" | "INSTAGRAM";
 
 export async function GET() {
   const session = await auth();
@@ -11,22 +12,17 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
-    const accounts = await prisma.socialAccount.findMany({
-      select: {
-        id: true,
-        platform: true,
-        pageId: true,
-        accountId: true,
-        createdAt: true,
-      },
-    });
+    const { data: accounts } = await supabase
+      .from('"SocialAccount"')
+      .select("id,platform,pageId,accountId,createdAt");
+
     return NextResponse.json(
-      accounts.map((a) => ({
+      (accounts ?? []).map((a) => ({
         id: a.id,
         platform: a.platform,
         pageId: a.pageId ?? undefined,
         accountId: a.accountId ?? undefined,
-        createdAt: a.createdAt.toISOString(),
+        createdAt: new Date(a.createdAt).toISOString(),
       }))
     );
   } catch (e) {
@@ -45,17 +41,19 @@ export async function POST(request: Request) {
   }
   try {
     const body = (await request.json()) as {
-      platform: "FACEBOOK" | "INSTAGRAM";
+      platform: Platform;
       pageId?: string;
       accountId?: string;
       accessToken: string;
     };
     const { platform, pageId, accountId, accessToken } = body;
-    if (
-      !platform ||
-      !["FACEBOOK", "INSTAGRAM"].includes(platform) ||
-      !accessToken?.trim()
-    ) {
+    if (!platform || !["FACEBOOK", "INSTAGRAM"].includes(platform)) {
+      return NextResponse.json(
+        { error: "platform and accessToken required" },
+        { status: 400 }
+      );
+    }
+    if (!accessToken?.trim()) {
       return NextResponse.json(
         { error: "platform and accessToken required" },
         { status: 400 }
@@ -74,22 +72,21 @@ export async function POST(request: Request) {
       );
     }
 
-    const existing = await prisma.socialAccount.findFirst({
-      where: { platform: platform as SocialPlatform },
-    });
+    const { data: existing } = await supabase
+      .from('"SocialAccount"')
+      .select("id")
+      .eq("platform", platform)
+      .maybeSingle();
 
     const data = {
-      platform: platform as SocialPlatform,
+      platform,
       pageId: platform === "FACEBOOK" ? pageId!.trim() : null,
       accountId: platform === "INSTAGRAM" ? accountId!.trim() : null,
       accessToken: accessToken.trim(),
     };
 
     if (existing) {
-      await prisma.socialAccount.update({
-        where: { id: existing.id },
-        data,
-      });
+      await supabase.from('"SocialAccount"').update(data).eq("id", existing.id);
       return NextResponse.json({
         id: existing.id,
         platform,
@@ -97,9 +94,14 @@ export async function POST(request: Request) {
       });
     }
 
-    const created = await prisma.socialAccount.create({ data });
+    const { data: created } = await supabase
+      .from('"SocialAccount"')
+      .insert(data)
+      .select("id")
+      .maybeSingle();
+
     return NextResponse.json({
-      id: created.id,
+      id: created?.id,
       platform,
       message: "Account connected",
     });

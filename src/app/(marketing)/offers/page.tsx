@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -25,13 +25,13 @@ const offerCategories = [
 
 export default async function OffersPage() {
   const now = new Date();
-  const offers = await prisma.offer.findMany({
-    where: {
-      isActive: true,
-      validTo: { gte: now },
-    },
-    orderBy: { validTo: "asc" },
-  });
+  const { data: offersData } = await supabase
+    .from('"Offer"')
+    .select("id,title,description,price,validFrom,validTo,isActive")
+    .eq("isActive", true)
+    .gte("validTo", now.toISOString())
+    .order("validTo", { ascending: true });
+  const offers = offersData ?? [];
 
   return (
     <div className="space-y-10">

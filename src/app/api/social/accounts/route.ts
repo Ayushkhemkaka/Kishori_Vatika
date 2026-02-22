@@ -1,28 +1,22 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "edge";
 
 export async function GET() {
   try {
-    const accounts = await prisma.socialAccount.findMany({
-      select: {
-        id: true,
-        platform: true,
-        pageId: true,
-        accountId: true,
-        expiresAt: true,
-        createdAt: true,
-      },
-    });
+    const { data: accounts } = await supabase
+      .from('"SocialAccount"')
+      .select("id,platform,pageId,accountId,expiresAt,createdAt");
+
     return NextResponse.json(
-      accounts.map((a) => ({
+      (accounts ?? []).map((a) => ({
         id: a.id,
         platform: a.platform,
         pageId: a.pageId ?? undefined,
         accountId: a.accountId ?? undefined,
-        expiresAt: a.expiresAt?.toISOString(),
-        createdAt: a.createdAt.toISOString(),
+        expiresAt: a.expiresAt ? new Date(a.expiresAt).toISOString() : undefined,
+        createdAt: new Date(a.createdAt).toISOString(),
       }))
     );
   } catch (e) {

@@ -1,8 +1,9 @@
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 import bcrypt from "bcryptjs";
-import { UserRole } from "@prisma/client";
+
+const OWNER_ROLE = "OWNER";
 
 export const authConfig: NextAuthConfig = {
   secret: process.env.AUTH_SECRET,
@@ -18,11 +19,12 @@ export const authConfig: NextAuthConfig = {
         const email = String(credentials.email).trim().toLowerCase();
         const password = String(credentials.password);
 
-        const user = await prisma.user.findUnique({
-          where: { email },
-        });
-        if (!user || !user.password || user.role !== UserRole.OWNER)
-          return null;
+        const { data: user } = await supabase
+          .from('"User"')
+          .select("id,email,name,password,role")
+          .eq("email", email)
+          .maybeSingle();
+        if (!user || !user.password || user.role !== OWNER_ROLE) return null;
 
         const ok = await bcrypt.compare(password, user.password);
         if (!ok) return null;

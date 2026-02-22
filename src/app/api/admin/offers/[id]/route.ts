@@ -1,8 +1,21 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "edge";
+
+type OfferRow = {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  validFrom: string;
+  validTo: string;
+  isActive: boolean;
+  heroImageUrl: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export async function GET(
   _request: Request,
@@ -14,32 +27,50 @@ export async function GET(
   }
   const { id } = await params;
   try {
-    const offer = await prisma.offer.findUnique({
-      where: { id },
-      include: { features: true, publications: { orderBy: { createdAt: "desc" } } },
-    });
-    if (!offer) {
+    const { data: offer, error } = await supabase
+      .from('"Offer"')
+      .select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt")
+      .eq("id", id)
+      .maybeSingle();
+    if (error || !offer) {
       return NextResponse.json({ error: "Offer not found" }, { status: 404 });
     }
+
+    const [featuresRes, publicationsRes] = await Promise.all([
+      supabase
+        .from('"OfferFeature"')
+        .select("id,label,value")
+        .eq("offerId", id),
+      supabase
+        .from('"OfferPublication"')
+        .select("id,platform,status,externalPostId,errorMessage,createdAt")
+        .eq("offerId", id)
+        .order("createdAt", { ascending: false }),
+    ]);
+
     return NextResponse.json({
       id: offer.id,
       title: offer.title,
       description: offer.description,
       price: offer.price.toString(),
-      validFrom: offer.validFrom.toISOString(),
-      validTo: offer.validTo.toISOString(),
+      validFrom: new Date(offer.validFrom).toISOString(),
+      validTo: new Date(offer.validTo).toISOString(),
       isActive: offer.isActive,
       heroImageUrl: offer.heroImageUrl,
-      createdAt: offer.createdAt.toISOString(),
-      updatedAt: offer.updatedAt.toISOString(),
-      features: offer.features.map((f) => ({ id: f.id, label: f.label, value: f.value })),
-      publications: offer.publications.map((p) => ({
+      createdAt: new Date(offer.createdAt).toISOString(),
+      updatedAt: new Date(offer.updatedAt).toISOString(),
+      features: (featuresRes.data ?? []).map((f) => ({
+        id: f.id,
+        label: f.label,
+        value: f.value,
+      })),
+      publications: (publicationsRes.data ?? []).map((p) => ({
         id: p.id,
         platform: p.platform,
         status: p.status,
         externalPostId: p.externalPostId,
         errorMessage: p.errorMessage,
-        createdAt: p.createdAt.toISOString(),
+        createdAt: new Date(p.createdAt).toISOString(),
       })),
     });
   } catch (e) {
@@ -72,20 +103,12 @@ export async function PATCH(
       features?: { id?: string; label: string; value: string }[];
     };
 
-    const existing = await prisma.offer.findUnique({ where: { id }, include: { features: true } });
-    if (!existing) {
-      return NextResponse.json({ error: "Offer not found" }, { status: 404 });
-    }
-
-    const features = body.features ?? [];
-    const existingIds = new Set(existing.features.map((f) => f.id));
-    const incomingIds = new Set(features.map((f) => f.id).filter(Boolean));
     const offerData: {
       title?: string;
       description?: string;
       price?: number;
-      validFrom?: Date;
-      validTo?: Date;
+      validFrom?: string;
+      validTo?: string;
       isActive?: boolean;
       heroImageUrl?: string | null;
     } = {};
@@ -93,60 +116,70 @@ export async function PATCH(
     if (body.title != null) offerData.title = body.title;
     if (body.description != null) offerData.description = body.description;
     if (body.price != null) offerData.price = Number(body.price);
-    if (body.validFrom != null) offerData.validFrom = new Date(body.validFrom);
-    if (body.validTo != null) offerData.validTo = new Date(body.validTo);
+    if (body.validFrom != null) offerData.validFrom = new Date(body.validFrom).toISOString();
+    if (body.validTo != null) offerData.validTo = new Date(body.validTo).toISOString();
     if (body.isActive != null) offerData.isActive = body.isActive;
     if (body.heroImageUrl !== undefined) offerData.heroImageUrl = body.heroImageUrl ?? null;
 
-    await prisma.$transaction(async (tx) => {
-      if (Object.keys(offerData).length > 0) {
-        await tx.offer.update({ where: { id }, data: offerData });
-      }
+    if (Object.keys(offerData).length > 0) {
+      await supabase.from('"Offer"').update(offerData).eq("id", id);
+    }
 
-      for (const f of features) {
-        if (f.id && existingIds.has(f.id)) {
-          await tx.offerFeature.update({
-            where: { id: f.id },
-            data: { label: f.label, value: f.value },
-          });
-        } else {
-          await tx.offerFeature.create({
-            data: { offerId: id, label: f.label, value: f.value },
-          });
-        }
+    if (body.features) {
+      await supabase.from('"OfferFeature"').delete().eq("offerId", id);
+      if (body.features.length > 0) {
+        await supabase.from('"OfferFeature"').insert(
+          body.features.map((f) => ({
+            offerId: id,
+            label: f.label,
+            value: f.value,
+          }))
+        );
       }
-      for (const fid of existingIds) {
-        if (!incomingIds.has(fid)) {
-          await tx.offerFeature.delete({ where: { id: fid } });
-        }
-      }
-    });
+    }
 
-    const offer = await prisma.offer.findUnique({
-      where: { id },
-      include: { features: true, publications: { orderBy: { createdAt: "desc" } } },
-    });
+    const { data: offer } = await supabase
+      .from('"Offer"')
+      .select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt")
+      .eq("id", id)
+      .maybeSingle();
     if (!offer) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+    const [featuresRes, publicationsRes] = await Promise.all([
+      supabase
+        .from('"OfferFeature"')
+        .select("id,label,value")
+        .eq("offerId", id),
+      supabase
+        .from('"OfferPublication"')
+        .select("id,platform,status,externalPostId,errorMessage,createdAt")
+        .eq("offerId", id)
+        .order("createdAt", { ascending: false }),
+    ]);
 
     return NextResponse.json({
       id: offer.id,
       title: offer.title,
       description: offer.description,
       price: offer.price.toString(),
-      validFrom: offer.validFrom.toISOString(),
-      validTo: offer.validTo.toISOString(),
+      validFrom: new Date(offer.validFrom).toISOString(),
+      validTo: new Date(offer.validTo).toISOString(),
       isActive: offer.isActive,
       heroImageUrl: offer.heroImageUrl,
-      createdAt: offer.createdAt.toISOString(),
-      updatedAt: offer.updatedAt.toISOString(),
-      features: offer.features.map((f) => ({ id: f.id, label: f.label, value: f.value })),
-      publications: offer.publications.map((p) => ({
+      createdAt: new Date(offer.createdAt).toISOString(),
+      updatedAt: new Date(offer.updatedAt).toISOString(),
+      features: (featuresRes.data ?? []).map((f) => ({
+        id: f.id,
+        label: f.label,
+        value: f.value,
+      })),
+      publications: (publicationsRes.data ?? []).map((p) => ({
         id: p.id,
         platform: p.platform,
         status: p.status,
         externalPostId: p.externalPostId,
         errorMessage: p.errorMessage,
-        createdAt: p.createdAt.toISOString(),
+        createdAt: new Date(p.createdAt).toISOString(),
       })),
     });
   } catch (e) {

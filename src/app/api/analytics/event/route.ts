@@ -1,11 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 import { ANALYTICS_SESSION_COOKIE } from "@/lib/analytics";
-import type { AnalyticsType, Prisma } from "@prisma/client";
 
 export const runtime = "edge";
 
-const VALID_TYPES: AnalyticsType[] = ["PAGE_VIEW", "OFFER_CLICK", "ENQUIRY_SUBMITTED"];
+const VALID_TYPES = ["PAGE_VIEW", "OFFER_CLICK", "ENQUIRY_SUBMITTED"] as const;
+
+type AnalyticsType = (typeof VALID_TYPES)[number];
+
+type AnalyticsPayload = {
+  type?: string;
+  offerId?: string;
+  path?: string;
+  metadata?: Record<string, unknown>;
+};
 
 function getClientIp(request: NextRequest): string | null {
   return (
@@ -20,19 +28,11 @@ export async function POST(request: NextRequest) {
     const sessionId =
       request.cookies.get(ANALYTICS_SESSION_COOKIE)?.value ?? null;
     if (!sessionId) {
-      return NextResponse.json(
-        { error: "Missing session" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing session" }, { status: 400 });
     }
 
-    const body = await request.json();
-    const { type, offerId, path, metadata } = body as {
-      type?: string;
-      offerId?: string;
-      path?: string;
-      metadata?: Record<string, unknown>;
-    };
+    const body = (await request.json()) as AnalyticsPayload;
+    const { type, offerId, path, metadata } = body;
 
     if (!type || !VALID_TYPES.includes(type as AnalyticsType)) {
       return NextResponse.json(
@@ -46,30 +46,22 @@ export async function POST(request: NextRequest) {
     const eventPath = typeof path === "string" ? path : undefined;
     const eventOfferId =
       typeof offerId === "string" && offerId.length > 0 ? offerId : undefined;
-    const eventMetadata =
-      metadata && typeof metadata === "object"
-        ? (metadata as Prisma.InputJsonValue)
-        : undefined;
 
     if (type === "PAGE_VIEW") {
-      await prisma.visit.create({
-        data: {
-          sessionId,
-          ip: ip ?? undefined,
-          userAgent,
-          path: eventPath ?? request.nextUrl.pathname,
-        },
+      await supabase.from('"Visit"').insert({
+        sessionId,
+        ip: ip ?? null,
+        userAgent,
+        path: eventPath ?? request.nextUrl.pathname,
       });
     }
 
-    await prisma.analyticsEvent.create({
-      data: {
-        type: type as AnalyticsType,
-        sessionId,
-        path: eventPath,
-        offerId: eventOfferId,
-        metadata: eventMetadata ?? undefined,
-      },
+    await supabase.from('"AnalyticsEvent"').insert({
+      type: type as AnalyticsType,
+      sessionId,
+      path: eventPath,
+      offerId: eventOfferId ?? null,
+      metadata: metadata ?? null,
     });
   } catch (err) {
     console.error("Analytics event error:", err);

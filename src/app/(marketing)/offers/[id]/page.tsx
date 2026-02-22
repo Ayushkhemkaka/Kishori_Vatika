@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { cache } from "react";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 import { OfferClickLogger } from "./OfferClickLogger";
 
 export const runtime = "edge";
@@ -12,12 +12,24 @@ function formatPrice(price: { toString: () => string }) {
   return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;
 }
 
-const getOfferById = cache(async (id: string) =>
-  prisma.offer.findUnique({
-    where: { id },
-    include: { features: true },
-  })
-);
+const getOfferById = cache(async (id: string) => {
+  const { data: offer } = await supabase
+    .from('"Offer"')
+    .select("id,title,description,price,validFrom,validTo,isActive")
+    .eq("id", id)
+    .maybeSingle();
+  if (!offer) return null;
+
+  const { data: features } = await supabase
+    .from('"OfferFeature"')
+    .select("label,value")
+    .eq("offerId", id);
+
+  return {
+    ...offer,
+    features: features ?? [],
+  };
+});
 
 export async function generateMetadata({
   params,

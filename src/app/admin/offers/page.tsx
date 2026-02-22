@@ -1,19 +1,28 @@
 import Link from "next/link";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export default async function AdminOffersPage() {
-  const offers = await prisma.offer.findMany({
-    orderBy: { createdAt: "desc" },
-    select: {
-      id: true,
-      title: true,
-      isActive: true,
-      _count: { select: { publications: true } },
-    },
-  });
+  const { data: offersData } = await supabase
+    .from('"Offer"')
+    .select("id,title,isActive,createdAt")
+    .order("createdAt", { ascending: false });
+  const offers = offersData ?? [];
+
+  const offerIds = offers.map((o) => o.id);
+  const { data: publications } = offerIds.length
+    ? await supabase
+        .from('"OfferPublication"')
+        .select("offerId")
+        .in("offerId", offerIds)
+    : { data: [] };
+  const publicationCounts = new Map<string, number>();
+  for (const p of publications ?? []) {
+    const current = publicationCounts.get(p.offerId) ?? 0;
+    publicationCounts.set(p.offerId, current + 1);
+  }
 
   return (
     <div className="space-y-6">
@@ -41,7 +50,8 @@ export default async function AdminOffersPage() {
               <div>
                 <h2 className="font-medium text-amber-50">{offer.title}</h2>
                 <p className="text-sm text-slate-400">
-                  {offer.isActive ? "Active" : "Inactive"} - {offer._count.publications} publication(s)
+                  {offer.isActive ? "Active" : "Inactive"} -{" "}
+                  {publicationCounts.get(offer.id) ?? 0} publication(s)
                 </p>
               </div>
               <Link

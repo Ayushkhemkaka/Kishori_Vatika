@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { prisma } from "@/lib/db";
+import { supabase } from "@/lib/supabase";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -95,15 +95,15 @@ function formatPrice(price: { toString: () => string }) {
 
 export default async function MarketingHomePage() {
   const now = new Date();
-  const activeOffers = await prisma.offer.findMany({
-    where: {
-      isActive: true,
-      validFrom: { lte: now },
-      validTo: { gte: now },
-    },
-    orderBy: { validTo: "asc" },
-    take: 6,
-  });
+  const { data: activeOffersData } = await supabase
+    .from('"Offer"')
+    .select("id,title,description,price,validFrom,validTo,isActive")
+    .eq("isActive", true)
+    .lte("validFrom", now.toISOString())
+    .gte("validTo", now.toISOString())
+    .order("validTo", { ascending: true })
+    .limit(6);
+  const activeOffers = activeOffersData ?? [];
 
   return (
     <div className="space-y-16">
