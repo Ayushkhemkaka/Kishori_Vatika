@@ -2,7 +2,10 @@ import NextAuth from "next-auth";
 import { authConfig } from "@/auth.config";
 
 type NextAuthResult = {
-  handlers: unknown;
+  handlers: {
+    GET?: (...args: any[]) => Promise<any>;
+    POST?: (...args: any[]) => Promise<any>;
+  };
   auth: (...args: any[]) => Promise<any>;
   signIn: (...args: any[]) => Promise<any>;
   signOut: (...args: any[]) => Promise<any>;
