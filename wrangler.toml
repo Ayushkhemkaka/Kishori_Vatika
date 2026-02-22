@@ -1,5 +1,6 @@
-name = "kv-website"
-compatibility_date = "2025-02-01"
+name = "kv"
+compatibility_date = "2026-02-21"
+compatibility_flags = ["nodejs_compat"]
 main = ".vercel/output/static/_worker.js"
 
 [assets]
@@ -7,4 +8,7 @@ directory = ".vercel/output/static"
 
 # Secrets (set via `wrangler secret put`)
 # AUTH_SECRET
-# DATABASE_URL
+# SUPABASE_URL
+# SUPABASE_SERVICE_ROLE_KEY
+# SUPABASE_ANON_KEY
+# NEXT_PUBLIC_SITE_URL

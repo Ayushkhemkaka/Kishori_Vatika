@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev -p 5001",
     "build": "next build",
-    "build:cf": "npx @cloudflare/next-on-pages",
+    "build:cf": "npx @cloudflare/next-on-pages && node scripts/write-assetsignore.cjs",
     "start": "next start -p 5001",
     "lint": "eslint",
     "test": "vitest run"
