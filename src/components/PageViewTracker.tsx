@@ -8,7 +8,7 @@ export function PageViewTracker() {
   useEffect(() => {
     if (sent.current || typeof window === "undefined") return;
     sent.current = true;
-    fetch("/api/analytics/event", {
+    void fetch("/api/analytics/event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -16,7 +16,7 @@ export function PageViewTracker() {
         path: window.location.pathname,
       }),
       keepalive: true,
-    }).catch(() => {});
+    });
   }, []);
 
   return null;

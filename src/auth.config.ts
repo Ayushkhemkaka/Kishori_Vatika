@@ -1,10 +1,9 @@
-import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { supabase, supabaseAuth } from "@/lib/supabase";
 
 const OWNER_ROLE = "OWNER";
 
-export const authConfig: NextAuthConfig = {
+export const authConfig = {
   secret: process.env.AUTH_SECRET,
   providers: [
     Credentials({

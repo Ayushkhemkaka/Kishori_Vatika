@@ -7,12 +7,12 @@ export function useAnalytics() {
   const track = useCallback((payload: AnalyticsEventPayload) => {
     if (typeof window === "undefined") return;
     const path = payload.path ?? window.location.pathname;
-    fetch("/api/analytics/event", {
+    void fetch("/api/analytics/event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...payload, path }),
       keepalive: true,
-    }).catch(() => {});
+    });
   }, []);
 
   const trackPageView = useCallback(

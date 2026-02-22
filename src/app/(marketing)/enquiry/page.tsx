@@ -48,7 +48,7 @@ function EnquiryPageContent() {
         body: JSON.stringify(body),
       });
 
-      const data = await res.json().catch(() => ({}));
+      const data = await res.json();
 
       if (!res.ok) {
         setFormState("error");

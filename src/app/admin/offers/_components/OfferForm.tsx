@@ -114,7 +114,7 @@ export function OfferForm({ initial }: Props) {
           body: JSON.stringify({ offerId, platforms }),
         });
         if (!pubRes.ok) {
-          const pubData = await pubRes.json().catch(() => ({}));
+          const pubData = await pubRes.json();
           setError(
             `Offer saved but social post failed: ${pubData.error ?? pubRes.statusText}`
           );

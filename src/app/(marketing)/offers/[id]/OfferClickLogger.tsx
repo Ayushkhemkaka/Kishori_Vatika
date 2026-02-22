@@ -8,7 +8,7 @@ export function OfferClickLogger({ offerId }: { offerId: string }) {
   useEffect(() => {
     if (!offerId || logged.current) return;
     logged.current = true;
-    fetch("/api/analytics/event", {
+    void fetch("/api/analytics/event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -17,7 +17,7 @@ export function OfferClickLogger({ offerId }: { offerId: string }) {
         path: typeof window !== "undefined" ? window.location.pathname : undefined,
       }),
       credentials: "include",
-    }).catch(() => {});
+    });
   }, [offerId]);
 
   return null;

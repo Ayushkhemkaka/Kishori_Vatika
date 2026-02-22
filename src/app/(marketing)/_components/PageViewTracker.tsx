@@ -10,7 +10,7 @@ export function PageViewTracker() {
   useEffect(() => {
     if (!pathname || logged.current === pathname) return;
     logged.current = pathname;
-    fetch("/api/analytics/event", {
+    void fetch("/api/analytics/event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -18,7 +18,7 @@ export function PageViewTracker() {
         path: pathname,
       }),
       credentials: "include",
-    }).catch(() => {});
+    });
   }, [pathname]);
 
   return null;
