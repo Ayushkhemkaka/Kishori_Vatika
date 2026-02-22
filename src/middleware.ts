@@ -8,7 +8,7 @@ function generateSessionId(): string {
   return `sess_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 15)}`;
 }
 
-export default auth((req) => {
+export default auth((req: any) => {
   const pathname = req.nextUrl.pathname;
   const isAdmin = pathname.startsWith("/admin");
   const isLoginPage = pathname.startsWith("/admin/login");
