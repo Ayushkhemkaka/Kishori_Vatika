@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 function formatPrice(price: { toString: () => string }) {

@@ -5,6 +5,8 @@ import { publishToFacebookPage, publishToInstagram } from "@/lib/meta-graph";
 import { SocialPlatform } from "@prisma/client";
 import { PublicationStatus } from "@prisma/client";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   const session = await auth();
   if (!session?.user) {

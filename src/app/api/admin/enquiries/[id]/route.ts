@@ -3,6 +3,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { EnquiryStatus } from "@prisma/client";
 
+export const runtime = "edge";
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }

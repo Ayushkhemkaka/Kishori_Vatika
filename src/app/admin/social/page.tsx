@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { SocialConnectForm } from "../_components/SocialConnectForm";
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export default async function AdminSocialPage() {

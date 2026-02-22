@@ -6,6 +6,8 @@ import { checkRateLimit, getClientIdentifier } from "@/lib/rate-limit";
 import { AnalyticsType } from "@prisma/client";
 import { ANALYTICS_SESSION_COOKIE } from "@/lib/analytics";
 
+export const runtime = "edge";
+
 export async function POST(request: NextRequest) {
   try {
     const identifier = getClientIdentifier(request.headers);

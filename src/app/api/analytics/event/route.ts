@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import { ANALYTICS_SESSION_COOKIE } from "@/lib/analytics";
 import type { AnalyticsType, Prisma } from "@prisma/client";
 
+export const runtime = "edge";
+
 const VALID_TYPES: AnalyticsType[] = ["PAGE_VIEW", "OFFER_CLICK", "ENQUIRY_SUBMITTED"];
 
 function getClientIp(request: NextRequest): string | null {

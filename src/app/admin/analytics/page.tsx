@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db";
 import { AnalyticsCharts } from "../_components/AnalyticsCharts";
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export default async function AdminAnalyticsPage() {

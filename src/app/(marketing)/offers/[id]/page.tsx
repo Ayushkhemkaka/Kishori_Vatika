@@ -4,6 +4,7 @@ import { cache } from "react";
 import { prisma } from "@/lib/db";
 import { OfferClickLogger } from "./OfferClickLogger";
 
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 function formatPrice(price: { toString: () => string }) {

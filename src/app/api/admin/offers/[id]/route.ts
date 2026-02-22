@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 
+export const runtime = "edge";
+
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }

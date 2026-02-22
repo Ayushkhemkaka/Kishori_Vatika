@@ -3,6 +3,8 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/db";
 import { SocialPlatform } from "@prisma/client";
 
+export const runtime = "edge";
+
 export async function GET() {
   const session = await auth();
   if (!session?.user) {
