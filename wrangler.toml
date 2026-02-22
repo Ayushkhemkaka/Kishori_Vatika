@@ -5,6 +5,7 @@ main = ".vercel/output/static/_worker.js"
 
 [assets]
 directory = ".vercel/output/static"
+binding = "ASSETS"
 
 # Secrets (set via `wrangler secret put`)
 # AUTH_SECRET

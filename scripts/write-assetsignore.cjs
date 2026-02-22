@@ -6,7 +6,7 @@ const ignorePath = path.join(assetsDir, ".assetsignore");
 
 try {
   fs.mkdirSync(assetsDir, { recursive: true });
-  fs.writeFileSync(ignorePath, "_worker.js\n", "utf8");
+  fs.writeFileSync(ignorePath, "", "utf8");
   console.log(`Wrote ${ignorePath}`);
 } catch (err) {
   console.error("Failed to write .assetsignore", err);
