@@ -4,6 +4,8 @@ import { cache } from "react";
 import { prisma } from "@/lib/db";
 import { OfferClickLogger } from "./OfferClickLogger";
 
+export const dynamic = "force-dynamic";
+
 function formatPrice(price: { toString: () => string }) {
   const n = Number(price);
   return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;

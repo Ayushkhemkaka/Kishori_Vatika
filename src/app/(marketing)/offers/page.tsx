@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 function formatPrice(price: { toString: () => string }) {
   const n = Number(price);
   return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;
