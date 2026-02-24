@@ -1,5 +1,5 @@
 import Credentials from "next-auth/providers/credentials";
-import { supabase, supabaseAuth } from "@/lib/supabase";
+import { supabase, supabaseAuth } from "@/(shared)/lib/supabase";
 
 const OWNER_ROLE = "OWNER";
 

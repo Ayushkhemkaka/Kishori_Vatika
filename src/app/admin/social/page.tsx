@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase";
-import { SocialConnectForm } from "../_components/SocialConnectForm";
+import { supabase } from "@/(shared)/lib/supabase";
+import { SocialConnectForm } from "./components/SocialConnectForm";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";

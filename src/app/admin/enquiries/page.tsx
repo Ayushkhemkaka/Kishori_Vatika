@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
-import { EnquiryStatusSelect } from "../_components/EnquiryStatusSelect";
+import { supabase } from "@/(shared)/lib/supabase";
+import { EnquiryStatusSelect } from "./components/EnquiryStatusSelect";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";

@@ -9,6 +9,47 @@
     linear-gradient(300deg, rgba(234, 179, 8, 0.08), transparent 40%);
   --card-bg: #ffffff;
   --card-border: rgba(16, 185, 129, 0.18);
+  --surface-muted: rgba(255, 255, 255, 0.85);
+  --text-strong: #1f1a14;
+  --text: #3f3a34;
+  --text-muted: #6b645d;
+  --text-faint: #8a827a;
+  --shadow-color: rgba(16, 185, 129, 0.22);
+  --container-max: 72rem;
+  --gutter: 1rem;
+  --gutter-sm: 1.5rem;
+  --gutter-lg: 2rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.875rem;
+  --radius-pill: 999px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+  --shadow-sm: 0 6px 16px rgba(16, 185, 129, 0.12);
+  --shadow-md: 0 12px 26px rgba(16, 185, 129, 0.18);
+  --shadow-lg: 0 18px 40px rgba(16, 185, 129, 0.22);
 }
 
 [data-theme="dark"] {
@@ -19,6 +60,12 @@
     linear-gradient(300deg, rgba(234, 179, 8, 0.12), transparent 40%);
   --card-bg: #171614;
   --card-border: rgba(16, 185, 129, 0.25);
+  --surface-muted: rgba(23, 22, 20, 0.85);
+  --text-strong: #f5f2ea;
+  --text: rgba(245, 242, 234, 0.82);
+  --text-muted: rgba(245, 242, 234, 0.7);
+  --text-faint: rgba(245, 242, 234, 0.6);
+  --shadow-color: rgba(16, 185, 129, 0.25);
 }
 
 @theme inline {
@@ -32,6 +79,63 @@ body {
   background: var(--page-bg), var(--page-pattern);
   color: var(--foreground);
   font-family: var(--font-body), "Source Sans 3", "Segoe UI", sans-serif;
+  font-size: var(--font-size-base);
+  line-height: var(--leading-normal);
+}
+
+[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-white\/70,
+[data-theme="dark"] .bg-white\/80,
+[data-theme="dark"] .bg-white\/90,
+[data-theme="dark"] .bg-white\/95 {
+  background-color: var(--card-bg) !important;
+}
+
+[data-theme="dark"] .bg-emerald-50,
+[data-theme="dark"] .bg-emerald-50\/60,
+[data-theme="dark"] .bg-emerald-50\/80,
+[data-theme="dark"] .bg-emerald-50\/90,
+[data-theme="dark"] .bg-amber-50,
+[data-theme="dark"] .bg-amber-50\/80,
+[data-theme="dark"] .bg-amber-50\/90 {
+  background-color: var(--surface-muted) !important;
+}
+
+[data-theme="dark"] .text-stone-900,
+[data-theme="dark"] .text-stone-800 {
+  color: var(--text-strong) !important;
+}
+
+[data-theme="dark"] .text-stone-700 {
+  color: var(--text) !important;
+}
+
+[data-theme="dark"] .text-stone-600 {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] .text-stone-500,
+[data-theme="dark"] .text-stone-400 {
+  color: var(--text-faint) !important;
+}
+
+[data-theme="dark"] .border-emerald-100,
+[data-theme="dark"] .border-emerald-200,
+[data-theme="dark"] .border-emerald-200\/60,
+[data-theme="dark"] .border-emerald-100\/60,
+[data-theme="dark"] .border-amber-400\/30,
+[data-theme="dark"] .border-amber-100 {
+  border-color: var(--card-border) !important;
+}
+
+[data-theme="dark"] .shadow-emerald-100\/40,
+[data-theme="dark"] .shadow-emerald-100\/50,
+[data-theme="dark"] .shadow-emerald-100\/60,
+[data-theme="dark"] .shadow-emerald-100\/70,
+[data-theme="dark"] .shadow-emerald-200,
+[data-theme="dark"] .shadow-emerald-200\/60,
+[data-theme="dark"] .shadow-emerald-200\/70 {
+  --tw-shadow-color: var(--shadow-color) !important;
 }
 
 h1,
@@ -39,6 +143,36 @@ h2,
 h3,
 .font-display {
   font-family: var(--font-display), "Playfair Display", "Times New Roman", serif;
+}
+
+.kv-container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@media (min-width: 640px) {
+  .kv-container {
+    padding-inline: var(--gutter-sm);
+  }
+}
+
+@media (min-width: 1024px) {
+  .kv-container {
+    padding-inline: var(--gutter-lg);
+  }
+}
+
+.kv-card {
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-md);
+}
+
+.kv-pill {
+  border-radius: var(--radius-pill);
 }
 
 ::selection {

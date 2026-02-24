@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase";
-import { AnalyticsCharts } from "../_components/AnalyticsCharts";
+import { supabase } from "@/(shared)/lib/supabase";
+import { AnalyticsCharts } from "./components/AnalyticsCharts";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";

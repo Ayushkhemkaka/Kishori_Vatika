@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { supabase } from "@/lib/supabase";
-import { OfferForm } from "../../_components/OfferForm";
+import { supabase } from "@/(shared)/lib/supabase";
+import { OfferForm } from "../../components/OfferForm";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";

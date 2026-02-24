@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/(shared)/lib/supabase";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";

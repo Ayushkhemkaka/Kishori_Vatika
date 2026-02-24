@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Kishori Vatika",
     short_name: "Kishori Vatika",
     description:
-      "Elegant boutique hotel with five room categories, dining, pool, and event spaces.",
+      "Elegant resort with five room categories, dining, pool, and event spaces.",
     start_url: "/",
     display: "standalone",
     background_color: "#f9f8f2",

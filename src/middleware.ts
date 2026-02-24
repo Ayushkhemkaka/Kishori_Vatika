@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { ANALYTICS_SESSION_COOKIE } from "@/lib/analytics";
+import { ANALYTICS_SESSION_COOKIE } from "@/(shared)/lib/analytics";
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: "Kishori Vatika", template: "%s - Kishori Vatika" },
   description:
-    "Elegant boutique hotel with five room categories, dining, pool, and event spaces.",
+    "Elegant resort with five room categories, dining, pool, and event spaces.",
   alternates: {
     canonical: "/",
   },
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
     siteName: "Kishori Vatika",
     title: "Kishori Vatika",
     description:
-      "Elegant boutique hotel with five room categories, dining, pool, and event spaces.",
+      "Elegant resort with five room categories, dining, pool, and event spaces.",
     images: [{ url: "/hero-hotel.svg", width: 1200, height: 800, alt: "Kishori Vatika" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Kishori Vatika",
     description:
-      "Elegant boutique hotel with five room categories, dining, pool, and event spaces.",
+      "Elegant resort with five room categories, dining, pool, and event spaces.",
     images: ["/hero-hotel.svg"],
   },
   robots: {

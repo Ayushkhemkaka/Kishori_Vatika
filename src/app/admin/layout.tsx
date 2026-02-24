@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { AdminSignOut } from "./_components/AdminSignOut";
+import { AdminSignOut } from "./components/AdminSignOut";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
