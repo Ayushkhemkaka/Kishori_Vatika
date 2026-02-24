@@ -1,4 +1,4 @@
-import { supabase } from "@/(shared)/lib/supabase";
+﻿import { supabase } from "@/app/(shared)/lib/supabase";
 
 type AdminActivityInput = {
   adminId?: string | null;
@@ -43,3 +43,4 @@ export async function logError(input: ErrorLogInput) {
     console.warn("Failed to log error", err);
   }
 }
+

@@ -1,10 +1,10 @@
-import { NextRequest } from "next/server";
-import { supabase } from "@/(shared)/lib/supabase";
-import { createEnquirySchema } from "@/(shared)/lib/validation/enquiry";
-import { errorResponse, jsonResponse } from "@/(shared)/lib/api-response";
-import { checkRateLimit, getClientIdentifier } from "@/(shared)/lib/rate-limit";
-import { ANALYTICS_SESSION_COOKIE } from "@/(shared)/lib/analytics";
-import { logError } from "@/(shared)/lib/audit";
+﻿import { NextRequest } from "next/server";
+import { supabase } from "@/app/(shared)/lib/supabase";
+import { createEnquirySchema } from "@/app/(shared)/lib/validation/enquiry";
+import { errorResponse, jsonResponse } from "@/app/(shared)/lib/api-response";
+import { checkRateLimit, getClientIdentifier } from "@/app/(shared)/lib/rate-limit";
+import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
+import { logError } from "@/app/(shared)/lib/audit";
 
 export const runtime = "edge";
 
@@ -96,3 +96,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+

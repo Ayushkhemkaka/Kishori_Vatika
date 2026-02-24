@@ -1,4 +1,4 @@
-import { supabase } from "@/(shared)/lib/supabase";
+﻿import { supabase } from "@/app/(shared)/lib/supabase";
 import { AnalyticsCharts } from "./components/AnalyticsCharts";
 
 export const runtime = "edge";
@@ -112,3 +112,4 @@ export default async function AdminAnalyticsPage() {
     </div>
   );
 }
+

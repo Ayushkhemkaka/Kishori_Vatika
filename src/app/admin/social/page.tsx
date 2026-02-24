@@ -1,4 +1,4 @@
-import { supabase } from "@/(shared)/lib/supabase";
+﻿import { supabase } from "@/app/(shared)/lib/supabase";
 import { SocialConnectForm } from "./components/SocialConnectForm";
 
 export const runtime = "edge";
@@ -55,3 +55,4 @@ export default async function AdminSocialPage() {
     </div>
   );
 }
+

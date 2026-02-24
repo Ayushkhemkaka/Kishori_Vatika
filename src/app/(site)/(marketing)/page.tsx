@@ -1,6 +1,6 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
-import { supabase } from "@/(shared)/lib/supabase";
+import { supabase } from "@/app/(shared)/lib/supabase";
 
 export const runtime = "edge";
 export const revalidate = 300;
@@ -410,3 +410,4 @@ export default async function MarketingHomePage() {
     </div>
   );
 }
+

@@ -6,7 +6,7 @@ import { NewsletterSignup } from "../_layout/components/NewsletterSignup";
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-emerald-50/60 to-white text-stone-900">
+    <div className="min-h-screen text-stone-900">
       <PageViewTracker />
       <header className="border-b border-emerald-200/60 bg-white/80 backdrop-blur">
         <div className="kv-container flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">

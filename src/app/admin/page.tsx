@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { supabase } from "@/(shared)/lib/supabase";
+﻿import Link from "next/link";
+import { supabase } from "@/app/(shared)/lib/supabase";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -25,21 +25,21 @@ export default async function AdminDashboardPage() {
           <p className="text-2xl font-semibold text-amber-100">{visitCount}</p>
           <p className="text-sm text-slate-400">Total visits</p>
           <Link href="/admin/analytics" className="mt-2 text-xs text-amber-200 hover:text-amber-100">
-            View analytics →
+            View analytics â†’
           </Link>
         </div>
         <div className="rounded-xl border border-white/10 bg-slate-900/60 p-5">
           <p className="text-2xl font-semibold text-amber-100">{enquiryCount}</p>
           <p className="text-sm text-slate-400">Enquiries</p>
           <Link href="/admin/enquiries" className="mt-2 text-xs text-amber-200 hover:text-amber-100">
-            Manage enquiries →
+            Manage enquiries â†’
           </Link>
         </div>
         <div className="rounded-xl border border-white/10 bg-slate-900/60 p-5">
           <p className="text-2xl font-semibold text-amber-100">{offerCount}</p>
           <p className="text-sm text-slate-400">Active offers</p>
           <Link href="/admin/offers" className="mt-2 text-xs text-amber-200 hover:text-amber-100">
-            Manage offers →
+            Manage offers â†’
           </Link>
         </div>
       </div>
@@ -66,3 +66,4 @@ export default async function AdminDashboardPage() {
     </div>
   );
 }
+

@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { supabase } from "@/(shared)/lib/supabase";
+﻿import { NextResponse } from "next/server";
+import { supabase } from "@/app/(shared)/lib/supabase";
 
 export const runtime = "edge";
 
@@ -27,3 +27,4 @@ export async function GET() {
     );
   }
 }
+

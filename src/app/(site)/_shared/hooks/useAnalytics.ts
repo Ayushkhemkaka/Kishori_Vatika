@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useCallback } from "react";
-import type { AnalyticsEventPayload } from "@/(shared)/lib/analytics";
+import type { AnalyticsEventPayload } from "@/app/(shared)/lib/analytics";
 
 export function useAnalytics() {
   const track = useCallback((payload: AnalyticsEventPayload) => {
@@ -40,3 +40,4 @@ export function useAnalytics() {
 
   return { track, trackPageView, trackOfferClick, trackEnquirySubmitted };
 }
+

@@ -1,5 +1,5 @@
-import Credentials from "next-auth/providers/credentials";
-import { supabase, supabaseAuth } from "@/(shared)/lib/supabase";
+﻿import Credentials from "next-auth/providers/credentials";
+import { supabase, supabaseAuth } from "@/app/(shared)/lib/supabase";
 
 const OWNER_ROLE = "OWNER";
 
@@ -64,3 +64,4 @@ export const authConfig = {
     maxAge: 30 * 24 * 60 * 60,
   },
 };
+

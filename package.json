@@ -6,8 +6,8 @@
     "node": ">=20 <21"
   },
   "scripts": {
-    "dev": "next dev -p 5001",
-    "dev:watch": "next dev -p 5001",
+    "dev": "set WATCHPACK_POLLING=true&& set CHOKIDAR_USEPOLLING=true&& next dev -p 5001",
+    "dev:watch": "set WATCHPACK_POLLING=true&& set CHOKIDAR_USEPOLLING=true&& next dev -p 5001",
     "build": "next build",
     "build:cf": "npx @cloudflare/next-on-pages && node scripts/write-assetsignore.cjs",
     "start": "next start -p 5001",

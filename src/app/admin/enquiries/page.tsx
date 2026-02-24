@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { supabase } from "@/(shared)/lib/supabase";
+﻿import Link from "next/link";
+import { supabase } from "@/app/(shared)/lib/supabase";
 import { EnquiryStatusSelect } from "./components/EnquiryStatusSelect";
 
 export const runtime = "edge";
@@ -136,3 +136,4 @@ export default async function AdminEnquiriesPage({
     </div>
   );
 }
+

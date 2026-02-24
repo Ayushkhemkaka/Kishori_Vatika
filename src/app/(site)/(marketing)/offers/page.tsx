@@ -1,6 +1,6 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import type { Metadata } from "next";
-import { supabase } from "@/(shared)/lib/supabase";
+import { supabase } from "@/app/(shared)/lib/supabase";
 
 export const runtime = "edge";
 export const revalidate = 300;
@@ -149,3 +149,4 @@ export default async function OffersPage() {
     </div>
   );
 }
+

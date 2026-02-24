@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { supabase } from "@/(shared)/lib/supabase";
+﻿import Link from "next/link";
+import { supabase } from "@/app/(shared)/lib/supabase";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -67,3 +67,4 @@ export default async function AdminOffersPage() {
     </div>
   );
 }
+

@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/(shared)/lib/supabase";
-import { ANALYTICS_SESSION_COOKIE } from "@/(shared)/lib/analytics";
-import { logError } from "@/(shared)/lib/audit";
+﻿import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/app/(shared)/lib/supabase";
+import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
+import { logError } from "@/app/(shared)/lib/audit";
 
 export const runtime = "edge";
 
@@ -54,3 +54,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+

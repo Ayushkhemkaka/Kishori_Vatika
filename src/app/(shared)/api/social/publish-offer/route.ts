@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/(shared)/lib/supabase";
-import { logAdminActivity, logError } from "@/(shared)/lib/audit";
-import { publishToFacebookPage, publishToInstagram } from "@/(shared)/lib/meta-graph";
+import { supabase } from "@/app/(shared)/lib/supabase";
+import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
+import { publishToFacebookPage, publishToInstagram } from "@/app/(shared)/lib/meta-graph";
 
 export const runtime = "edge";
 
@@ -174,3 +174,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { supabase } from "@/(shared)/lib/supabase";
+import { supabase } from "@/app/(shared)/lib/supabase";
 import { OfferForm } from "../../components/OfferForm";
 
 export const runtime = "edge";

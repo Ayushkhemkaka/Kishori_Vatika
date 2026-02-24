@@ -1,8 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { cache } from "react";
-import { supabase } from "@/(shared)/lib/supabase";
-import { OfferClickLogger } from "./components/OfferClickLogger";
+import { supabase } from "@/app/(shared)/lib/supabase";
+import { OfferClickLogger } from "./OfferClickLogger";
 
 export const runtime = "edge";
 export const revalidate = 300;

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/(shared)/lib/supabase";
-import { logAdminActivity, logError } from "@/(shared)/lib/audit";
+import { supabase } from "@/app/(shared)/lib/supabase";
+import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
 
 export const runtime = "edge";
 
@@ -41,6 +41,7 @@ export async function POST(request: Request) {
   if (!session?.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  const adminId = (session.user as { id?: string }).id ?? null;
   try {
     const body = (await request.json()) as {
       platform: Platform;
@@ -138,3 +139,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

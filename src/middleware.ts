@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { ANALYTICS_SESSION_COOKIE } from "@/(shared)/lib/analytics";
+import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
@@ -33,3 +33,4 @@ export default auth((req: any) => {
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
+
