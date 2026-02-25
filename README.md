@@ -1,4 +1,4 @@
-﻿# Kishori Vatika â€“ Hotel Website
+﻿# KiSHORi VATiKA â€“ Hotel Website
 
 A production-ready hotel website built with Next.js: customer-facing pages for rooms and offers, enquiry form, and an owner dashboard (auth, offers, enquiries, analytics). Uses PostgreSQL (Prisma), validation (Zod), rate limiting, and optional Meta (Facebook/Instagram) auto-posting.
 

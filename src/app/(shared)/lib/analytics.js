@@ -1,0 +1,2 @@
+const ANALYTICS_SESSION_COOKIE = "kv_session_id";
+export { ANALYTICS_SESSION_COOKIE };

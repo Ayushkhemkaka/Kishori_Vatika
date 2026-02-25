@@ -55,9 +55,9 @@
 [data-theme="dark"] {
   --background: #0e0e0c;
   --foreground: #f5f2ea;
-  --page-bg: radial-gradient(circle at top, #1c1a16 0%, #0e0e0c 60%, #0a0a09 100%);
-  --page-pattern: linear-gradient(120deg, rgba(16, 185, 129, 0.14), transparent 45%),
-    linear-gradient(300deg, rgba(234, 179, 8, 0.12), transparent 40%);
+  --page-bg: linear-gradient(180deg, #090909 0%, #070707 100%);
+  --page-pattern: none;
+
   --card-bg: #171614;
   --card-border: rgba(16, 185, 129, 0.25);
   --surface-muted: rgba(23, 22, 20, 0.85);
@@ -65,7 +65,7 @@
   --text: rgba(245, 242, 234, 0.82);
   --text-muted: rgba(245, 242, 234, 0.7);
   --text-faint: rgba(245, 242, 234, 0.6);
-  --shadow-color: rgba(16, 185, 129, 0.25);
+  --shadow-color: rgba(16, 185, 129, 0.12);
 }
 
 @theme inline {
@@ -145,6 +145,10 @@ h3,
   font-family: var(--font-display), "Playfair Display", "Times New Roman", serif;
 }
 
+.font-forte {
+  font-family: "Forte", "Brush Script MT", cursive;
+}
+
 .kv-container {
   width: 100%;
   max-width: var(--container-max);
@@ -177,4 +181,19 @@ h3,
 
 ::selection {
   background: rgba(234, 179, 8, 0.35);
+}
+
+[data-theme="dark"] .kv-themed-section {
+  background: linear-gradient(145deg, rgba(20, 19, 17, 0.96), rgba(14, 14, 12, 0.96)) !important;
+}
+[data-theme="dark"] .kv-hero-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 8, 8, 0.34);
+  pointer-events: none;
+}
+
+[data-theme="dark"] .kv-hero-illustration {
+  filter: brightness(0.4) saturate(0.72) contrast(1.12);
 }
