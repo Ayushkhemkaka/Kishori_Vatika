@@ -1,7 +1,7 @@
 function manifest() {
   return {
-    name: "Kishori Vatika",
-    short_name: "Kishori Vatika",
+    name: "KiSHORi VATiKA",
+    short_name: "KiSHORi VATiKA",
     description: "Elegant resort with five room categories, dining, pool, and event spaces.",
     start_url: "/",
     display: "standalone",

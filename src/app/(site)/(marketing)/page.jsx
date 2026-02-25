@@ -101,7 +101,7 @@ async function MarketingHomePage() {
           </p>
           <h1 className="text-balance text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl font-display">
             A refined stay at{" "}
-            <span className="bg-gradient-to-r from-amber-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent">
+            <span className="font-forte bg-gradient-to-r from-amber-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent">
               Kishori Vatika
             </span>
             .

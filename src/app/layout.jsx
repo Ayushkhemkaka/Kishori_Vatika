@@ -12,7 +12,7 @@ const body = Source_Sans_3({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:5001";
 const metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "Kishori Vatika", template: "%s - Kishori Vatika" },
+  title: { default: "KiSHORi VATiKA", template: "%s - KiSHORi VATiKA" },
   description: "Elegant resort with five room categories, dining, pool, and event spaces.",
   alternates: {
     canonical: "/"
@@ -20,14 +20,14 @@ const metadata = {
   openGraph: {
     type: "website",
     url: "/",
-    siteName: "Kishori Vatika",
-    title: "Kishori Vatika",
+    siteName: "KiSHORi VATiKA",
+    title: "KiSHORi VATiKA",
     description: "Elegant resort with five room categories, dining, pool, and event spaces.",
-    images: [{ url: "/hero-hotel.svg", width: 1200, height: 800, alt: "Kishori Vatika" }]
+    images: [{ url: "/hero-hotel.svg", width: 1200, height: 800, alt: "KiSHORi VATiKA" }]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kishori Vatika",
+    title: "KiSHORi VATiKA",
     description: "Elegant resort with five room categories, dining, pool, and event spaces.",
     images: ["/hero-hotel.svg"]
   },
@@ -50,10 +50,10 @@ function RootLayout({
   children
 }) {
   return <html lang="en" data-theme="light" suppressHydrationWarning>
-      <body className={`${display.variable} ${body.variable} antialiased`}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>;
+    <body className={`${display.variable} ${body.variable} antialiased`}>
+      <Providers>{children}</Providers>
+    </body>
+  </html>;
 }
 export default RootLayout;
 export { metadata };
