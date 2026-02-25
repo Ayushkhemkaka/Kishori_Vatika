@@ -6,10 +6,10 @@ function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
 }
 function ThemeToggle() {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    const preferred = stored ?? "light";
+    const preferred = stored ?? "dark";
     setTheme(preferred);
     applyTheme(preferred);
   }, []);

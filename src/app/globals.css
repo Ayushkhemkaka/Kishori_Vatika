@@ -15,10 +15,10 @@
   --text-muted: #6b645d;
   --text-faint: #8a827a;
   --shadow-color: rgba(16, 185, 129, 0.22);
-  --container-max: 72rem;
-  --gutter: 1rem;
-  --gutter-sm: 1.5rem;
-  --gutter-lg: 2rem;
+  --container-max: 86rem;
+  --gutter: 0.875rem;
+  --gutter-sm: 1rem;
+  --gutter-lg: 0.75rem;
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
@@ -81,6 +81,16 @@ body {
   font-family: var(--font-body), "Source Sans 3", "Segoe UI", sans-serif;
   font-size: var(--font-size-base);
   line-height: var(--leading-normal);
+  overflow-x: hidden;
+}
+
+[data-theme="light"] .border-emerald-100,
+[data-theme="light"] .border-emerald-200,
+[data-theme="light"] .border-emerald-200\/60,
+[data-theme="light"] .border-emerald-100\/60,
+[data-theme="light"] .border-amber-100 {
+  border-color: rgba(6, 95, 70, 0.45) !important;
+  border-width: 1.5px !important;
 }
 
 [data-theme="dark"] .bg-white,
@@ -196,4 +206,23 @@ h3,
 
 [data-theme="dark"] .kv-hero-illustration {
   filter: brightness(0.4) saturate(0.72) contrast(1.12);
+}
+
+/* Dark-mode overrides for light marketing gradients */
+[data-theme="dark"] .bg-gradient-to-br.from-amber-50\/80.via-white.to-emerald-50\/80 {
+  background-image: linear-gradient(
+    135deg,
+    rgba(20, 19, 17, 0.96),
+    rgba(16, 16, 14, 0.94),
+    rgba(22, 21, 18, 0.96)
+  ) !important;
+}
+
+[data-theme="dark"] .bg-gradient-to-br.from-emerald-50\/80.via-white.to-amber-50\/80 {
+  background-image: linear-gradient(
+    135deg,
+    rgba(18, 19, 17, 0.96),
+    rgba(16, 16, 14, 0.94),
+    rgba(24, 22, 18, 0.96)
+  ) !important;
 }

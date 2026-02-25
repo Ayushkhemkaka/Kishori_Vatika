@@ -1,5 +1,6 @@
 import { Playfair_Display, Source_Sans_3 } from "next/font/google";
 import { Providers } from "./providers";
+import { BrandFontAutoApply } from "./(shared)/components/BrandFontAutoApply";
 import "./globals.css";
 const display = Playfair_Display({
   variable: "--font-display",
@@ -23,13 +24,13 @@ const metadata = {
     siteName: "KiSHORi VATiKA",
     title: "KiSHORi VATiKA",
     description: "Elegant resort with five room categories, dining, pool, and event spaces.",
-    images: [{ url: "/hero-hotel.svg", width: 1200, height: 800, alt: "KiSHORi VATiKA" }]
+    images: [{ url: "/hero-hotel.jpg", width: 1200, height: 800, alt: "KiSHORi VATiKA" }]
   },
   twitter: {
     card: "summary_large_image",
     title: "KiSHORi VATiKA",
     description: "Elegant resort with five room categories, dining, pool, and event spaces.",
-    images: ["/hero-hotel.svg"]
+    images: ["/hero-hotel.jpg"]
   },
   robots: {
     index: true,
@@ -49,10 +50,11 @@ const metadata = {
 function RootLayout({
   children
 }) {
-  return <html lang="en" data-theme="light" suppressHydrationWarning>
-    <body className={`${display.variable} ${body.variable} antialiased`}>
-      <Providers>{children}</Providers>
-    </body>
+  return <html lang="en" data-theme="dark" suppressHydrationWarning>
+      <body className={`${display.variable} ${body.variable} antialiased`}>
+        <BrandFontAutoApply />
+        <Providers>{children}</Providers>
+      </body>
   </html>;
 }
 export default RootLayout;

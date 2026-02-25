@@ -1,82 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { supabase } from "@/app/(shared)/lib/supabase";
+import { roomCategories } from "./rooms/room-data";
+import { facilities } from "./facilities/facility-data";
 export const runtime = "edge";
 export const revalidate = 300;
-const roomCategories = [
-  {
-    title: "Deluxe Room",
-    description: "Quiet garden views with warm, understated interiors.",
-    badge: "Comfort choice",
-    price: "INR 2,800",
-    occupancy: "Up to 2 guests",
-    size: "220 sq ft",
-    bed: "Queen bed",
-    perks: ["Garden-facing", "Work desk", "Rain shower"]
-  },
-  {
-    title: "Premium Room",
-    description: "More space with a balcony and lounge seating.",
-    badge: "Most booked",
-    price: "INR 3,600",
-    occupancy: "Up to 3 guests",
-    size: "280 sq ft",
-    bed: "King bed",
-    perks: ["Private balcony", "Lounge chair", "Premium linens"]
-  },
-  {
-    title: "Executive Room",
-    description: "Refined finishes with elevated amenities for longer stays.",
-    badge: "Business ready",
-    price: "INR 4,200",
-    occupancy: "Up to 3 guests",
-    size: "320 sq ft",
-    bed: "King bed",
-    perks: ["Minibar", "Ergonomic desk", "Evening turndown"]
-  },
-  {
-    title: "Family Room",
-    description: "Flexible layout for families with extra storage.",
-    badge: "Family favorite",
-    price: "INR 4,800",
-    occupancy: "Up to 4 guests",
-    size: "360 sq ft",
-    bed: "King + twin",
-    perks: ["Extra bedding", "Kids amenities", "Pantry access"]
-  },
-  {
-    title: "Signature Suite",
-    description: "Separate living area with signature decor and privacy.",
-    badge: "Signature stay",
-    price: "INR 6,500",
-    occupancy: "Up to 4 guests",
-    size: "520 sq ft",
-    bed: "King bed",
-    perks: ["Living area", "Premium bath", "Priority dining"]
-  }
-];
-const featureHighlights = [
-  {
-    title: "Restaurant",
-    description: "All-day dining with seasonal menus and local favorites."
-  },
-  {
-    title: "Swimming Pool",
-    description: "A calm pool deck for morning laps and evening rest."
-  },
-  {
-    title: "Banquet",
-    description: "One elegant banquet space for weddings and celebrations."
-  },
-  {
-    title: "Small Hall",
-    description: "Ideal for meetings, private dinners, or intimate events."
-  },
-  {
-    title: "20 Rooms",
-    description: "A boutique inventory for attentive, personalized service."
-  }
-];
 const signatureMoments = [
   "Tea service on the terrace",
   "Curated breakfast spreads",
@@ -92,12 +20,12 @@ async function MarketingHomePage() {
   const { data: activeOffersData } = await supabase.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive").eq("isActive", true).lte("validFrom", now.toISOString()).gte("validTo", now.toISOString()).order("validTo", { ascending: true }).limit(6);
   const activeOffers = activeOffersData ?? [];
   return <div className="space-y-16">
-      <section className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
-        <div className="space-y-6">
-          <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50 px-3 py-1 text-xs font-medium uppercase tracking-[0.3em] text-emerald-800">
-            Hotel and events
+      <section className="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] xl:items-center">
+        <div className="space-y-6 text-center sm:text-left">
+          <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50 px-3 py-1 text-xs font-medium uppercase tracking-[0.12em] text-emerald-800">
+            Resorts & Restaurant
             <span className="h-1 w-1 rounded-full bg-amber-400" />
-            Now booking
+            Book now
           </p>
           <h1 className="text-balance text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl font-display">
             A refined stay at{" "}
@@ -106,45 +34,46 @@ async function MarketingHomePage() {
             </span>
             .
           </h1>
-          <p className="max-w-xl text-balance text-base text-stone-600 sm:text-lg">
-           Welcome to Kishori Vatika, a perfect destination where comfort, celebration, and nature 
-           come together. Our resort offers spacious rooms, modern amenities, lush surroundings, 
-           and warm hospitality to make every stay memorable. Whether you are planning a relaxing 
-           family getaway, a grand wedding, or a special celebration, Kishori Vatika provides the 
-           ideal setting with elegant venues, delicious dining, and personalized service.
+          <p className="mx-auto max-w-none text-balance text-base text-stone-600 sm:mx-0 sm:text-lg">
+           Welcome to KiSHORi VATiKA, a perfect destination where comfort, celebration, and nature 
+           come together. Our resort offers spacious rooms, modern amenities, a beautiful lawn, a 
+           swimming pool, lush surroundings, and warm hospitality to make every stay memorable. 
+           Whether you are planning a relaxing family getaway, a grand wedding, or a special 
+           celebration, Kishori Vatika provides the ideal setting with elegant venues, delicious 
+           dining, and personalized service.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
             <Link
     href="/enquiry"
-    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+    className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500 sm:w-auto"
   >
               Check availability
             </Link>
             <Link
     href="/offers"
-    className="inline-flex items-center justify-center rounded-full border border-emerald-200/80 bg-white/80 px-6 py-3 text-sm font-semibold text-emerald-900 transition hover:border-emerald-300 hover:text-emerald-700"
+    className="inline-flex w-full items-center justify-center rounded-full border border-emerald-200/80 bg-white/80 px-6 py-3 text-sm font-semibold text-emerald-900 transition hover:border-emerald-300 hover:text-emerald-700 sm:w-auto"
   >
               View current offers
             </Link>
           </div>
-          <dl className="mt-4 grid gap-4 text-sm text-stone-600 sm:grid-cols-3">
-            <div>
+          <dl className="mt-4 grid w-full max-w-3xl gap-4 text-sm text-stone-600 sm:grid-cols-3">
+            <div className="text-center sm:text-left">
               <dt className="text-xs uppercase tracking-[0.2em] text-stone-500">
                 Check-in / Check-out
               </dt>
-              <dd>2:00 pm - 11:00 am</dd>
+              <dd>12:00 pm - 10:00 am</dd>
             </div>
-            <div>
+            <div className="text-center sm:text-left">
               <dt className="text-xs uppercase tracking-[0.2em] text-stone-500">
                 Rooms inventory
               </dt>
-              <dd>20 rooms across five categories</dd>
+              <dd>Rooms</dd>
             </div>
-            <div>
+            <div className="text-center sm:text-left">
               <dt className="text-xs uppercase tracking-[0.2em] text-stone-500">
                 Event spaces
               </dt>
-              <dd>1 banquet, 1 small hall</dd>
+              <dd>1 banquet, 1 small hall, 1 lawn</dd>
             </div>
           </dl>
         </div>
@@ -154,7 +83,7 @@ async function MarketingHomePage() {
           <div className="absolute -right-6 bottom-0 h-40 w-52 rounded-full bg-emerald-200/40 blur-3xl" />
           <div className="relative overflow-hidden rounded-3xl border border-emerald-100 bg-white shadow-xl shadow-emerald-100/60">
             <Image
-    src="/hero-hotel.svg"
+    src="/hero-hotel.jpg"
     alt="Elegant hotel lobby illustration"
     width={720}
     height={520}
@@ -179,30 +108,98 @@ async function MarketingHomePage() {
       </section>
 
       <section className="space-y-6">
-        <div>
-          <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
+        <div className="flex flex-col gap-3 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
+          <div>
+            <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
             Facilities at a glance
-          </h2>
-          <p className="text-sm text-stone-600">
-            Everything you need for stays, dining, and celebrations in one
-            thoughtfully designed property.
-          </p>
+            </h2>
+            <p className="text-sm text-stone-600">
+              Everything you need for stays, dining, and celebrations in one
+              thoughtfully designed property.
+            </p>
+          </div>
+          <Link
+            href="/facilities"
+            className="text-sm font-medium text-emerald-700 hover:text-emerald-600"
+          >
+            Explore all facilities &rarr;
+          </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {featureHighlights.map((feature) => <article
-    key={feature.title}
-    className="rounded-2xl border border-emerald-100 bg-white p-4 text-sm text-stone-700 shadow-md shadow-emerald-100/50"
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {facilities.map((facility) => <article
+    key={facility.slug}
+    className="group flex flex-col justify-between rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40 transition hover:border-emerald-200 hover:shadow-emerald-100/70"
   >
-              <h3 className="text-base font-semibold text-stone-900 font-display">
-                {feature.title}
-              </h3>
-              <p className="mt-2 text-sm text-stone-600">{feature.description}</p>
+              <Link href={`/facilities#${facility.slug}`} className="block space-y-3">
+                <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
+                  {facility.badge}
+                </span>
+                <div className="space-y-2">
+                  <div className="overflow-hidden rounded-xl border border-emerald-100 bg-stone-100/70">
+                    <Image
+                      src={facility.images?.[0] ?? "/hero-hotel.jpg"}
+                      alt={`${facility.title} preview`}
+                      width={640}
+                      height={420}
+                      className="h-40 w-full object-cover"
+                    />
+                  </div>
+                  <div className="flex gap-2 overflow-x-auto pb-1">
+                    {(facility.images ?? []).map((imageSrc, index) => <button
+                      key={`${facility.title}-${index}`}
+                      type="button"
+                      className="overflow-hidden rounded-md border border-emerald-100 bg-white"
+                      aria-label={`View ${facility.title} image ${index + 1}`}
+                    >
+                      <Image
+                        src={imageSrc}
+                        alt={`${facility.title} thumbnail ${index + 1}`}
+                        width={96}
+                        height={64}
+                        className="h-14 w-20 object-cover"
+                      />
+                    </button>)}
+                  </div>
+                </div>
+                <h3 className="text-base font-semibold text-stone-900 font-display">
+                  {facility.title}
+                </h3>
+                <p className="text-sm text-stone-600">{facility.description}</p>
+                <div className="rounded-xl border border-emerald-100 bg-emerald-50/60 p-3 text-xs text-stone-600">
+                  <div className="flex items-center justify-between">
+                    <span className="text-emerald-700">Timing</span>
+                    <span className="text-sm font-semibold text-emerald-900">
+                      {facility.timing}
+                    </span>
+                  </div>
+                  <div className="mt-2 grid gap-1">
+                    <span>{facility.bestFor}</span>
+                    <span>{facility.capacity}</span>
+                    <span>{facility.access}</span>
+                  </div>
+                </div>
+                <ul className="space-y-1 text-xs text-stone-500">
+                  {facility.highlights.slice(0, 3).map((item) => <li key={item} className="flex items-center gap-2">
+                      <span className="h-1 w-1 rounded-full bg-emerald-400" />
+                      {item}
+                    </li>)}
+                </ul>
+              </Link>
+              <div className="mt-5 flex items-center justify-between text-xs text-stone-500">
+                <span>Events and stay support available</span>
+                <Link
+                  href={`/facilities#${facility.slug}`}
+                  className="text-emerald-700 group-hover:text-emerald-600"
+                >
+                  View details
+                </Link>
+              </div>
             </article>)}
         </div>
       </section>
 
       <section className="grid gap-8 rounded-3xl border border-emerald-100 bg-gradient-to-br from-amber-50/80 via-white to-emerald-50/80 p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-        <div className="space-y-4">
+        <div className="space-y-4 text-center sm:text-left">
           <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
             Signature experiences
           </h2>
@@ -260,7 +257,7 @@ async function MarketingHomePage() {
       </section>
 
       <section className="space-y-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-3 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
           <div>
             <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
               Room categories
@@ -270,10 +267,10 @@ async function MarketingHomePage() {
             </p>
           </div>
           <Link
-    href="/offers"
+    href="/rooms"
     className="text-sm font-medium text-emerald-700 hover:text-emerald-600"
   >
-            Explore current offers &rarr;
+            Explore all rooms &rarr;
           </Link>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -281,10 +278,37 @@ async function MarketingHomePage() {
     key={room.title}
     className="group flex flex-col justify-between rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40 transition hover:border-emerald-200 hover:shadow-emerald-100/70"
   >
-              <div className="space-y-3">
+              <Link href={`/rooms#${room.slug}`} className="block space-y-3">
                 <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
                   {room.badge}
                 </span>
+                <div className="space-y-2">
+                  <div className="overflow-hidden rounded-xl border border-emerald-100 bg-stone-100/70">
+                    <Image
+                      src={room.images?.[0] ?? "/hero-hotel.jpg"}
+                      alt={`${room.title} preview`}
+                      width={640}
+                      height={420}
+                      className="h-40 w-full object-cover"
+                    />
+                  </div>
+                  <div className="flex gap-2 overflow-x-auto pb-1">
+                    {(room.images ?? []).map((imageSrc, index) => <button
+                      key={`${room.title}-${index}`}
+                      type="button"
+                      className="overflow-hidden rounded-md border border-emerald-100 bg-white"
+                      aria-label={`View ${room.title} image ${index + 1}`}
+                    >
+                      <Image
+                        src={imageSrc}
+                        alt={`${room.title} thumbnail ${index + 1}`}
+                        width={96}
+                        height={64}
+                        className="h-14 w-20 object-cover"
+                      />
+                    </button>)}
+                  </div>
+                </div>
                 <h3 className="text-base font-semibold text-stone-900 font-display">
                   {room.title}
                 </h3>
@@ -308,14 +332,14 @@ async function MarketingHomePage() {
                       {perk}
                     </li>)}
                 </ul>
-              </div>
+              </Link>
               <div className="mt-5 flex items-center justify-between text-xs text-stone-500">
                 <span>Breakfast and Wi-Fi included</span>
                 <Link
-    href="/enquiry"
+    href={`/rooms#${room.slug}`}
     className="text-emerald-700 group-hover:text-emerald-600"
   >
-                  Enquire
+                  View details
                 </Link>
               </div>
             </article>)}
@@ -323,7 +347,7 @@ async function MarketingHomePage() {
       </section>
 
       <section className="space-y-6 rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50/80 via-white to-amber-50/80 p-6 sm:p-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <div>
             <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
               Current offers

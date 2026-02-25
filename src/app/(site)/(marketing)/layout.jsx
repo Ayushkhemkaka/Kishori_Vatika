@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { PageViewTracker } from "../_layout/components/PageViewTracker";
 import { ThemeToggle } from "../_layout/components/ThemeToggle";
 import { NewsletterSignup } from "../_layout/components/NewsletterSignup";
@@ -6,21 +7,32 @@ function MarketingLayout({ children }) {
   return <div className="min-h-screen text-stone-900">
     <PageViewTracker />
     <header className="border-b border-emerald-200/60 bg-white/80 backdrop-blur">
-      <div className="kv-container flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 to-emerald-300 shadow-md shadow-emerald-200/60">
-            <span className="text-sm font-semibold text-stone-900">KV</span>
-          </div>
-          <div className="leading-tight">
-            <div className="text-sm font-semibold tracking-[0.15em] text-emerald-800/80 font-display">
+      <div className="kv-container flex items-center justify-between gap-3 py-3 sm:gap-4 sm:py-4">
+        <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          <Image
+            src="/logo.png"
+            alt="KiSHORi VATiKA logo"
+            width={44}
+            height={44}
+            className="h-14 w-14 shrink-0 object-contain"
+            priority
+          />
+          <div className="min-w-0 leading-tight">
+            <div className="truncate text-2xl font-semibold tracking-[0.07em] text-emerald-800/80 font-display">
               <span className="font-forte">KiSHORi VATiKA</span>
             </div>
-            <div className="text-xs text-stone-500">Resort - Since 2024</div>
+            <div className="text-sm text-stone-500">Resorts & Restaurant</div>
           </div>
         </Link>
-        <nav className="hidden items-center gap-6 text-sm font-medium text-stone-700 sm:flex">
+        <nav className="hidden items-center gap-6 text-base font-medium text-stone-700 sm:flex">
           <Link href="/" className="transition-colors hover:text-emerald-700">
             Home
+          </Link>
+          <Link href="/facilities" className="transition-colors hover:text-emerald-700">
+            Facilities
+          </Link>
+          <Link href="/rooms" className="transition-colors hover:text-emerald-700">
+            Rooms
           </Link>
           <Link href="/offers" className="transition-colors hover:text-emerald-700">
             Offers
@@ -32,17 +44,18 @@ function MarketingLayout({ children }) {
             Contact
           </Link>
         </nav>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
           <Link
             href="/enquiry"
-            className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+            className="hidden rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500 sm:inline-flex"
           >
             Enquire now
           </Link>
         </div>
       </div>
-      <div className="border-t border-emerald-200/60 px-4 pb-4 pt-3 sm:hidden">
+      <div className="border-t border-emerald-200/60 pb-4 pt-3 sm:hidden">
+        <div className="kv-container">
         <details className="rounded-xl border border-emerald-100 bg-white/80 px-4 py-3">
           <summary className="cursor-pointer text-sm font-semibold text-emerald-800">
             Menu
@@ -54,14 +67,27 @@ function MarketingLayout({ children }) {
             <Link href="/offers" className="transition-colors hover:text-emerald-700">
               Offers
             </Link>
+            <Link href="/facilities" className="transition-colors hover:text-emerald-700">
+              Facilities
+            </Link>
+            <Link href="/rooms" className="transition-colors hover:text-emerald-700">
+              Rooms
+            </Link>
             <Link href="/about" className="transition-colors hover:text-emerald-700">
               About
             </Link>
             <Link href="/contact" className="transition-colors hover:text-emerald-700">
               Contact
             </Link>
+            <Link
+              href="/enquiry"
+              className="mt-2 inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+            >
+              Enquire now
+            </Link>
           </div>
         </details>
+        </div>
       </div>
     </header>
 
@@ -71,11 +97,11 @@ function MarketingLayout({ children }) {
 
     <footer className="border-t border-emerald-200/60 bg-white/80">
       <div className="kv-container flex flex-col gap-6 py-6 text-sm text-stone-500">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-center sm:text-left">
             (c) {(/* @__PURE__ */ new Date()).getFullYear()} <span className="font-forte">KiSHORi VATiKA</span>. All rights reserved.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap justify-center gap-3 sm:justify-start sm:gap-4">
             <span className="text-stone-400">resort and event spaces.</span>
             <span className="text-stone-400">Crafted with Next.js and Tailwind.</span>
           </div>
