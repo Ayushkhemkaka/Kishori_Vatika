@@ -102,15 +102,16 @@ async function MarketingHomePage() {
           <h1 className="text-balance text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl font-display">
             A refined stay at{" "}
             <span className="font-forte bg-gradient-to-r from-amber-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent">
-              Kishori Vatika
+              KiSHORi VATiKA
             </span>
             .
           </h1>
           <p className="max-w-xl text-balance text-base text-stone-600 sm:text-lg">
-            A resort with 20 rooms, five room categories, and inviting
-            spaces for dining, celebrations, and quiet retreats. Thoughtful
-            service, elegant interiors, and the calm you expect from a proper
-            hotel experience.
+           Welcome to Kishori Vatika, a perfect destination where comfort, celebration, and nature 
+           come together. Our resort offers spacious rooms, modern amenities, lush surroundings, 
+           and warm hospitality to make every stay memorable. Whether you are planning a relaxing 
+           family getaway, a grand wedding, or a special celebration, Kishori Vatika provides the 
+           ideal setting with elegant venues, delicious dining, and personalized service.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
