@@ -1,17 +1,23 @@
 import Link from "next/link";
 import { cache } from "react";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { prisma } from "@/app/(shared)/lib/db";
 import { OfferClickLogger } from "./OfferClickLogger";
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const revalidate = 300;
 function formatPrice(price) {
   const n = Number(price);
   return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;
 }
 const getOfferById = cache(async (id) => {
-  const { data: offer } = await supabase.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive").eq("id", id).maybeSingle();
+  const offer = await prisma.offer.findUnique({
+    where: { id },
+    select: { id: true, title: true, description: true, price: true, validFrom: true, validTo: true, isActive: true }
+  });
   if (!offer) return null;
-  const { data: features } = await supabase.from('"OfferFeature"').select("label,value").eq("offerId", id);
+  const features = await prisma.offerFeature.findMany({
+    where: { offerId: id },
+    select: { label: true, value: true }
+  });
   return {
     ...offer,
     features: features ?? []

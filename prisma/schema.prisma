@@ -6,7 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -137,6 +138,77 @@ model AnalyticsEvent {
   @@index([type, createdAt])
   @@index([offerId, createdAt])
   @@index([sessionId, createdAt])
+}
+
+model Visitor {
+  id         String   @id @default(uuid())
+  sessionId  String   @unique
+  ip         String?
+  userAgent  String?
+  firstSeenAt DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+  lastPath   String?
+
+  @@index([lastSeenAt])
+}
+
+model UserPreference {
+  id        String   @id @default(uuid())
+  sessionId String
+  key       String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([sessionId, key])
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  source    String   @default("website")
+  path      String?
+  sessionId String?
+  ip        String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model NewsletterSignup {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  source    String   @default("website")
+  sessionId String?
+  createdAt DateTime @default(now())
+}
+
+model AdminActivity {
+  id        String   @id @default(uuid())
+  adminId   String?
+  action    String
+  entity    String?
+  entityId  String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model ErrorLog {
+  id        String   @id @default(uuid())
+  level     String   @default("error")
+  message   String
+  stack     String?
+  path      String?
+  context   Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }
 
 enum UserRole {

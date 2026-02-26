@@ -1,5 +1,6 @@
 import Credentials from "next-auth/providers/credentials";
-import { supabase, supabaseAuth } from "@/app/(shared)/lib/supabase";
+import { prisma } from "@/app/(shared)/lib/db";
+import { verifyPassword } from "@/app/(shared)/lib/auth-password";
 const OWNER_ROLE = "OWNER";
 const authConfig = {
   secret: process.env.AUTH_SECRET,
@@ -14,13 +15,14 @@ const authConfig = {
         if (!credentials?.email || !credentials?.password) return null;
         const email = String(credentials.email).trim().toLowerCase();
         const password = String(credentials.password);
-        const { data: authData, error: authError } = await supabaseAuth.auth.signInWithPassword({
-          email,
-          password
+        const user = await prisma.user.findUnique({
+          where: { email },
+          select: { id: true, email: true, name: true, role: true, password: true }
         });
-        if (authError || !authData?.user) return null;
-        const { data: user } = await supabase.from('"User"').select("id,email,name,role").eq("email", email).maybeSingle();
         if (!user || user.role !== OWNER_ROLE) return null;
+        if (!user.password) return null;
+        const isValid = await verifyPassword(password, user.password);
+        if (!isValid) return null;
         return {
           id: user.id,
           email: user.email,

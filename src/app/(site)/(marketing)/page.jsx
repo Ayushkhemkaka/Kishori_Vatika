@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { prisma } from "@/app/(shared)/lib/db";
 import { roomCategories } from "./rooms/room-data";
 import { facilities } from "./facilities/facility-data";
 import { ImageCarousel } from "./components/ImageCarousel";
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const revalidate = 300;
 const signatureMoments = [
   "Tea service on the terrace",
@@ -18,8 +18,16 @@ function formatPrice(price) {
 }
 async function MarketingHomePage() {
   const now = /* @__PURE__ */ new Date();
-  const { data: activeOffersData } = await supabase.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive").eq("isActive", true).lte("validFrom", now.toISOString()).gte("validTo", now.toISOString()).order("validTo", { ascending: true }).limit(6);
-  const activeOffers = activeOffersData ?? [];
+  const activeOffers = await prisma.offer.findMany({
+    where: {
+      isActive: true,
+      validFrom: { lte: now },
+      validTo: { gte: now }
+    },
+    select: { id: true, title: true, description: true, price: true, validFrom: true, validTo: true, isActive: true },
+    orderBy: { validTo: "asc" },
+    take: 6
+  });
   return <div className="space-y-16">
       <section className="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] xl:items-center">
         <div className="space-y-6 text-center sm:text-left">

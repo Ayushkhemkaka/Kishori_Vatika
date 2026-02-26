@@ -1,15 +1,24 @@
 import { PrismaClient, UserRole } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
 import * as bcrypt from "bcryptjs";
-const connectionString = process.env.DATABASE_URL;
-if (!connectionString) {
-  throw new Error("DATABASE_URL is required to run seed");
+function buildDatabaseUrlFromParts() {
+  const user = process.env.db_user ?? process.env.DB_USER;
+  const password = process.env.db_password ?? process.env.DB_PASSWORD;
+  const host = process.env.db_host ?? process.env.DB_HOST ?? "localhost";
+  const port = process.env.db_port ?? process.env.DB_PORT ?? "3306";
+  const database = process.env.db_database ?? process.env.db_dbatabase ?? process.env.DB_DATABASE ?? process.env.DB_DBATABASE;
+  if (!user || !password || !database) return null;
+  return `mysql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${database}`;
 }
-const pool = new Pool({ connectionString });
-const prisma = new PrismaClient({
-  adapter: new PrismaPg(pool)
-});
+if (!process.env.DATABASE_URL) {
+  const built = buildDatabaseUrlFromParts();
+  if (built) {
+    process.env.DATABASE_URL = built;
+  }
+}
+if (!process.env.DATABASE_URL) {
+  throw new Error("Missing DB config. Provide db_user, db_password, db_port, db_database");
+}
+const prisma = new PrismaClient();
 async function main() {
   const ownerEmail = process.env.SEED_OWNER_EMAIL ?? "owner@Kishorivilla.com";
   const ownerPassword = process.env.SEED_OWNER_PASSWORD ?? "changeme";
@@ -78,5 +87,4 @@ main().catch((e) => {
   process.exit(1);
 }).finally(async () => {
   await prisma.$disconnect();
-  await pool.end();
 });

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { supabase } from "@/app/(shared)/lib/supabase";
-export const runtime = "edge";
+import { prisma } from "@/app/(shared)/lib/db";
+export const runtime = "nodejs";
 export const revalidate = 300;
 function formatPrice(price) {
   const n = Number(price);
@@ -18,8 +18,14 @@ const offerCategories = [
 ];
 async function OffersPage() {
   const now = /* @__PURE__ */ new Date();
-  const { data: offersData } = await supabase.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive").eq("isActive", true).gte("validTo", now.toISOString()).order("validTo", { ascending: true });
-  const offers = offersData ?? [];
+  const offers = await prisma.offer.findMany({
+    where: {
+      isActive: true,
+      validTo: { gte: now }
+    },
+    select: { id: true, title: true, description: true, price: true, validFrom: true, validTo: true, isActive: true },
+    orderBy: { validTo: "asc" }
+  });
   return <div className="space-y-10">
     <header className="space-y-4">
       <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-700">
