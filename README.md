@@ -56,7 +56,7 @@ A production-ready hotel website built with Next.js: customer-facing pages for r
 Use one of these (or any Postgres host):
 
 - **[Neon](https://neon.tech)** â€“ Create a project, copy the connection string (pooled recommended for serverless).
-- **[Supabase](https://supabase.com)** â€“ New project â†’ Settings â†’ Database â†’ Connection string (use â€œTransactionâ€ or â€œSessionâ€ mode; for serverless, pooled is better).
+- **[PlanetScale](https://planetscale.com)** â€“ Create a MySQL database and copy connection details.
 - **[Render](https://render.com)** â€“ Create a PostgreSQL instance, copy Internal/External URL.
 
 Use the **pooled** or **serverless** connection string if the provider offers it (e.g. Neonâ€™s pooled URL with `?sslmode=require`).
@@ -67,7 +67,7 @@ In the Vercel project â†’ **Settings â†’ Environment Variables**, add:
 
 | Variable           | Description                    | Example / notes                          |
 |--------------------|--------------------------------|------------------------------------------|
-| `DATABASE_URL`     | PostgreSQL connection string   | From Neon/Supabase/Render (pooled)       |
+| `DATABASE_URL`     | MySQL connection string        | From your MySQL provider                  |
 | `AUTH_SECRET`      | Secret for auth/sessions       | `openssl rand -base64 32`                |
 | `NEXTAUTH_URL`     | Full URL of the deployed app   | `https://your-app.vercel.app`            |
 
@@ -206,7 +206,7 @@ Then ensure `DATABASE_URL` is set in Vercel so the build can reach your Postgres
 - `src/app/(shared)/api/admin/offers/[id]/route.ts` - Admin offer detail/update API endpoint.
 - `src/app/(shared)/api/admin/enquiries/[id]/route.ts` - Admin enquiry status update API endpoint.
 
-- `src/app/(shared)/lib/supabase.ts` - Supabase server/admin client setup.
+- `src/app/(shared)/lib/db.js` - Prisma database client setup.
 - `src/app/(shared)/lib/rate-limit.ts` - Rate-limit utilities for API protection.
 - `src/app/(shared)/lib/api-response.ts` - Standardized JSON/error response helpers.
 - `src/app/(shared)/lib/analytics.ts` - Analytics constants/helpers (including session cookie key).

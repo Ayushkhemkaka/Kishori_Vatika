@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
 export const runtime = "edge";
 const VALID_STATUSES = ["NEW", "CONTACTED", "BOOKED", "CANCELLED"];
@@ -17,7 +17,7 @@ async function PATCH(request, { params }) {
     if (!status || !VALID_STATUSES.includes(status)) {
       return NextResponse.json({ error: "Invalid status" }, { status: 400 });
     }
-    const { data: enquiry, error } = await supabase.from('"Enquiry"').update({ status }).eq("id", id).select("id,status").maybeSingle();
+    const { data: enquiry, error } = await dbClient.from('"Enquiry"').update({ status }).eq("id", id).select("id,status").maybeSingle();
     if (error || !enquiry) {
       return NextResponse.json(
         { error: "Failed to update enquiry" },
@@ -48,3 +48,4 @@ async function PATCH(request, { params }) {
   }
 }
 export { PATCH };
+

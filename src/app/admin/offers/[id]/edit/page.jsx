@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import { notFound } from "next/navigation";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 import { OfferForm } from "../../components/OfferForm";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -7,10 +7,10 @@ async function EditOfferPage({
   params
 }) {
   const { id } = await params;
-  const { data: offer } = await supabase.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl").eq("id", id).maybeSingle();
+  const { data: offer } = await dbClient.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl").eq("id", id).maybeSingle();
   if (!offer) notFound();
-  const { data: features } = await supabase.from('"OfferFeature"').select("id,label,value").eq("offerId", id);
-  const { data: publications } = await supabase.from('"OfferPublication"').select("id,platform,status,externalPostId,errorMessage,createdAt").eq("offerId", id).order("createdAt", { ascending: false });
+  const { data: features } = await dbClient.from('"OfferFeature"').select("id,label,value").eq("offerId", id);
+  const { data: publications } = await dbClient.from('"OfferPublication"').select("id,platform,status,externalPostId,errorMessage,createdAt").eq("offerId", id).order("createdAt", { ascending: false });
   const initial = {
     id: offer.id,
     title: offer.title,
@@ -36,3 +36,4 @@ async function EditOfferPage({
     </div>;
 }
 export default EditOfferPage;
+

@@ -1,9 +1,9 @@
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import { dbClient } from "@/app/(shared)/lib/db-client";
 import { SocialConnectForm } from "./components/SocialConnectForm";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 async function AdminSocialPage() {
-  const { data: accountsData } = await supabase.from('"SocialAccount"').select("id,platform,pageId,accountId,createdAt").order("platform", { ascending: true });
+  const { data: accountsData } = await dbClient.from('"SocialAccount"').select("id,platform,pageId,accountId,createdAt").order("platform", { ascending: true });
   const accounts = accountsData ?? [];
   return <div className="space-y-8">
       <h1 className="text-xl font-semibold text-amber-50">Social accounts</h1>
@@ -34,3 +34,4 @@ async function AdminSocialPage() {
     </div>;
 }
 export default AdminSocialPage;
+

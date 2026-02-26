@@ -1,4 +1,4 @@
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import { dbClient } from "@/app/(shared)/lib/db-client";
 import { AnalyticsCharts } from "./components/AnalyticsCharts";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -7,9 +7,9 @@ async function AdminAnalyticsPage() {
   const thirtyDaysAgo = new Date(now);
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const [visitsRes, eventsRes, enquiriesRes] = await Promise.all([
-    supabase.from('"Visit"').select("createdAt,sessionId").gte("createdAt", thirtyDaysAgo.toISOString()),
-    supabase.from('"AnalyticsEvent"').select("type,offerId,createdAt").gte("createdAt", thirtyDaysAgo.toISOString()),
-    supabase.from('"Enquiry"').select("id", { count: "exact", head: true }).not("offerId", "is", null).gte("createdAt", thirtyDaysAgo.toISOString())
+    dbClient.from('"Visit"').select("createdAt,sessionId").gte("createdAt", thirtyDaysAgo.toISOString()),
+    dbClient.from('"AnalyticsEvent"').select("type,offerId,createdAt").gte("createdAt", thirtyDaysAgo.toISOString()),
+    dbClient.from('"Enquiry"').select("id", { count: "exact", head: true }).not("offerId", "is", null).gte("createdAt", thirtyDaysAgo.toISOString())
   ]);
   const visits = visitsRes.data ?? [];
   const events = eventsRes.data ?? [];
@@ -38,7 +38,7 @@ async function AdminAnalyticsPage() {
     }
   }
   const offerIds = Object.keys(offerClicks);
-  const { data: offers } = offerIds.length ? await supabase.from('"Offer"').select("id,title").in("id", offerIds) : { data: [] };
+  const { data: offers } = offerIds.length ? await dbClient.from('"Offer"').select("id,title").in("id", offerIds) : { data: [] };
   const titleMap = Object.fromEntries((offers ?? []).map((o) => [o.id, o.title]));
   const chartData = visitsByDay.map((entry) => ({
     date: entry.date,
@@ -78,3 +78,4 @@ async function AdminAnalyticsPage() {
     </div>;
 }
 export default AdminAnalyticsPage;
+

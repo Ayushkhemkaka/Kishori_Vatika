@@ -9,7 +9,9 @@ binding = "ASSETS"
 
 # Secrets (set via `wrangler secret put`)
 # AUTH_SECRET
-# SUPABASE_URL
-# SUPABASE_SERVICE_ROLE_KEY
-# SUPABASE_ANON_KEY
+# DB_HOST
+# DB_PORT
+# DB_USER
+# DB_PASSWORD
+# DB_DATABASE
 # NEXT_PUBLIC_SITE_URL

@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import { NextResponse } from "next/server";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 import { logError } from "@/app/(shared)/lib/audit";
 export const runtime = "edge";
@@ -18,7 +18,7 @@ async function POST(request) {
         { status: 400 }
       );
     }
-    const { data, error } = await supabase.from('"UserPreference"').upsert(
+    const { data, error } = await dbClient.from('"UserPreference"').upsert(
       {
         sessionId,
         key,
@@ -44,3 +44,4 @@ async function POST(request) {
   }
 }
 export { POST };
+

@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import { NextResponse } from "next/server";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 export const runtime = "edge";
 async function GET() {
   try {
-    const { data: accounts } = await supabase.from('"SocialAccount"').select("id,platform,pageId,accountId,expiresAt,createdAt");
+    const { data: accounts } = await dbClient.from('"SocialAccount"').select("id,platform,pageId,accountId,expiresAt,createdAt");
     return NextResponse.json(
       (accounts ?? []).map((a) => ({
         id: a.id,
@@ -23,3 +23,4 @@ async function GET() {
   }
 }
 export { GET };
+

@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
 export const runtime = "edge";
 async function GET(_request, { params }) {
@@ -11,13 +11,13 @@ async function GET(_request, { params }) {
   const adminId = session.user.id ?? null;
   const { id } = await params;
   try {
-    const { data: offer, error } = await supabase.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt").eq("id", id).maybeSingle();
+    const { data: offer, error } = await dbClient.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt").eq("id", id).maybeSingle();
     if (error || !offer) {
       return NextResponse.json({ error: "Offer not found" }, { status: 404 });
     }
     const [featuresRes, publicationsRes] = await Promise.all([
-      supabase.from('"OfferFeature"').select("id,label,value").eq("offerId", id),
-      supabase.from('"OfferPublication"').select("id,platform,status,externalPostId,errorMessage,createdAt").eq("offerId", id).order("createdAt", { ascending: false })
+      dbClient.from('"OfferFeature"').select("id,label,value").eq("offerId", id),
+      dbClient.from('"OfferPublication"').select("id,platform,status,externalPostId,errorMessage,createdAt").eq("offerId", id).order("createdAt", { ascending: false })
     ]);
     await logAdminActivity({
       adminId,
@@ -76,12 +76,12 @@ async function PATCH(request, { params }) {
     if (body.isActive != null) offerData.isActive = body.isActive;
     if (body.heroImageUrl !== void 0) offerData.heroImageUrl = body.heroImageUrl ?? null;
     if (Object.keys(offerData).length > 0) {
-      await supabase.from('"Offer"').update(offerData).eq("id", id);
+      await dbClient.from('"Offer"').update(offerData).eq("id", id);
     }
     if (body.features) {
-      await supabase.from('"OfferFeature"').delete().eq("offerId", id);
+      await dbClient.from('"OfferFeature"').delete().eq("offerId", id);
       if (body.features.length > 0) {
-        await supabase.from('"OfferFeature"').insert(
+        await dbClient.from('"OfferFeature"').insert(
           body.features.map((f) => ({
             offerId: id,
             label: f.label,
@@ -90,11 +90,11 @@ async function PATCH(request, { params }) {
         );
       }
     }
-    const { data: offer } = await supabase.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt").eq("id", id).maybeSingle();
+    const { data: offer } = await dbClient.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt").eq("id", id).maybeSingle();
     if (!offer) return NextResponse.json({ error: "Not found" }, { status: 404 });
     const [featuresRes, publicationsRes] = await Promise.all([
-      supabase.from('"OfferFeature"').select("id,label,value").eq("offerId", id),
-      supabase.from('"OfferPublication"').select("id,platform,status,externalPostId,errorMessage,createdAt").eq("offerId", id).order("createdAt", { ascending: false })
+      dbClient.from('"OfferFeature"').select("id,label,value").eq("offerId", id),
+      dbClient.from('"OfferPublication"').select("id,platform,status,externalPostId,errorMessage,createdAt").eq("offerId", id).order("createdAt", { ascending: false })
     ]);
     return NextResponse.json({
       id: offer.id,
@@ -137,3 +137,4 @@ async function PATCH(request, { params }) {
 }
 export { GET };
 export { PATCH };
+

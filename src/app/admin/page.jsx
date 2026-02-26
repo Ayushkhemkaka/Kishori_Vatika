@@ -1,12 +1,12 @@
-import Link from "next/link";
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import Link from "next/link";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 async function AdminDashboardPage() {
   const [visitCountRes, enquiryCountRes, offerCountRes] = await Promise.all([
-    supabase.from('"Visit"').select("id", { count: "exact", head: true }),
-    supabase.from('"Enquiry"').select("id", { count: "exact", head: true }),
-    supabase.from('"Offer"').select("id", { count: "exact", head: true }).eq("isActive", true)
+    dbClient.from('"Visit"').select("id", { count: "exact", head: true }),
+    dbClient.from('"Enquiry"').select("id", { count: "exact", head: true }),
+    dbClient.from('"Offer"').select("id", { count: "exact", head: true }).eq("isActive", true)
   ]);
   const visitCount = visitCountRes.count ?? 0;
   const enquiryCount = enquiryCountRes.count ?? 0;
@@ -18,21 +18,21 @@ async function AdminDashboardPage() {
           <p className="text-2xl font-semibold text-amber-100">{visitCount}</p>
           <p className="text-sm text-slate-400">Total visits</p>
           <Link href="/admin/analytics" className="mt-2 text-xs text-amber-200 hover:text-amber-100">
-            View analytics â†’
+            View analytics Ã¢â€ â€™
           </Link>
         </div>
         <div className="rounded-xl border border-white/10 bg-slate-900/60 p-5">
           <p className="text-2xl font-semibold text-amber-100">{enquiryCount}</p>
           <p className="text-sm text-slate-400">Enquiries</p>
           <Link href="/admin/enquiries" className="mt-2 text-xs text-amber-200 hover:text-amber-100">
-            Manage enquiries â†’
+            Manage enquiries Ã¢â€ â€™
           </Link>
         </div>
         <div className="rounded-xl border border-white/10 bg-slate-900/60 p-5">
           <p className="text-2xl font-semibold text-amber-100">{offerCount}</p>
           <p className="text-sm text-slate-400">Active offers</p>
           <Link href="/admin/offers" className="mt-2 text-xs text-amber-200 hover:text-amber-100">
-            Manage offers â†’
+            Manage offers Ã¢â€ â€™
           </Link>
         </div>
       </div>
@@ -59,3 +59,4 @@ async function AdminDashboardPage() {
     </div>;
 }
 export default AdminDashboardPage;
+

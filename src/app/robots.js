@@ -1,4 +1,4 @@
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:5001";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:5002";
 function robots() {
   return {
     rules: {

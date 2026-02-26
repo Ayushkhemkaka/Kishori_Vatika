@@ -1,4 +1,4 @@
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import { dbClient } from "@/app/(shared)/lib/db-client";
 import { createEnquirySchema } from "@/app/(shared)/lib/validation/enquiry";
 import { errorResponse, jsonResponse } from "@/app/(shared)/lib/api-response";
 import { checkRateLimit, getClientIdentifier } from "@/app/(shared)/lib/rate-limit";
@@ -29,7 +29,7 @@ async function POST(request) {
       });
     }
     const data = parsed.data;
-    const { data: enquiry, error } = await supabase.from('"Enquiry"').insert({
+    const { data: enquiry, error } = await dbClient.from('"Enquiry"').insert({
       name: data.name,
       email: data.email,
       phone: data.phone ?? null,
@@ -44,7 +44,7 @@ async function POST(request) {
       return errorResponse("Failed to create enquiry", 500);
     }
     const sessionId = request.cookies.get(ANALYTICS_SESSION_COOKIE)?.value ?? request.cookies.get("sessionId")?.value ?? request.headers.get("x-session-id") ?? identifier;
-    const { error: analyticsError } = await supabase.from('"AnalyticsEvent"').insert({
+    const { error: analyticsError } = await dbClient.from('"AnalyticsEvent"').insert({
       type: ANALYTICS_TYPE,
       sessionId,
       offerId: data.offerId ?? null,
@@ -75,3 +75,4 @@ async function POST(request) {
   }
 }
 export { POST };
+

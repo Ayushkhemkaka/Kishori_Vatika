@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
 import { publishToFacebookPage, publishToInstagram } from "@/app/(shared)/lib/meta-graph";
 export const runtime = "edge";
@@ -19,7 +19,7 @@ async function POST(request) {
         { status: 400 }
       );
     }
-    const { data: offer } = await supabase.from('"Offer"').select("id,title,description,price,heroImageUrl").eq("id", offerId).maybeSingle();
+    const { data: offer } = await dbClient.from('"Offer"').select("id,title,description,price,heroImageUrl").eq("id", offerId).maybeSingle();
     if (!offer) {
       return NextResponse.json({ error: "Offer not found" }, { status: 404 });
     }
@@ -32,7 +32,7 @@ async function POST(request) {
       imageUrl: offer.heroImageUrl,
       price: `INR ${Number(offer.price).toLocaleString("en-IN")}`
     };
-    const { data: accounts } = await supabase.from('"SocialAccount"').select("id,platform,pageId,accountId,accessToken").in("platform", platforms);
+    const { data: accounts } = await dbClient.from('"SocialAccount"').select("id,platform,pageId,accountId,accessToken").in("platform", platforms);
     const accountByPlatform = new Map(
       (accounts ?? []).map((a) => [a.platform, a])
     );
@@ -40,7 +40,7 @@ async function POST(request) {
     for (const platform of platforms) {
       const account = accountByPlatform.get(platform);
       if (!account) {
-        await supabase.from('"OfferPublication"').insert({
+        await dbClient.from('"OfferPublication"').insert({
           offerId,
           platform,
           status: "FAILED",
@@ -60,7 +60,7 @@ async function POST(request) {
             account.accessToken,
             payload
           );
-          await supabase.from('"OfferPublication"').insert({
+          await dbClient.from('"OfferPublication"').insert({
             offerId,
             platform,
             status: "SUCCESS",
@@ -74,7 +74,7 @@ async function POST(request) {
             account.accessToken,
             payload
           );
-          await supabase.from('"OfferPublication"').insert({
+          await dbClient.from('"OfferPublication"').insert({
             offerId,
             platform,
             status: "SUCCESS",
@@ -84,7 +84,7 @@ async function POST(request) {
           results.push({ platform, status: "SUCCESS" });
         } else {
           const msg = platform === "FACEBOOK" ? "Facebook page ID missing" : "Instagram account ID missing";
-          await supabase.from('"OfferPublication"').insert({
+          await dbClient.from('"OfferPublication"').insert({
             offerId,
             platform,
             status: "FAILED",
@@ -95,7 +95,7 @@ async function POST(request) {
         }
       } catch (err) {
         const message = err instanceof Error ? err.message : "Unknown error";
-        await supabase.from('"OfferPublication"').insert({
+        await dbClient.from('"OfferPublication"').insert({
           offerId,
           platform,
           status: "FAILED",
@@ -128,3 +128,4 @@ async function POST(request) {
   }
 }
 export { POST };
+

@@ -1,12 +1,12 @@
-import Link from "next/link";
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import Link from "next/link";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 async function AdminOffersPage() {
-  const { data: offersData } = await supabase.from('"Offer"').select("id,title,isActive,createdAt").order("createdAt", { ascending: false });
+  const { data: offersData } = await dbClient.from('"Offer"').select("id,title,isActive,createdAt").order("createdAt", { ascending: false });
   const offers = offersData ?? [];
   const offerIds = offers.map((o) => o.id);
-  const { data: publications } = offerIds.length ? await supabase.from('"OfferPublication"').select("offerId").in("offerId", offerIds) : { data: [] };
+  const { data: publications } = offerIds.length ? await dbClient.from('"OfferPublication"').select("offerId").in("offerId", offerIds) : { data: [] };
   const publicationCounts = /* @__PURE__ */ new Map();
   for (const p of publications ?? []) {
     const current = publicationCounts.get(p.offerId) ?? 0;
@@ -48,3 +48,4 @@ async function AdminOffersPage() {
     </div>;
 }
 export default AdminOffersPage;
+

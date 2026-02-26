@@ -10,7 +10,7 @@ const body = Source_Sans_3({
   variable: "--font-body",
   subsets: ["latin"]
 });
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:5001";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:5002";
 const metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: "KiSHORi VATiKA", template: "%s - KiSHORi VATiKA" },

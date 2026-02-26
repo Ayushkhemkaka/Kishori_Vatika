@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
 export const runtime = "edge";
 async function GET() {
@@ -10,13 +10,13 @@ async function GET() {
   }
   const adminId = session.user.id ?? null;
   try {
-    const { data: offersData, error: offersError } = await supabase.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt").order("createdAt", { ascending: false });
+    const { data: offersData, error: offersError } = await dbClient.from('"Offer"').select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt").order("createdAt", { ascending: false });
     if (offersError) throw offersError;
     const offers = offersData ?? [];
     const offerIds = offers.map((o) => o.id);
     const [featuresRes, publicationsRes] = await Promise.all([
-      offerIds.length ? supabase.from('"OfferFeature"').select("id,offerId,label,value").in("offerId", offerIds) : Promise.resolve({ data: [] }),
-      offerIds.length ? supabase.from('"OfferPublication"').select("id,offerId,platform,status,externalPostId,errorMessage,createdAt").in("offerId", offerIds).order("createdAt", { ascending: false }) : Promise.resolve({ data: [] })
+      offerIds.length ? dbClient.from('"OfferFeature"').select("id,offerId,label,value").in("offerId", offerIds) : Promise.resolve({ data: [] }),
+      offerIds.length ? dbClient.from('"OfferPublication"').select("id,offerId,platform,status,externalPostId,errorMessage,createdAt").in("offerId", offerIds).order("createdAt", { ascending: false }) : Promise.resolve({ data: [] })
     ]);
     const features = featuresRes.data ?? [];
     const publications = publicationsRes.data ?? [];
@@ -89,7 +89,7 @@ async function POST(request) {
         { status: 400 }
       );
     }
-    const { data: created, error: createError } = await supabase.from('"Offer"').insert({
+    const { data: created, error: createError } = await dbClient.from('"Offer"').insert({
       title,
       description,
       price: Number(price),
@@ -106,7 +106,7 @@ async function POST(request) {
       label: f.label || "",
       value: f.value || ""
     }));
-    const { data: createdFeatures } = featureRows.length ? await supabase.from('"OfferFeature"').insert(featureRows).select("id,label,value") : { data: [] };
+    const { data: createdFeatures } = featureRows.length ? await dbClient.from('"OfferFeature"').insert(featureRows).select("id,label,value") : { data: [] };
     await logAdminActivity({
       adminId,
       action: "offer.create",
@@ -147,3 +147,4 @@ async function POST(request) {
 }
 export { GET };
 export { POST };
+

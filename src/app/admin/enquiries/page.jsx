@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import Link from "next/link";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 import { EnquiryStatusSelect } from "./components/EnquiryStatusSelect";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -11,13 +11,13 @@ async function AdminEnquiriesPage({
   const currentPage = Math.max(1, Number(page ?? "1") || 1);
   const skip = (currentPage - 1) * PAGE_SIZE;
   const [enquiriesRes, totalCountRes] = await Promise.all([
-    supabase.from('"Enquiry"').select("id,name,email,checkIn,checkOut,status,createdAt,offerId").order("createdAt", { ascending: false }).range(skip, skip + PAGE_SIZE - 1),
-    supabase.from('"Enquiry"').select("id", { count: "exact", head: true })
+    dbClient.from('"Enquiry"').select("id,name,email,checkIn,checkOut,status,createdAt,offerId").order("createdAt", { ascending: false }).range(skip, skip + PAGE_SIZE - 1),
+    dbClient.from('"Enquiry"').select("id", { count: "exact", head: true })
   ]);
   const enquiries = enquiriesRes.data ?? [];
   const totalCount = totalCountRes.count ?? 0;
   const offerIds = enquiries.map((e) => e.offerId).filter((id) => Boolean(id));
-  const { data: offers } = offerIds.length ? await supabase.from('"Offer"').select("id,title").in("id", offerIds) : { data: [] };
+  const { data: offers } = offerIds.length ? await dbClient.from('"Offer"').select("id,title").in("id", offerIds) : { data: [] };
   const offerMap = new Map((offers ?? []).map((o) => [o.id, o.title]));
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
   const hasPrev = currentPage > 1;
@@ -101,3 +101,4 @@ async function AdminEnquiriesPage({
     </div>;
 }
 export default AdminEnquiriesPage;
+

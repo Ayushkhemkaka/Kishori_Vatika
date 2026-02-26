@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient } from "@/app/(shared)/lib/db-client";
 import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
 export const runtime = "edge";
 async function GET() {
@@ -10,7 +10,7 @@ async function GET() {
   }
   const adminId = session.user.id ?? null;
   try {
-    const { data: accounts } = await supabase.from('"SocialAccount"').select("id,platform,pageId,accountId,createdAt");
+    const { data: accounts } = await dbClient.from('"SocialAccount"').select("id,platform,pageId,accountId,createdAt");
     return NextResponse.json(
       (accounts ?? []).map((a) => ({
         id: a.id,
@@ -61,7 +61,7 @@ async function POST(request) {
         { status: 400 }
       );
     }
-    const { data: existing } = await supabase.from('"SocialAccount"').select("id").eq("platform", platform).maybeSingle();
+    const { data: existing } = await dbClient.from('"SocialAccount"').select("id").eq("platform", platform).maybeSingle();
     const data = {
       platform,
       pageId: platform === "FACEBOOK" ? pageId.trim() : null,
@@ -69,7 +69,7 @@ async function POST(request) {
       accessToken: accessToken.trim()
     };
     if (existing) {
-      await supabase.from('"SocialAccount"').update(data).eq("id", existing.id);
+      await dbClient.from('"SocialAccount"').update(data).eq("id", existing.id);
       await logAdminActivity({
         adminId,
         action: "social.update",
@@ -83,7 +83,7 @@ async function POST(request) {
         message: "Account updated"
       });
     }
-    const { data: created } = await supabase.from('"SocialAccount"').insert(data).select("id").maybeSingle();
+    const { data: created } = await dbClient.from('"SocialAccount"').insert(data).select("id").maybeSingle();
     if (created?.id) {
       await logAdminActivity({
         adminId,
@@ -114,3 +114,4 @@ async function POST(request) {
 }
 export { GET };
 export { POST };
+
