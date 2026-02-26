@@ -3,15 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const globalForPrisma = globalThis;
 
 function buildDatabaseUrlFromParts() {
-  const user = process.env.db_user ?? process.env.DB_USER;
-  const password = process.env.db_password ?? process.env.DB_PASSWORD;
-  const host = process.env.db_host ?? process.env.DB_HOST ?? "localhost";
-  const port = process.env.db_port ?? process.env.DB_PORT ?? "3306";
-  const database =
-    process.env.db_database ??
-    process.env.db_dbatabase ??
-    process.env.DB_DATABASE ??
-    process.env.DB_DBATABASE;
+  const user = process.env.DB_USER;
+  const password = process.env.DB_PASSWORD;
+  const host = process.env.DB_HOST ?? "localhost";
+  const port = process.env.DB_PORT ?? "3306";
+  const database = process.env.DB_DATABASE;
 
   if (!user || !password || !database) {
     return null;

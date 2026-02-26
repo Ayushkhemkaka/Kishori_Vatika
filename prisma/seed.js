@@ -1,11 +1,11 @@
 import { PrismaClient, UserRole } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
 function buildDatabaseUrlFromParts() {
-  const user = process.env.db_user ?? process.env.DB_USER;
-  const password = process.env.db_password ?? process.env.DB_PASSWORD;
-  const host = process.env.db_host ?? process.env.DB_HOST ?? "localhost";
-  const port = process.env.db_port ?? process.env.DB_PORT ?? "3306";
-  const database = process.env.db_database ?? process.env.db_dbatabase ?? process.env.DB_DATABASE ?? process.env.DB_DBATABASE;
+  const user = process.env.DB_USER;
+  const password = process.env.DB_PASSWORD;
+  const host = process.env.DB_HOST ?? "localhost";
+  const port = process.env.DB_PORT ?? "3306";
+  const database = process.env.DB_DATABASE;
   if (!user || !password || !database) return null;
   return `mysql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${database}`;
 }
@@ -16,7 +16,7 @@ if (!process.env.DATABASE_URL) {
   }
 }
 if (!process.env.DATABASE_URL) {
-  throw new Error("Missing DB config. Provide db_user, db_password, db_port, db_database");
+  throw new Error("Missing DB config. Provide DB_USER, DB_PASSWORD, DB_PORT, DB_DATABASE");
 }
 const prisma = new PrismaClient();
 async function main() {
