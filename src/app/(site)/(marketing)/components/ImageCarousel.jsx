@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
-export function ImageCarousel({ images = [], title, className = "" }) {
+export function ImageCarousel({ images = [], title, className = "", containerClassName = "" }) {
   const normalizedImages = useMemo(() => {
     if (!Array.isArray(images) || images.length === 0) {
       return ["/hero-hotel.jpg"];
@@ -36,6 +36,18 @@ export function ImageCarousel({ images = [], title, className = "" }) {
     setActiveIndex((prev) => (prev + 1) % normalizedImages.length);
   };
 
+  const handlePrevClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    goPrev();
+  };
+
+  const handleNextClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    goNext();
+  };
+
   const handleKeyDown = (event) => {
     if (!hasMultiple) return;
     if (event.key === "ArrowLeft") {
@@ -50,7 +62,7 @@ export function ImageCarousel({ images = [], title, className = "" }) {
 
   return (
     <div
-      className="relative overflow-hidden rounded-3xl border border-emerald-100 bg-white"
+      className={`relative overflow-hidden rounded-3xl border border-emerald-100 bg-white ${containerClassName}`}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       aria-label={`${title} image carousel`}
@@ -65,26 +77,30 @@ export function ImageCarousel({ images = [], title, className = "" }) {
       />
 
       {hasMultiple ? (
-        <div className="pointer-events-none absolute inset-x-0 bottom-4 flex items-center justify-between px-4">
-          <button
-            type="button"
-            onClick={goPrev}
-            className="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-emerald-200 bg-black/55 text-white transition hover:bg-black/70"
-            aria-label={`Previous ${title} image`}
-          >
-            &#8592;
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            className="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-emerald-200 bg-black/55 text-white transition hover:bg-black/70"
-            aria-label={`Next ${title} image`}
-          >
-            &#8594;
-          </button>
-        </div>
+        <>
+          <div className="pointer-events-none absolute right-4 top-4 rounded-full border border-emerald-200 bg-black/65 px-3 py-1 text-xs font-semibold text-white">
+            {activeIndex + 1} / {normalizedImages.length}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4">
+            <button
+              type="button"
+              onClick={handlePrevClick}
+              className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-emerald-200 bg-black/60 text-white transition hover:bg-black/80"
+              aria-label={`Previous ${title} image`}
+            >
+              &#8592;
+            </button>
+            <button
+              type="button"
+              onClick={handleNextClick}
+              className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-emerald-200 bg-black/60 text-white transition hover:bg-black/80"
+              aria-label={`Next ${title} image`}
+            >
+              &#8594;
+            </button>
+          </div>
+        </>
       ) : null}
     </div>
   );
 }
-

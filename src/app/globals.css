@@ -15,10 +15,10 @@
   --text-muted: #6b645d;
   --text-faint: #8a827a;
   --shadow-color: rgba(16, 185, 129, 0.22);
-  --container-max: 86rem;
-  --gutter: 0.875rem;
-  --gutter-sm: 1rem;
-  --gutter-lg: 0.75rem;
+  --container-max: 80rem;
+  --gutter: 1rem;
+  --gutter-sm: 1.25rem;
+  --gutter-lg: 1.25rem;
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;

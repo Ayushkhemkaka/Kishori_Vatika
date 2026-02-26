@@ -7,7 +7,7 @@ function MarketingLayout({ children }) {
   return <div className="min-h-screen text-stone-900">
     <PageViewTracker />
     <header className="border-b border-emerald-200/60 bg-white/80 backdrop-blur">
-      <div className="kv-container flex items-center justify-between gap-3 py-3 sm:gap-4 sm:py-4">
+      <div className="kv-container hidden items-center justify-between gap-6 py-4 lg:flex">
         <Link href="/" className="flex min-w-0 items-center gap-2.5 sm:gap-3">
           <Image
             src="/logo.png"
@@ -48,14 +48,84 @@ function MarketingLayout({ children }) {
           <ThemeToggle />
           <Link
             href="/enquiry"
-            className="hidden rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500 sm:inline-flex"
+            className="inline-flex rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
           >
             Enquire now
           </Link>
         </div>
       </div>
+
+      <div className="kv-container hidden py-3 sm:block lg:hidden">
+        <div className="flex items-center justify-between gap-3">
+          <Link href="/" className="flex min-w-0 items-center gap-2.5">
+            <Image
+              src="/logo.png"
+              alt="KiSHORi VATiKA logo"
+              width={40}
+              height={40}
+              className="h-12 w-12 shrink-0 object-contain"
+              priority
+            />
+            <div className="min-w-0 leading-tight">
+              <div className="truncate text-xl font-semibold tracking-[0.07em] text-emerald-800/80 font-display">
+                <span className="font-forte">KiSHORi VATiKA</span>
+              </div>
+              <div className="text-xs text-stone-500">Resorts & Restaurant</div>
+            </div>
+          </Link>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <Link
+              href="/enquiry"
+              className="inline-flex rounded-full bg-emerald-600 px-3.5 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+            >
+              Enquire now
+            </Link>
+          </div>
+        </div>
+        <nav className="mt-3 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t border-emerald-200/60 pt-3 text-base font-medium text-stone-700">
+          <Link href="/" className="transition-colors hover:text-emerald-700">
+            Home
+          </Link>
+          <Link href="/facilities" className="transition-colors hover:text-emerald-700">
+            Facilities
+          </Link>
+          <Link href="/rooms" className="transition-colors hover:text-emerald-700">
+            Rooms
+          </Link>
+          <Link href="/offers" className="transition-colors hover:text-emerald-700">
+            Offers
+          </Link>
+          <Link href="/about" className="transition-colors hover:text-emerald-700">
+            About
+          </Link>
+          <Link href="/contact" className="transition-colors hover:text-emerald-700">
+            Contact
+          </Link>
+        </nav>
+      </div>
+
       <div className="border-t border-emerald-200/60 pb-4 pt-3 sm:hidden">
         <div className="kv-container">
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <Link href="/" className="flex min-w-0 items-center gap-2">
+            <Image
+              src="/logo.png"
+              alt="KiSHORi VATiKA logo"
+              width={36}
+              height={36}
+              className="h-10 w-10 shrink-0 object-contain"
+              priority
+            />
+            <div className="min-w-0 leading-tight">
+              <div className="truncate text-lg font-semibold tracking-[0.07em] text-emerald-800/80 font-display">
+                <span className="font-forte">KiSHORi VATiKA</span>
+              </div>
+              <div className="text-[11px] text-stone-500">Resorts & Restaurant</div>
+            </div>
+          </Link>
+          <ThemeToggle />
+        </div>
         <details className="rounded-xl border border-emerald-100 bg-white/80 px-4 py-3">
           <summary className="cursor-pointer text-sm font-semibold text-emerald-800">
             Menu

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { supabase } from "@/app/(shared)/lib/supabase";
 import { roomCategories } from "./rooms/room-data";
 import { facilities } from "./facilities/facility-data";
+import { ImageCarousel } from "./components/ImageCarousel";
 export const runtime = "edge";
 export const revalidate = 300;
 const signatureMoments = [
@@ -135,31 +136,12 @@ async function MarketingHomePage() {
                   {facility.badge}
                 </span>
                 <div className="space-y-2">
-                  <div className="overflow-hidden rounded-xl border border-emerald-100 bg-stone-100/70">
-                    <Image
-                      src={facility.images?.[0] ?? "/hero-hotel.jpg"}
-                      alt={`${facility.title} preview`}
-                      width={640}
-                      height={420}
-                      className="h-40 w-full object-cover"
-                    />
-                  </div>
-                  <div className="flex gap-2 overflow-x-auto pb-1">
-                    {(facility.images ?? []).map((imageSrc, index) => <button
-                      key={`${facility.title}-${index}`}
-                      type="button"
-                      className="overflow-hidden rounded-md border border-emerald-100 bg-white"
-                      aria-label={`View ${facility.title} image ${index + 1}`}
-                    >
-                      <Image
-                        src={imageSrc}
-                        alt={`${facility.title} thumbnail ${index + 1}`}
-                        width={96}
-                        height={64}
-                        className="h-14 w-20 object-cover"
-                      />
-                    </button>)}
-                  </div>
+                  <ImageCarousel
+                    images={facility.images}
+                    title={facility.title}
+                    className="h-40 w-full object-cover"
+                    containerClassName="rounded-xl border border-emerald-100 bg-stone-100/70"
+                  />
                 </div>
                 <h3 className="text-base font-semibold text-stone-900 font-display">
                   {facility.title}
@@ -283,31 +265,12 @@ async function MarketingHomePage() {
                   {room.badge}
                 </span>
                 <div className="space-y-2">
-                  <div className="overflow-hidden rounded-xl border border-emerald-100 bg-stone-100/70">
-                    <Image
-                      src={room.images?.[0] ?? "/hero-hotel.jpg"}
-                      alt={`${room.title} preview`}
-                      width={640}
-                      height={420}
-                      className="h-40 w-full object-cover"
-                    />
-                  </div>
-                  <div className="flex gap-2 overflow-x-auto pb-1">
-                    {(room.images ?? []).map((imageSrc, index) => <button
-                      key={`${room.title}-${index}`}
-                      type="button"
-                      className="overflow-hidden rounded-md border border-emerald-100 bg-white"
-                      aria-label={`View ${room.title} image ${index + 1}`}
-                    >
-                      <Image
-                        src={imageSrc}
-                        alt={`${room.title} thumbnail ${index + 1}`}
-                        width={96}
-                        height={64}
-                        className="h-14 w-20 object-cover"
-                      />
-                    </button>)}
-                  </div>
+                  <ImageCarousel
+                    images={room.images}
+                    title={room.title}
+                    className="h-40 w-full object-cover"
+                    containerClassName="rounded-xl border border-emerald-100 bg-stone-100/70"
+                  />
                 </div>
                 <h3 className="text-base font-semibold text-stone-900 font-display">
                   {room.title}
