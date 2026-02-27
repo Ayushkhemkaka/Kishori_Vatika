@@ -1,5 +1,11 @@
 import { PrismaClient, UserRole } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
+
+function withPepper(password) {
+  const pepper = process.env.AUTH_PASSWORD_PEPPER ?? "";
+  return `${password}${pepper}`;
+}
+
 function buildDatabaseUrlFromParts() {
   const user = process.env.DB_USER;
   const password = process.env.DB_PASSWORD;
@@ -26,7 +32,7 @@ async function main() {
     where: { email: ownerEmail }
   });
   if (!existingOwner) {
-    const hashedPassword = await bcrypt.hash(ownerPassword, 10);
+    const hashedPassword = await bcrypt.hash(withPepper(ownerPassword), 12);
     await prisma.user.create({
       data: {
         email: ownerEmail,

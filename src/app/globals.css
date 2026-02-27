@@ -75,6 +75,13 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@font-face {
+  font-family: "Forte";
+  src: local("Forte"), local("Forte Regular"), url("/fonts/FORTE.TTF") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 body {
   background: var(--page-bg), var(--page-pattern);
   color: var(--foreground);

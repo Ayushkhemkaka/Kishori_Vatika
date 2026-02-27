@@ -8,6 +8,7 @@ function buildDatabaseUrlFromParts() {
   const host = process.env.DB_HOST ?? "localhost";
   const port = process.env.DB_PORT ?? "3306";
   const database = process.env.DB_DATABASE;
+  const sslAccept = process.env.DB_SSL_ACCEPT;
 
   if (!user || !password || !database) {
     return null;
@@ -16,10 +17,17 @@ function buildDatabaseUrlFromParts() {
   return `mysql://${encodeURIComponent(user)}:${encodeURIComponent(password)}@${host}:${port}/${database}`;
 }
 
+function appendSslAccept(url) {
+  const sslAccept = process.env.DB_SSL_ACCEPT;
+  if (!sslAccept) return url;
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}sslaccept=${encodeURIComponent(sslAccept)}`;
+}
+
 if (!process.env.DATABASE_URL) {
   const built = buildDatabaseUrlFromParts();
   if (built) {
-    process.env.DATABASE_URL = built;
+    process.env.DATABASE_URL = appendSslAccept(built);
   }
 }
 

@@ -1,6 +1,6 @@
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/app/(shared)/lib/db";
-import { verifyPassword } from "@/app/(shared)/lib/auth-password";
+import { hashPassword, isPasswordHashed, verifyPassword } from "@/app/(shared)/lib/auth-password";
 const OWNER_ROLE = "OWNER";
 const authConfig = {
   secret: process.env.AUTH_SECRET,
@@ -23,6 +23,17 @@ const authConfig = {
         if (!user.password) return null;
         const isValid = await verifyPassword(password, user.password);
         if (!isValid) return null;
+        if (!isPasswordHashed(user.password)) {
+          try {
+            const upgradedHash = await hashPassword(password);
+            await prisma.user.update({
+              where: { id: user.id },
+              data: { password: upgradedHash }
+            });
+          } catch (err) {
+            console.warn("Failed to upgrade legacy admin password hash", err);
+          }
+        }
         return {
           id: user.id,
           email: user.email,
