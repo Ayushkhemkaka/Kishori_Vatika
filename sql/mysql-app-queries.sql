@@ -1,10 +1,10 @@
 -- KiSHORi VATiKA - MySQL schema + application query templates
 -- MySQL 8.0+
 
-CREATE DATABASE IF NOT EXISTS kv_website
+CREATE DATABASE IF NOT EXISTS u400202508_kv_website
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
-USE kv_website;
+USE  u400202508_kv_website;
 
 SET NAMES utf8mb4;
 

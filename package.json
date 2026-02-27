@@ -11,8 +11,8 @@
                     "prisma:generate": "prisma generate",
                     "postinstall": "npm run prisma:generate",
                     "db:init":  "node scripts/run-sql-on-build.cjs",
-                    "build":  "npm run prisma:generate \u0026\u0026 next build",
-                    "build:cf":  "npm run prisma:generate \u0026\u0026 npx @cloudflare/next-on-pages \u0026\u0026 node scripts/write-assetsignore.cjs",
+                    "build":  "npm run prisma:generate \u0026\u0026 npm run db:init \u0026\u0026 next build",
+                    "build:cf":  "npm run prisma:generate \u0026\u0026 npm run db:init \u0026\u0026 npx @cloudflare/next-on-pages \u0026\u0026 node scripts/write-assetsignore.cjs",
                     "start":  "next start -p 5002",
                     "lint":  "eslint",
                     "test":  "vitest run"
