@@ -2,14 +2,30 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30;
+const DEVICE_COOKIE_NAME = "admin-device";
 function generateSessionId() {
   return `sess_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 15)}`;
 }
+function getSessionDeviceId(req) {
+  return (
+    req.auth?.deviceId ??
+    req.auth?.user?.deviceId ??
+    req.auth?.token?.deviceId ??
+    null
+  );
+}
+
 var stdin_default = auth((req) => {
   const pathname = req.nextUrl.pathname;
   const isAdmin = pathname.startsWith("/admin");
   const isLoginPage = pathname.startsWith("/admin/login");
+  const deviceCookie = req.cookies.get(DEVICE_COOKIE_NAME)?.value;
+  const sessionDeviceId = getSessionDeviceId(req);
+  const isDeviceMatch = sessionDeviceId && deviceCookie === sessionDeviceId;
   if (isAdmin && !isLoginPage && !req.auth) {
+    return Response.redirect(new URL("/admin/login", req.nextUrl.origin));
+  }
+  if (isAdmin && !isLoginPage && req.auth && !isDeviceMatch) {
     return Response.redirect(new URL("/admin/login", req.nextUrl.origin));
   }
   const res = NextResponse.next();

@@ -1,7 +1,27 @@
 "use client";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+const DEVICE_COOKIE_NAME = "admin-device";
+const DEVICE_COOKIE_MAXAGE = 60 * 60 * 24 * 365;
+
+function buildDeviceId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
+function readDeviceId() {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(new RegExp(`(?:^|; )${DEVICE_COOKIE_NAME}=([^;]+)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function writeDeviceId(value) {
+  if (typeof document === "undefined") return;
+  document.cookie = `${DEVICE_COOKIE_NAME}=${encodeURIComponent(value)}; max-age=${DEVICE_COOKIE_MAXAGE}; path=/; samesite=lax`;
+}
 function AdminLoginPageContent() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/admin";
@@ -9,6 +29,15 @@ function AdminLoginPageContent() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deviceId, setDeviceId] = useState(() => readDeviceId() ?? buildDeviceId());
+
+  useEffect(() => {
+    if (!deviceId) return;
+    const existing = readDeviceId();
+    if (existing === deviceId) return;
+    writeDeviceId(deviceId);
+  }, [deviceId]);
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -17,6 +46,7 @@ function AdminLoginPageContent() {
       const result = await signIn("credentials", {
         email: email.trim().toLowerCase(),
         password,
+        deviceId,
         redirect: false,
         callbackUrl
       });

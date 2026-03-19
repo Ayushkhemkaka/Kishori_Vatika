@@ -31,10 +31,50 @@ if (!process.env.DATABASE_URL) {
   }
 }
 
-const prisma = globalForPrisma.prisma ?? new PrismaClient();
+let prisma;
+function createFallbackPrisma(error) {
+  const createRejectingProxy = () =>
+    new Proxy(
+      () => Promise.reject(error),
+      {
+        apply() {
+          return Promise.reject(error);
+        }
+      }
+    );
 
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+  const handler = {
+    get(target, prop) {
+      if (prop === "$connect" || prop === "$disconnect") {
+        return async () => {
+          return Promise.resolve();
+        };
+      }
+      if (prop === "$on") {
+        return () => void 0;
+      }
+      // Return a proxy that resolves any deeper call into a rejecting promise
+      return new Proxy(
+        {},
+        {
+          get() {
+            return createRejectingProxy();
+          }
+        }
+      );
+    }
+  };
+  console.error("Prisma client initialization failed", error);
+  return new Proxy({}, handler);
+}
+
+try {
+  prisma = globalForPrisma.prisma ?? new PrismaClient();
+  if (process.env.NODE_ENV !== "production") {
+    globalForPrisma.prisma = prisma;
+  }
+} catch (error) {
+  prisma = createFallbackPrisma(error);
 }
 
 export { prisma };

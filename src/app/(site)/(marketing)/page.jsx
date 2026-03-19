@@ -16,18 +16,41 @@ function formatPrice(price) {
   const n = Number(price);
   return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;
 }
+
+async function fetchGoogleReviews() {
+  try {
+    const base = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "http://localhost:5002";
+    const response = await fetch(`${base}/api/google-reviews`, {
+      next: { revalidate: 300 }
+    });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
 async function MarketingHomePage() {
   const now = /* @__PURE__ */ new Date();
-  const activeOffers = await prisma.offer.findMany({
-    where: {
-      isActive: true,
-      validFrom: { lte: now },
-      validTo: { gte: now }
-    },
-    select: { id: true, title: true, description: true, price: true, validFrom: true, validTo: true, isActive: true },
-    orderBy: { validTo: "asc" },
-    take: 6
-  });
+  let activeOffers = [];
+  try {
+    activeOffers = await prisma.offer.findMany({
+      where: {
+        isActive: true,
+        validFrom: { lte: now },
+        validTo: { gte: now }
+      },
+      select: { id: true, title: true, description: true, price: true, validFrom: true, validTo: true, isActive: true },
+      orderBy: { validTo: "asc" },
+      take: 6
+    });
+  } catch (error) {
+    console.error("Unable to load offers", error);
+  }
+  const googleReviews = await fetchGoogleReviews();
+  const googleReviewLink = process.env.GOOGLE_PLACE_ID
+    ? `https://search.google.com/local/writereview?placeid=${process.env.GOOGLE_PLACE_ID}`
+    : "https://search.google.com/";
+  const highlightedReviews = googleReviews?.reviews ?? [];
   return <div className="space-y-16">
       <section className="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] xl:items-center">
         <div className="space-y-6 text-center sm:text-left">
@@ -48,7 +71,7 @@ async function MarketingHomePage() {
            come together. Our resort offers spacious rooms, modern amenities, a beautiful lawn, a 
            swimming pool, lush surroundings, and warm hospitality to make every stay memorable. 
            Whether you are planning a relaxing family getaway, a grand wedding, or a special 
-           celebration, Kishori Vatika provides the ideal setting with elegant venues, delicious 
+           celebration, KiSHORi VATiKA provides the ideal setting with elegant venues, delicious 
            dining, and personalized service.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
@@ -373,6 +396,51 @@ async function MarketingHomePage() {
             </Link>{" "}
             and we will tailor something for your dates.
           </p>}
+      </section>
+
+      <section className="space-y-6 rounded-3xl border border-emerald-100 bg-white p-6 shadow-sm shadow-emerald-100/40">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.3em] text-emerald-700">Google Business Profile</p>
+            <p className="text-3xl font-semibold text-stone-900">
+              {googleReviews?.overallRating ? googleReviews.overallRating.toFixed(1) : "—"} ★
+            </p>
+            <p className="text-sm text-stone-600">
+              {googleReviews?.totalReviews ?? 0} reviews · verified stays
+            </p>
+          </div>
+          <Link
+            href={googleReviewLink}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 hover:text-emerald-600"
+          >
+            Read all reviews &rarr;
+          </Link>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {highlightedReviews.length > 0 ? highlightedReviews.map((review) => (
+            <article key={`${review.author}-${review.time}`} className="space-y-2 rounded-2xl border border-emerald-100 bg-emerald-50/50 p-4 text-sm text-stone-700">
+            <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-xs font-semibold uppercase text-emerald-700">
+                  {review.author ? review.author.slice(0, 2) : "GV"}
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-stone-500">
+                    {review.relativeTime ?? "Recent"}
+                  </p>
+                  <p className="text-sm font-semibold text-stone-900">{review.author}</p>
+                </div>
+              </div>
+              <p className="text-xs font-semibold text-amber-600">
+                {review.rating} ★
+              </p>
+              <p className="text-sm text-stone-600 line-clamp-3">{review.text}</p>
+            </article>
+          )) : <p className="rounded-2xl border border-dashed border-emerald-200 bg-emerald-50/70 p-4 text-sm text-stone-500">
+            Reviews are loading. Check back shortly for fresh stories from guests.
+          </p>}
+        </div>
       </section>
     </div>;
 }
