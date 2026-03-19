@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/app/(shared)/lib/db";
 import { hashPassword, isPasswordHashed, verifyPassword } from "@/app/(shared)/lib/auth-password";
@@ -7,8 +6,8 @@ const OWNER_ROLE = "OWNER";
 const DEVICE_COOKIE_NAME = "admin-device";
 
 function createDeviceId() {
-  if (typeof randomUUID === "function") {
-    return randomUUID();
+  if (typeof globalThis.crypto !== "undefined" && typeof globalThis.crypto.randomUUID === "function") {
+    return globalThis.crypto.randomUUID();
   }
   return `dev_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
 }
