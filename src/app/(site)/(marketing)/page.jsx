@@ -3,6 +3,7 @@ import Link from "next/link";
 import { prisma } from "@/app/(shared)/lib/db";
 import { roomCategories } from "./rooms/room-data";
 import { facilities } from "./facilities/facility-data";
+import { attachFacilityImages, attachRoomImages } from "./lib/image-loader";
 import { ImageCarousel } from "./components/ImageCarousel";
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -31,6 +32,10 @@ async function fetchGoogleReviews() {
 }
 async function MarketingHomePage() {
   const now = /* @__PURE__ */ new Date();
+  const [roomsWithImages, facilitiesWithImages] = await Promise.all([
+    attachRoomImages(roomCategories),
+    attachFacilityImages(facilities)
+  ]);
   let activeOffers = [];
   try {
     activeOffers = await prisma.offer.findMany({
@@ -158,7 +163,7 @@ async function MarketingHomePage() {
           </Link>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {facilities.map((facility) => <article
+          {facilitiesWithImages.map((facility) => <article
     key={facility.slug}
     className="group flex flex-col justify-between rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40 transition hover:border-emerald-200 hover:shadow-emerald-100/70"
   >
@@ -287,7 +292,7 @@ async function MarketingHomePage() {
           </Link>
         </div>
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {roomCategories.map((room) => <article
+          {roomsWithImages.map((room) => <article
     key={room.title}
     className="group flex flex-col justify-between rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40 transition hover:border-emerald-200 hover:shadow-emerald-100/70"
   >

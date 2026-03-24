@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
 export function ImageCarousel({ images = [], title, className = "", containerClassName = "" }) {
@@ -23,18 +23,18 @@ export function ImageCarousel({ images = [], title, className = "", containerCla
 
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % normalizedImages.length);
-    }, 30000);
+    }, 15000);
 
     return () => clearInterval(timer);
   }, [hasMultiple, normalizedImages.length]);
 
-  const goPrev = () => {
+  const goPrev = useCallback(() => {
     setActiveIndex((prev) => (prev - 1 + normalizedImages.length) % normalizedImages.length);
-  };
+  }, [normalizedImages.length]);
 
-  const goNext = () => {
+  const goNext = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % normalizedImages.length);
-  };
+  }, [normalizedImages.length]);
 
   const handlePrevClick = (event) => {
     event.preventDefault();
@@ -47,6 +47,24 @@ export function ImageCarousel({ images = [], title, className = "", containerCla
     event.stopPropagation();
     goNext();
   };
+
+  useEffect(() => {
+    if (!hasMultiple) return undefined;
+
+    const handleGlobalKeyDown = (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        goPrev();
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        goNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => window.removeEventListener("keydown", handleGlobalKeyDown);
+  }, [hasMultiple, goPrev, goNext]);
 
   const handleKeyDown = (event) => {
     if (!hasMultiple) return;

@@ -4,6 +4,10 @@ import { errorResponse, jsonResponse } from "@/app/(shared)/lib/api-response";
 import { checkRateLimit, getClientIdentifier } from "@/app/(shared)/lib/rate-limit";
 import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 import { logError } from "@/app/(shared)/lib/audit";
+import {
+  sendEnquiryAcknowledgement,
+  sendEnquiryNotification
+} from "@/app/(shared)/lib/brevo";
 export const runtime = "edge";
 const ANALYTICS_TYPE = "ENQUIRY_SUBMITTED";
 async function POST(request) {
@@ -56,6 +60,34 @@ async function POST(request) {
     });
     if (analyticsError) {
       console.warn("[POST /api/enquiry] analytics insert failed", analyticsError);
+    }
+    const emailResult = await sendEnquiryNotification({
+      name: data.name,
+      email: data.email,
+      phone: data.phone ?? null,
+      message: data.message,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+      guests: data.guests,
+      source: data.source,
+      offerId: data.offerId ?? null,
+      offerSlug: data.offerSlug ?? null
+    });
+    if (!emailResult.ok) {
+      console.warn("[POST /api/enquiry] notification email failed", emailResult.reason);
+    }
+    const acknowledgementResult = await sendEnquiryAcknowledgement({
+      name: data.name,
+      email: data.email,
+      message: data.message,
+      checkIn: data.checkIn,
+      checkOut: data.checkOut,
+      guests: data.guests,
+      offerId: data.offerId ?? null,
+      offerSlug: data.offerSlug ?? null
+    });
+    if (!acknowledgementResult.ok) {
+      console.warn("[POST /api/enquiry] customer acknowledgement email failed", acknowledgementResult.reason);
     }
     return jsonResponse(
       { id: enquiry.id, message: "Enquiry submitted successfully" },

@@ -2,6 +2,7 @@
 import { dbClient } from "@/app/(shared)/lib/db-client";
 import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 import { logError } from "@/app/(shared)/lib/audit";
+import { sendContactNotification } from "@/app/(shared)/lib/brevo";
 export const runtime = "edge";
 function getClientIp(request) {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? request.headers.get("x-real-ip") ?? null;
@@ -35,6 +36,17 @@ async function POST(request) {
     }).select("id").maybeSingle();
     if (error || !data) {
       throw error;
+    }
+    const emailResult = await sendContactNotification({
+      name,
+      email,
+      phone: phone || null,
+      message,
+      source: "website",
+      path: request.nextUrl.pathname
+    });
+    if (!emailResult.ok) {
+      console.warn("[POST /api/contact] notification email failed", emailResult.reason);
     }
     return NextResponse.json({ id: data.id, ok: true }, { status: 201 });
   } catch (err) {

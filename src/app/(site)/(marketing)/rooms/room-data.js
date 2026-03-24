@@ -6,6 +6,7 @@ export const roomCategories = [
     longDescription:
       "A calm and cozy option for short stays with natural light, practical workspace, and all core comforts.",
     badge: "Comfort choice",
+    imageFolder: "rooms/classic-room",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     price: "INR 2,800",
     occupancy: "Up to 2 guests",
@@ -21,6 +22,7 @@ export const roomCategories = [
     longDescription:
       "A spacious room category with balcony comfort, ideal for guests who prefer longer, relaxed stays.",
     badge: "Most booked",
+    imageFolder: "rooms/deluxe-room",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     price: "INR 3,600",
     occupancy: "Up to 3 guests",
@@ -36,6 +38,7 @@ export const roomCategories = [
     longDescription:
       "Designed for guests who need extra productivity and comfort, with premium details and quiet ambience.",
     badge: "Business ready",
+    imageFolder: "rooms/executive-room",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     price: "INR 4,200",
     occupancy: "Up to 3 guests",
@@ -51,6 +54,7 @@ export const roomCategories = [
     longDescription:
       "Comfortably suited for families and small groups with larger layout, storage, and flexible bedding setup.",
     badge: "Family favorite",
+    imageFolder: "rooms/suite",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     price: "INR 4,800",
     occupancy: "Up to 4 guests",
@@ -66,6 +70,7 @@ export const roomCategories = [
     longDescription:
       "Our premium category with spacious living zone, enhanced privacy, and elevated in-room experience.",
     badge: "Signature stay",
+    imageFolder: "rooms/executive-suite",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     price: "INR 6,500",
     occupancy: "Up to 4 guests",

@@ -75,6 +75,7 @@ Optional (later):
 
 - `META_*` â€“ For Facebook/Instagram auto-posting.
 - `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` â€“ For production-grade rate limiting (otherwise in-memory per-instance limits apply).
+- `BREVO_API_KEY`, `BREVO_FROM_EMAIL`, `BREVO_FROM_NAME`, `BREVO_TO_EMAIL` â€“ For enquiry/contact notification emails.
 
 ### 4. Run migrations in production
 
@@ -109,6 +110,7 @@ Then ensure `DATABASE_URL` is set in Vercel so the build can reach your Postgres
 
 - Visit the site and submit a test enquiry (`/enquiry`).
 - Confirm the enquiry appears in the database (e.g. Prisma Studio with production `DATABASE_URL`, or your admin dashboard).
+- Confirm the notification email arrives at `BREVO_TO_EMAIL`.
 - If you use owner auth, test login at `/admin/login`.
 
 ## Routes overview

@@ -6,6 +6,7 @@ export const facilities = [
     description: "All-day dining with seasonal menus and local favorites.",
     longDescription:
       "Our restaurant serves curated breakfast, lunch, and dinner with regional specialties and chef-crafted seasonal menus.",
+    imageFolder: "facilities/restaurant",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     timing: "7:00 am - 11:00 pm",
     bestFor: "Dining and family meals",
@@ -21,6 +22,7 @@ export const facilities = [
     description: "Open green lawn for weddings, gatherings, and outdoor celebrations.",
     longDescription:
       "A spacious, beautifully maintained lawn ideal for weddings, receptions, and evening social events under open skies.",
+    imageFolder: "facilities/lawn",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     timing: "Morning to late evening",
     bestFor: "Weddings and receptions",
@@ -36,6 +38,7 @@ export const facilities = [
     description: "A calm pool deck for morning laps and evening rest.",
     longDescription:
       "Relax by the pool or enjoy a refreshing swim with comfortable deck seating and a peaceful resort ambience.",
+    imageFolder: "facilities/swimming-pool",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     timing: "7:00 am - 8:00 pm",
     bestFor: "Leisure and relaxation",
@@ -51,6 +54,7 @@ export const facilities = [
     description: "One elegant banquet space for weddings and celebrations.",
     longDescription:
       "Our banquet hall is designed for premium events with customizable layouts for ceremonies, receptions, and corporate gatherings.",
+    imageFolder: "facilities/banquet",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     timing: "As per event schedule",
     bestFor: "Weddings and conferences",
@@ -66,6 +70,7 @@ export const facilities = [
     description: "Ideal for meetings, private dinners, or intimate events.",
     longDescription:
       "A compact and versatile indoor space suitable for private gatherings, team meetings, and focused celebrations.",
+    imageFolder: "facilities/small-hall",
     images: ["/hero-hotel.jpg", "/hero-hotel.jpg", "/hero-hotel.jpg"],
     timing: "As per booking",
     bestFor: "Meetings and private events",

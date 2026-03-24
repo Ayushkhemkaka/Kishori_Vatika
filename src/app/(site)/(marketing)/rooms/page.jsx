@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { roomCategories } from "./room-data";
 import { ImageCarousel } from "../components/ImageCarousel";
+import { attachRoomImages } from "../lib/image-loader";
 
 export const metadata = {
   title: "Rooms",
   description: "Explore all room categories with photos, amenities, and stay details.",
 };
 
-export default function RoomsPage() {
+export default async function RoomsPage() {
+  const roomsWithImages = await attachRoomImages(roomCategories);
   return (
     <div className="space-y-10">
       <header className="space-y-3 text-center sm:text-left">
@@ -21,7 +23,7 @@ export default function RoomsPage() {
       </header>
 
       <div className="space-y-10">
-        {roomCategories.map((room) => (
+        {roomsWithImages.map((room) => (
           <section
             key={room.slug}
             id={room.slug}
