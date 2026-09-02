@@ -78,9 +78,15 @@ export function HeroCarousel({
         </div>
       ))}
 
-      {/* One even veil, plus a soft vignette to settle the edges. */}
-      <div className="pointer-events-none absolute inset-0 bg-black/45" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.55)_100%)]" />
+      {/* Contrast is built in three passes, all edgeless so the photo never
+          shows a gradient seam:
+          1. an even veil over the whole image,
+          2. a soft pool of shade centred on the copy — the text sits in the
+             middle, so this is where contrast is actually needed,
+          3. a gentle darkening at top and bottom for the header and controls. */}
+      <div className="pointer-events-none absolute inset-0 bg-black/55" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(0,0,0,0.62)_0%,rgba(0,0,0,0.35)_45%,transparent_75%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/45" />
 
       <div className="relative z-10 w-full">
         <div className="kv-container">{children}</div>

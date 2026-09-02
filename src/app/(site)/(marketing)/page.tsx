@@ -121,21 +121,21 @@ export default async function MarketingHomePage() {
           <div className="kv-hero-enter mx-auto max-w-4xl text-center text-white">
             {/* Eyebrow, set between hairlines rather than in a pill. */}
             <div className="flex items-center justify-center gap-4">
-              <span className="h-px w-8 bg-white/40 sm:w-14" />
-              <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-white/85 sm:text-xs">
+              <span className="h-px w-8 bg-white/60 sm:w-14" />
+              <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-white [text-shadow:0_1px_12px_rgba(0,0,0,0.7)] sm:text-xs">
                 Ramnagar &middot; West Champaran
               </p>
-              <span className="h-px w-8 bg-white/40 sm:w-14" />
+              <span className="h-px w-8 bg-white/60 sm:w-14" />
             </div>
 
-            <h1 className="mt-7 text-balance font-display text-4xl font-normal leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-7 text-balance font-display text-4xl font-normal leading-[1.15] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.65)] sm:text-5xl lg:text-6xl">
               Where greenery hosts your grandest celebrations
-              <span className="block italic text-white/90">
+              <span className="block italic">
                 and your quietest escapes
               </span>
             </h1>
 
-            <p className="mx-auto mt-6 max-w-xl text-balance text-sm leading-relaxed text-white/75 sm:text-base">
+            <p className="mx-auto mt-6 max-w-xl text-balance text-base leading-relaxed text-white/95 [text-shadow:0_1px_14px_rgba(0,0,0,0.7)] sm:text-lg">
               A garden resort for weddings, gatherings, and unhurried mornings.
             </p>
 
@@ -148,7 +148,7 @@ export default async function MarketingHomePage() {
               </Link>
               <Link
                 href="/rooms"
-                className="inline-flex items-center justify-center rounded-full border border-white/45 px-8 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-white transition hover:border-white hover:bg-white/10"
+                className="inline-flex items-center justify-center rounded-full border border-white/70 bg-white/10 px-8 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm transition hover:border-white hover:bg-white/20"
               >
                 Explore rooms
               </Link>
