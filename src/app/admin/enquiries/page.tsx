@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { EnquiryStatusSelect } from "../_components/EnquiryStatusSelect";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const PAGE_SIZE = 25;
@@ -17,12 +17,12 @@ export default async function AdminEnquiriesPage({
   const skip = (currentPage - 1) * PAGE_SIZE;
 
   const [enquiriesRes, totalCountRes] = await Promise.all([
-    supabase
+    db
       .from('"Enquiry"')
       .select("id,name,email,checkIn,checkOut,status,createdAt,offerId")
       .order("createdAt", { ascending: false })
       .range(skip, skip + PAGE_SIZE - 1),
-    supabase.from('"Enquiry"').select("id", { count: "exact", head: true }),
+    db.from('"Enquiry"').select("id", { count: "exact", head: true }),
   ]);
   const enquiries = enquiriesRes.data ?? [];
   const totalCount = totalCountRes.count ?? 0;
@@ -31,7 +31,7 @@ export default async function AdminEnquiriesPage({
     .map((e) => e.offerId)
     .filter((id): id is string => Boolean(id));
   const { data: offers } = offerIds.length
-    ? await supabase
+    ? await db
         .from('"Offer"')
         .select("id,title")
         .in("id", offerIds)

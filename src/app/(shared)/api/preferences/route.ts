@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 import { logError } from "@/app/(shared)/lib/audit";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { data: existingPref, error: existingPrefError } = await supabase
+    const { data: existingPref, error: existingPrefError } = await db
       .from('UserPreference')
       .select("id")
       .eq("sessionId", sessionId)
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     let savedId: string | null = null;
 
     if (existingPref?.id) {
-      const { error: updateError } = await supabase
+      const { error: updateError } = await db
         .from('UserPreference')
         .update({
           value,
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       }
       savedId = existingPref.id;
     } else {
-      const { error: insertError } = await supabase
+      const { error: insertError } = await db
         .from('UserPreference')
         .insert({
           sessionId,
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         throw insertError;
       }
 
-      const { data: createdPref, error: createdPrefError } = await supabase
+      const { data: createdPref, error: createdPrefError } = await db
         .from('UserPreference')
         .select("id")
         .eq("sessionId", sessionId)

@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 type OfferRow = {
   id: string;
@@ -37,7 +37,7 @@ export async function GET() {
   }
   const adminId = (session.user as { id?: string }).id ?? null;
   try {
-    const { data: offersData, error: offersError } = await supabase
+    const { data: offersData, error: offersError } = await db
       .from('"Offer"')
       .select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt")
       .order("createdAt", { ascending: false });
@@ -48,13 +48,13 @@ export async function GET() {
 
     const [featuresRes, publicationsRes] = await Promise.all([
       offerIds.length
-        ? supabase
+        ? db
             .from('"OfferFeature"')
             .select("id,offerId,label,value")
             .in("offerId", offerIds)
         : Promise.resolve({ data: [] as FeatureRow[] }),
       offerIds.length
-        ? supabase
+        ? db
             .from('"OfferPublication"')
             .select("id,offerId,platform,status,externalPostId,errorMessage,createdAt")
             .in("offerId", offerIds)
@@ -150,7 +150,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data: created, error: createError } = await supabase
+    const { data: created, error: createError } = await db
       .from('"Offer"')
       .insert({
         title,
@@ -175,7 +175,7 @@ export async function POST(request: Request) {
     }));
 
     const { data: createdFeatures } = featureRows.length
-      ? await supabase.from('"OfferFeature"').insert(featureRows).select("id,label,value")
+      ? await db.from('"OfferFeature"').insert(featureRows).select("id,label,value")
       : { data: [] as Array<{ id: string; label: string; value: string }> };
 
     await logAdminActivity({

@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { logAdminActivity, logError } from "@/app/(shared)/lib/audit";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 type OfferRow = {
   id: string;
@@ -29,7 +29,7 @@ export async function GET(
   const adminId = (session.user as { id?: string }).id ?? null;
   const { id } = await params;
   try {
-    const { data: offer, error } = await supabase
+    const { data: offer, error } = await db
       .from('"Offer"')
       .select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt")
       .eq("id", id)
@@ -39,11 +39,11 @@ export async function GET(
     }
 
     const [featuresRes, publicationsRes] = await Promise.all([
-      supabase
+      db
         .from('"OfferFeature"')
         .select("id,label,value")
         .eq("offerId", id),
-      supabase
+      db
         .from('"OfferPublication"')
         .select("id,platform,status,externalPostId,errorMessage,createdAt")
         .eq("offerId", id)
@@ -132,13 +132,13 @@ export async function PATCH(
     if (body.heroImageUrl !== undefined) offerData.heroImageUrl = body.heroImageUrl ?? null;
 
     if (Object.keys(offerData).length > 0) {
-      await supabase.from('"Offer"').update(offerData).eq("id", id);
+      await db.from('"Offer"').update(offerData).eq("id", id);
     }
 
     if (body.features) {
-      await supabase.from('"OfferFeature"').delete().eq("offerId", id);
+      await db.from('"OfferFeature"').delete().eq("offerId", id);
       if (body.features.length > 0) {
-        await supabase.from('"OfferFeature"').insert(
+        await db.from('"OfferFeature"').insert(
           body.features.map((f) => ({
             offerId: id,
             label: f.label,
@@ -148,7 +148,7 @@ export async function PATCH(
       }
     }
 
-    const { data: offer } = await supabase
+    const { data: offer } = await db
       .from('"Offer"')
       .select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl,createdAt,updatedAt")
       .eq("id", id)
@@ -156,11 +156,11 @@ export async function PATCH(
     if (!offer) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
     const [featuresRes, publicationsRes] = await Promise.all([
-      supabase
+      db
         .from('"OfferFeature"')
         .select("id,label,value")
         .eq("offerId", id),
-      supabase
+      db
         .from('"OfferPublication"')
         .select("id,platform,status,externalPostId,errorMessage,createdAt")
         .eq("offerId", id)

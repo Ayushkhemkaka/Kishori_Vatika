@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export async function GET() {
   try {
-    const { data: accounts } = await supabase
+    const { data: accounts } = await db
       .from('"SocialAccount"')
       .select("id,platform,pageId,accountId,expiresAt,createdAt");
 

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 const VALID_STATUSES = ["NEW", "CONTACTED", "BOOKED", "CANCELLED"];
 
@@ -27,7 +27,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Invalid status" }, { status: 400 });
     }
 
-    const { data: enquiry, error } = await supabase
+    const { data: enquiry, error } = await db
       .from('"Enquiry"')
       .update({ status })
       .eq("id", id)

@@ -1,12 +1,12 @@
 ﻿import { NextRequest } from "next/server";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { createEnquirySchema } from "@/app/(shared)/lib/validation/enquiry";
 import { errorResponse, jsonResponse } from "@/app/(shared)/lib/api-response";
 import { checkRateLimit, getClientIdentifier } from "@/app/(shared)/lib/rate-limit";
 import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 import { logError } from "@/app/(shared)/lib/audit";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 const ANALYTICS_TYPE = "ENQUIRY_SUBMITTED";
 
@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     const data = parsed.data;
 
-    const { data: enquiry, error } = await supabase
+    const { data: enquiry, error } = await db
       .from('"Enquiry"')
       .insert({
         name: data.name,
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-session-id") ??
       identifier;
 
-    const { error: analyticsError } = await supabase
+    const { error: analyticsError } = await db
       .from('"AnalyticsEvent"')
       .insert({
         type: ANALYTICS_TYPE,

@@ -1,7 +1,7 @@
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { SocialConnectForm } from "../_components/SocialConnectForm";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 type SocialAccountRow = {
@@ -13,7 +13,7 @@ type SocialAccountRow = {
 };
 
 export default async function AdminSocialPage() {
-  const { data: accountsData } = await supabase
+  const { data: accountsData } = await db
     .from('"SocialAccount"')
     .select("id,platform,pageId,accountId,createdAt")
     .order("platform", { ascending: true });

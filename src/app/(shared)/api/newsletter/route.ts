@@ -1,9 +1,9 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 import { logError } from "@/app/(shared)/lib/audit";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 type NewsletterPayload = {
   email?: string;
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const sessionId =
       request.cookies.get(ANALYTICS_SESSION_COOKIE)?.value ?? null;
 
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('"NewsletterSignup"')
       .upsert(
         {

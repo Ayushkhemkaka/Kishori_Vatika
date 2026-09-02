@@ -1,9 +1,9 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { ANALYTICS_SESSION_COOKIE } from "@/app/(shared)/lib/analytics";
 import { logError } from "@/app/(shared)/lib/audit";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 const VALID_TYPES = ["PAGE_VIEW", "OFFER_CLICK", "ENQUIRY_SUBMITTED"] as const;
 
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
     const eventOfferId =
       typeof offerId === "string" && offerId.length > 0 ? offerId : undefined;
 
-    await supabase.from('"Visitor"').upsert(
+    await db.from('"Visitor"').upsert(
       {
         sessionId,
         ip: ip ?? null,
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (type === "PAGE_VIEW") {
-      await supabase.from('"Visit"').insert({
+      await db.from('"Visit"').insert({
         sessionId,
         ip: ip ?? null,
         userAgent,
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    await supabase.from('"AnalyticsEvent"').insert({
+    await db.from('"AnalyticsEvent"').insert({
       type: type as AnalyticsType,
       sessionId,
       path: eventPath,
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (type === "OFFER_CLICK" && eventOfferId) {
-      await supabase.from('"UserPreference"').upsert(
+      await db.from('"UserPreference"').upsert(
         {
           sessionId,
           key: "last_offer_id",

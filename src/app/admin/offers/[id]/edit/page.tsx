@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { OfferForm } from "../../_components/OfferForm";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default async function EditOfferPage({
@@ -11,19 +11,19 @@ export default async function EditOfferPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { data: offer } = await supabase
+  const { data: offer } = await db
     .from('"Offer"')
     .select("id,title,description,price,validFrom,validTo,isActive,heroImageUrl")
     .eq("id", id)
     .maybeSingle();
   if (!offer) notFound();
 
-  const { data: features } = await supabase
+  const { data: features } = await db
     .from('"OfferFeature"')
     .select("id,label,value")
     .eq("offerId", id);
 
-  const { data: publications } = await supabase
+  const { data: publications } = await db
     .from('"OfferPublication"')
     .select("id,platform,status,externalPostId,errorMessage,createdAt")
     .eq("offerId", id)

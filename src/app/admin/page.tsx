@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
   const [visitCountRes, enquiryCountRes, offerCountRes] = await Promise.all([
-    supabase.from('"Visit"').select("id", { count: "exact", head: true }),
-    supabase.from('"Enquiry"').select("id", { count: "exact", head: true }),
-    supabase
+    db.from('"Visit"').select("id", { count: "exact", head: true }),
+    db.from('"Enquiry"').select("id", { count: "exact", head: true }),
+    db
       .from('"Offer"')
       .select("id", { count: "exact", head: true })
       .eq("isActive", true),

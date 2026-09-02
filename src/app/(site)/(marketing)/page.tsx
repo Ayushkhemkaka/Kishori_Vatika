@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const revalidate = 300;
 
 const roomCategories = [
@@ -99,7 +99,7 @@ function formatPrice(price: { toString: () => string }) {
 
 export default async function MarketingHomePage() {
   const now = new Date();
-  const { data: activeOffersData } = await supabase
+  const { data: activeOffersData } = await db
     .from('"Offer"')
     .select("id,title,description,price,validFrom,validTo,isActive")
     .eq("isActive", true)

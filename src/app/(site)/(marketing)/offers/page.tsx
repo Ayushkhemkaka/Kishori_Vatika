@@ -1,8 +1,8 @@
 ﻿import Link from "next/link";
 import type { Metadata } from "next";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const revalidate = 300;
 
 function formatPrice(price: { toString: () => string }) {
@@ -25,7 +25,7 @@ const offerCategories = [
 
 export default async function OffersPage() {
   const now = new Date();
-  const { data: offersData } = await supabase
+  const { data: offersData } = await db
     .from('"Offer"')
     .select("id,title,description,price,validFrom,validTo,isActive")
     .eq("isActive", true)

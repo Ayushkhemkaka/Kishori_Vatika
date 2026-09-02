@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export default async function AdminOffersPage() {
-  const { data: offersData } = await supabase
+  const { data: offersData } = await db
     .from('"Offer"')
     .select("id,title,isActive,createdAt")
     .order("createdAt", { ascending: false });
@@ -13,7 +13,7 @@ export default async function AdminOffersPage() {
 
   const offerIds = offers.map((o) => o.id);
   const { data: publications } = offerIds.length
-    ? await supabase
+    ? await db
         .from('"OfferPublication"')
         .select("offerId")
         .in("offerId", offerIds)

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { cache } from "react";
-import { supabase } from "@/app/(shared)/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { OfferClickLogger } from "./OfferClickLogger";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const revalidate = 300;
 
 function formatPrice(price: { toString: () => string }) {
@@ -12,22 +12,35 @@ function formatPrice(price: { toString: () => string }) {
   return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;
 }
 
-const getOfferById = cache(async (id: string) => {
-  const { data: offer } = await supabase
+type OfferFeatureRow = { label: string; value: string | null };
+
+type OfferDetail = {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  validFrom: Date;
+  validTo: Date;
+  isActive: boolean;
+  features: OfferFeatureRow[];
+};
+
+const getOfferById = cache(async (id: string): Promise<OfferDetail | null> => {
+  const { data: offer } = await db
     .from('"Offer"')
     .select("id,title,description,price,validFrom,validTo,isActive")
     .eq("id", id)
     .maybeSingle();
   if (!offer) return null;
 
-  const { data: features } = await supabase
+  const { data: features } = await db
     .from('"OfferFeature"')
     .select("label,value")
     .eq("offerId", id);
 
   return {
-    ...offer,
-    features: features ?? [],
+    ...(offer as Omit<OfferDetail, "features">),
+    features: (features ?? []) as OfferFeatureRow[],
   };
 });
 

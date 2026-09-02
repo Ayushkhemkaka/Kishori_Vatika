@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 type Platform = "FACEBOOK" | "INSTAGRAM";
 
@@ -12,7 +12,7 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   try {
-    const { data: accounts } = await supabase
+    const { data: accounts } = await db
       .from('"SocialAccount"')
       .select("id,platform,pageId,accountId,createdAt");
 
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data: existing } = await supabase
+    const { data: existing } = await db
       .from('"SocialAccount"')
       .select("id")
       .eq("platform", platform)
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
     };
 
     if (existing) {
-      await supabase.from('"SocialAccount"').update(data).eq("id", existing.id);
+      await db.from('"SocialAccount"').update(data).eq("id", existing.id);
       return NextResponse.json({
         id: existing.id,
         platform,
@@ -94,7 +94,7 @@ export async function POST(request: Request) {
       });
     }
 
-    const { data: created } = await supabase
+    const { data: created } = await db
       .from('"SocialAccount"')
       .insert(data)
       .select("id")

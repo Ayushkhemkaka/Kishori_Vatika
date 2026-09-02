@@ -1,4 +1,4 @@
-﻿import { supabase } from "@/app/(shared)/lib/supabase";
+﻿import { dbClient as db } from "@/app/(shared)/lib/db-client";
 
 type AdminActivityInput = {
   adminId?: string | null;
@@ -10,7 +10,7 @@ type AdminActivityInput = {
 
 export async function logAdminActivity(input: AdminActivityInput) {
   try {
-    await supabase.from('"AdminActivity"').insert({
+    await db.from('"AdminActivity"').insert({
       adminId: input.adminId ?? null,
       action: input.action,
       entity: input.entity ?? null,
@@ -32,7 +32,7 @@ type ErrorLogInput = {
 
 export async function logError(input: ErrorLogInput) {
   try {
-    await supabase.from('"ErrorLog"').insert({
+    await db.from('"ErrorLog"').insert({
       level: input.level ?? "error",
       message: input.message,
       stack: input.stack ?? null,

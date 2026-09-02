@@ -1,7 +1,7 @@
-import { supabase } from "@/lib/supabase";
+import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { AnalyticsCharts } from "../_components/AnalyticsCharts";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 type VisitRow = { createdAt: string; sessionId: string };
@@ -18,15 +18,15 @@ export default async function AdminAnalyticsPage() {
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
   const [visitsRes, eventsRes, enquiriesRes] = await Promise.all([
-    supabase
+    db
       .from('"Visit"')
       .select("createdAt,sessionId")
       .gte("createdAt", thirtyDaysAgo.toISOString()),
-    supabase
+    db
       .from('"AnalyticsEvent"')
       .select("type,offerId,createdAt")
       .gte("createdAt", thirtyDaysAgo.toISOString()),
-    supabase
+    db
       .from('"Enquiry"')
       .select("id", { count: "exact", head: true })
       .not("offerId", "is", null)
@@ -67,7 +67,7 @@ export default async function AdminAnalyticsPage() {
 
   const offerIds = Object.keys(offerClicks);
   const { data: offers } = offerIds.length
-    ? await supabase.from('"Offer"').select("id,title").in("id", offerIds)
+    ? await db.from('"Offer"').select("id,title").in("id", offerIds)
     : { data: [] };
   const titleMap = Object.fromEntries((offers ?? []).map((o) => [o.id, o.title]));
 
