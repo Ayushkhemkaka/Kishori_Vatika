@@ -42,6 +42,15 @@ async function attachImages(items, folderField) {
   );
 }
 
+/**
+ * Photos for the full-width hero at the top of the home page.
+ * Drop images into public/head/ and they are picked up automatically,
+ * ordered by filename.
+ */
+export function listHeroImages(folder = "head") {
+  return listFolderImages(folder);
+}
+
 export function attachRoomImages(rooms) {
   return attachImages(rooms, "imageFolder");
 }

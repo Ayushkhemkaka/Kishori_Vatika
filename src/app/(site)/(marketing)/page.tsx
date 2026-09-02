@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { dbClient as db } from "@/app/(shared)/lib/db-client";
+import { HeroCarousel } from "./components/HeroCarousel";
+import { listHeroImages } from "./lib/image-loader";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -108,9 +110,45 @@ export default async function MarketingHomePage() {
     .order("validTo", { ascending: true })
     .limit(6);
   const activeOffers = activeOffersData ?? [];
+  const heroImages = await listHeroImages();
 
   return (
     <div className="space-y-16">
+      {/* Pull up to cancel the top padding on <main> so the banner sits flush
+          under the header. */}
+      <div className="-mt-8 sm:-mt-14">
+        <HeroCarousel images={heroImages}>
+          <div className="max-w-2xl space-y-4 text-white drop-shadow">
+            <p className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] backdrop-blur">
+              Ramnagar, Bihar
+              <span className="h-1 w-1 rounded-full bg-amber-400" />
+              Resort &amp; Restaurant
+            </p>
+            <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl font-display">
+              <span className="font-forte">KiSHORi VATiKA</span>
+            </h1>
+            <p className="max-w-xl text-balance text-base text-white/90 sm:text-lg">
+              Spacious rooms, elegant event lawns, and warm hospitality where
+              comfort, celebration, and nature come together.
+            </p>
+            <div className="flex flex-wrap gap-3 pt-1">
+              <Link
+                href="/enquiry"
+                className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-black/20 transition hover:bg-emerald-500"
+              >
+                Check availability
+              </Link>
+              <Link
+                href="/rooms"
+                className="inline-flex items-center justify-center rounded-full border border-white/50 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
+              >
+                Explore rooms
+              </Link>
+            </div>
+          </div>
+        </HeroCarousel>
+      </div>
+
       <section className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
         <div className="space-y-6">
           <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50 px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] text-emerald-800">
