@@ -77,10 +77,10 @@ function EnquiryPageContent() {
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-start">
       <section className="space-y-6">
         <header className="space-y-3">
-          <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-700">
+          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
             Enquiry
           </p>
-          <h1 className="text-2xl font-semibold text-stone-900 sm:text-3xl font-display">
+          <h1 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
             Tell us about your stay.
           </h1>
           <p className="max-w-xl text-sm text-stone-600 sm:text-base">
@@ -206,7 +206,7 @@ function EnquiryPageContent() {
             <button
               type="submit"
               disabled={formState === "submitting"}
-              className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
             >
               {formState === "submitting"
                 ? "Sending your enquiry..."
@@ -237,7 +237,7 @@ function EnquiryPageContent() {
 
       <aside className="space-y-6">
         <div className="rounded-2xl border border-emerald-100 bg-white p-5 text-sm text-stone-700 shadow-md shadow-emerald-100/40">
-          <h2 className="text-sm font-semibold text-stone-900 font-display">
+          <h2 className="font-display text-base font-normal text-stone-900">
             Helpful notes
           </h2>
           <ul className="mt-3 space-y-2 text-sm text-stone-600">

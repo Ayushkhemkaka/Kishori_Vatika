@@ -13,8 +13,8 @@ export default async function RoomsPage() {
   return (
     <div className="space-y-10">
       <header className="space-y-3 text-center sm:text-left">
-        <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-700">Rooms</p>
-        <h1 className="text-3xl font-semibold text-stone-900 sm:text-4xl font-display">
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">Rooms</p>
+        <h1 className="font-display text-3xl font-normal tracking-tight text-stone-900 sm:text-4xl">
           Room categories at <span className="font-forte">KiSHORi VATiKA</span>
         </h1>
         <p className="text-sm text-stone-600 sm:text-base">
@@ -39,7 +39,7 @@ export default async function RoomsPage() {
               <span className="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
                 {room.badge}
               </span>
-              <h2 className="text-3xl font-semibold text-stone-900 font-display">{room.title}</h2>
+              <h2 className="font-display text-3xl font-normal tracking-tight text-stone-900">{room.title}</h2>
               <p className="text-sm text-stone-600 sm:text-base">{room.longDescription}</p>
 
               <div className="grid grid-cols-2 gap-3 rounded-xl border border-emerald-100 bg-emerald-50/60 p-4 text-sm text-stone-700">
@@ -87,13 +87,13 @@ export default async function RoomsPage() {
               <div className="flex flex-wrap gap-3 pt-2">
                 <Link
                   href="/enquiry"
-                  className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-emerald-500"
+                  className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
                 >
                   Enquire for this room
                 </Link>
                 <Link
                   href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-sm font-semibold text-emerald-800 hover:border-emerald-300"
+                  className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
                 >
                   Talk to team
                 </Link>

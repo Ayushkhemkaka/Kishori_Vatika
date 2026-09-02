@@ -108,7 +108,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={formState === "submitting"}
-        className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
+        className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
       >
         {formState === "submitting"
           ? "Sending..."

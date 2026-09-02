@@ -47,7 +47,7 @@ export function NewsletterSignup() {
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300"
+        className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300"
       >
         {state === "submitting"
           ? "Joining..."

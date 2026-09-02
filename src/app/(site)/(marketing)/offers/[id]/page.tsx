@@ -67,7 +67,7 @@ export default async function OfferDetailPage({
   if (!offer || !offer.isActive) {
     return (
       <div className="space-y-4">
-        <h1 className="text-2xl font-semibold text-stone-900 font-display">
+        <h1 className="font-display text-2xl font-normal tracking-tight text-stone-900">
           Offer not found
         </h1>
         <p className="text-sm text-stone-600">
@@ -77,13 +77,13 @@ export default async function OfferDetailPage({
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link
             href="/offers"
-            className="rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+            className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
             Back to offers
           </Link>
           <Link
             href="/enquiry"
-            className="rounded-full border border-emerald-200 bg-white px-4 py-2 text-xs font-semibold text-emerald-800 hover:border-emerald-300"
+            className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
           >
             Send an enquiry
           </Link>
@@ -101,10 +101,10 @@ export default async function OfferDetailPage({
     <div className="space-y-8">
       <OfferClickLogger offerId={offer.id} />
       <header className="space-y-3">
-        <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-700">
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           Offer
         </p>
-        <h1 className="text-2xl font-semibold text-stone-900 sm:text-3xl font-display">
+        <h1 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
           {offer.title}
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
@@ -130,7 +130,7 @@ export default async function OfferDetailPage({
 
       <section className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <div className="space-y-4 rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40">
-          <h2 className="text-sm font-semibold text-stone-900 font-display">
+          <h2 className="font-display text-base font-normal text-stone-900">
             What is included
           </h2>
           <ul className="mt-2 space-y-2 text-sm text-stone-600">
@@ -155,13 +155,13 @@ export default async function OfferDetailPage({
           <div className="flex flex-col gap-3 pt-2 sm:flex-row">
             <Link
               href={`/enquiry?offer=${encodeURIComponent(offer.id)}`}
-              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
             >
               Enquire about this offer
             </Link>
             <Link
               href="/offers"
-              className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-4 py-2 text-xs font-semibold text-emerald-800 hover:border-emerald-300"
+              className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
             >
               View all offers
             </Link>

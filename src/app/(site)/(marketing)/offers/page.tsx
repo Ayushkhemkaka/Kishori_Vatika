@@ -36,10 +36,10 @@ export default async function OffersPage() {
   return (
     <div className="space-y-10">
       <header className="space-y-4">
-        <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-700">
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           Offers
         </p>
-        <h1 className="text-2xl font-semibold text-stone-900 sm:text-3xl lg:text-4xl font-display">
+        <h1 className="font-display text-3xl font-normal tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
           Curated stays with thoughtful extras.
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
@@ -77,7 +77,7 @@ export default async function OffersPage() {
                     })}
                   </span>
                 </div>
-                <h2 className="text-lg font-semibold text-stone-900 font-display">
+                <h2 className="font-display text-lg font-normal text-stone-900">
                   {offer.title}
                 </h2>
                 <p className="line-clamp-3 text-sm text-stone-600">
@@ -99,7 +99,7 @@ export default async function OffersPage() {
                 <div className="flex flex-col gap-2 text-sm">
                   <Link
                     href={`/offers/${offer.id}`}
-                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
                   >
                     View offer
                   </Link>
@@ -123,7 +123,7 @@ export default async function OffersPage() {
           </p>
           <Link
             href="/enquiry"
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+            className="mt-4 inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
             Send an enquiry
           </Link>
@@ -141,7 +141,7 @@ export default async function OffersPage() {
         </p>
         <Link
           href="/enquiry"
-          className="mt-3 inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+          className="mt-3 inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
         >
           Send an enquiry
         </Link>

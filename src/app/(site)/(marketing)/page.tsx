@@ -159,12 +159,12 @@ export default async function MarketingHomePage() {
 
       <section className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
         <div className="space-y-6">
-          <p className="inline-flex items-center gap-2 rounded-full border border-emerald-200/80 bg-emerald-50 px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] text-emerald-800">
+          <p className="inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
             Resorts & Restaurant
             <span className="h-1 w-1 rounded-full bg-amber-400" />
             Now booking
           </p>
-          <h1 className="text-balance text-4xl font-semibold tracking-tight text-stone-900 sm:text-5xl lg:text-6xl font-display">
+          <h1 className="text-balance font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
             A refined stay at{" "}
             <span className="font-forte bg-gradient-to-r from-amber-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent">
               KiSHORi VATiKA
@@ -185,32 +185,32 @@ export default async function MarketingHomePage() {
           <div className="flex flex-wrap gap-4">
             <Link
               href="/enquiry"
-              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+              className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
             >
               Check availability
             </Link>
             <Link
               href="/offers"
-              className="inline-flex items-center justify-center rounded-full border border-emerald-200/80 bg-white/80 px-6 py-3 text-sm font-semibold text-emerald-900 transition hover:border-emerald-300 hover:text-emerald-700"
+              className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
             >
               View current offers
             </Link>
           </div>
           <dl className="mt-4 grid gap-4 text-sm text-stone-600 sm:grid-cols-3">
             <div>
-              <dt className="text-xs uppercase tracking-[0.2em] text-stone-500">
+              <dt className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
                 Check-in / Check-out
               </dt>
               <dd>12:00 pm - 10:00 am</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.2em] text-stone-500">
+              <dt className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
                 Rooms inventory
               </dt>
               <dd>20 rooms</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.2em] text-stone-500">
+              <dt className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
                 Event spaces
               </dt>
               <dd>1 banquet, 1 small hall, 1 lawn</dd>
@@ -231,15 +231,11 @@ export default async function MarketingHomePage() {
               priority
             />
             <div className="space-y-3 border-t border-emerald-100 bg-emerald-50/60 p-5">
-              <p className="text-xs font-medium uppercase tracking-[0.3em] text-emerald-700">
+              <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
                 Stay the Kishori way
               </p>
               <p className="text-sm text-stone-700">
-                Where calm mornings, elegant stays, and warm hospitality come together to create memorable moments.
-              </p>
-              <p className="text-xs text-stone-500">
-                "Elegant rooms, attentive staff, and beautiful event spaces." -
-                recent guest
+                Comfort that feels earned. Greenery that feels endless. A stay you will remember long after checkout
               </p>
             </div>
           </div>
@@ -248,7 +244,7 @@ export default async function MarketingHomePage() {
 
       <section className="space-y-6">
         <div>
-          <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
+          <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
             Facilities at a glance
           </h2>
           <p className="text-sm text-stone-600">
@@ -262,7 +258,7 @@ export default async function MarketingHomePage() {
               key={feature.title}
               className="rounded-2xl border border-emerald-100 bg-white p-4 text-sm text-stone-700 shadow-md shadow-emerald-100/50"
             >
-              <h3 className="text-base font-semibold text-stone-900 font-display">
+              <h3 className="font-display text-lg font-normal text-stone-900">
                 {feature.title}
               </h3>
               <p className="mt-2 text-sm text-stone-600">{feature.description}</p>
@@ -273,7 +269,7 @@ export default async function MarketingHomePage() {
 
       <section className="kv-themed-section grid gap-8 rounded-3xl border border-emerald-100 bg-white p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
+          <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
             Signature experiences
           </h2>
           <p className="text-sm text-stone-600">
@@ -334,7 +330,7 @@ export default async function MarketingHomePage() {
       <section className="space-y-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
+            <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
               Room categories
             </h2>
             <p className="text-sm text-stone-600">
@@ -358,7 +354,7 @@ export default async function MarketingHomePage() {
                 <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
                   {room.badge}
                 </span>
-                <h3 className="text-base font-semibold text-stone-900 font-display">
+                <h3 className="font-display text-lg font-normal text-stone-900">
                   {room.title}
                 </h3>
                 <p className="text-sm text-stone-600">{room.description}</p>
@@ -401,7 +397,7 @@ export default async function MarketingHomePage() {
       <section className="kv-themed-section space-y-6 rounded-3xl border border-emerald-100 bg-white p-6 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl font-display">
+            <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
               Current offers
             </h2>
             <p className="text-sm text-stone-600">
@@ -410,7 +406,7 @@ export default async function MarketingHomePage() {
           </div>
           <Link
             href="/offers"
-            className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+            className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
             See all offers
           </Link>
@@ -426,7 +422,7 @@ export default async function MarketingHomePage() {
                   <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
                     Limited time
                   </span>
-                  <h3 className="text-base font-semibold text-stone-900 font-display">
+                  <h3 className="font-display text-lg font-normal text-stone-900">
                     {offer.title}
                   </h3>
                   <p className="line-clamp-2 text-sm text-stone-600">
