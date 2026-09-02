@@ -1,16 +1,24 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Source_Sans_3 } from "next/font/google";
+import { Cormorant_Garamond, Jost } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
-const display = Playfair_Display({
+// High-contrast old-style serif for headings; its lighter cuts are what give
+// the pages their elegance, so the weights stop at 500.
+const display = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const body = Source_Sans_3({
+// Geometric sans for body copy and the tracked uppercase labels.
+const body = Jost({
   variable: "--font-body",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
 });
 
 const siteUrl =

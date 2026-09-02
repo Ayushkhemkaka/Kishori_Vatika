@@ -35,7 +35,7 @@ export default function ContactPage() {
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           Contact
         </p>
-        <h1 className="font-display text-3xl font-normal tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+        <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
           We would love to plan your stay.
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
@@ -72,7 +72,7 @@ export default function ContactPage() {
 
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <div className="rounded-2xl border border-emerald-100 bg-white p-6 sm:p-8">
-          <h2 className="font-display text-lg font-normal text-stone-900">
+          <h2 className="font-display text-xl font-normal text-stone-900">
             Planning an event?
           </h2>
           <p className="mt-3 text-sm text-stone-600">
@@ -107,7 +107,7 @@ export default function ContactPage() {
 
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <div>
-          <h2 className="font-display text-lg font-normal text-stone-900">
+          <h2 className="font-display text-xl font-normal text-stone-900">
             Send a message
           </h2>
           <p className="mt-2 text-sm text-stone-600">

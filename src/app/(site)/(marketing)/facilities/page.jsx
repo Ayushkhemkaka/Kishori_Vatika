@@ -12,7 +12,7 @@ export default function FacilitiesPage() {
     <div className="space-y-10">
       <header className="space-y-3 text-center sm:text-left">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">Facilities</p>
-        <h1 className="font-display text-3xl font-normal tracking-tight text-stone-900 sm:text-4xl">
+        <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
           Facilities at <span className="font-forte">KiSHORi VATiKA</span>
         </h1>
         <p className="text-sm text-stone-600 sm:text-base">
@@ -37,7 +37,7 @@ export default function FacilitiesPage() {
               <span className="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
                 {facility.badge}
               </span>
-              <h2 className="font-display text-3xl font-normal tracking-tight text-stone-900">{facility.title}</h2>
+              <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900">{facility.title}</h2>
               <p className="text-sm text-stone-600 sm:text-base">{facility.longDescription}</p>
 
               <div className="grid grid-cols-2 gap-3 rounded-xl border border-emerald-100 bg-emerald-50/60 p-4 text-sm text-stone-700">

@@ -67,7 +67,7 @@ export default async function OfferDetailPage({
   if (!offer || !offer.isActive) {
     return (
       <div className="space-y-4">
-        <h1 className="font-display text-2xl font-normal tracking-tight text-stone-900">
+        <h1 className="font-display text-3xl font-normal tracking-tight text-stone-900">
           Offer not found
         </h1>
         <p className="text-sm text-stone-600">
@@ -104,7 +104,7 @@ export default async function OfferDetailPage({
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           Offer
         </p>
-        <h1 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
+        <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
           {offer.title}
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
@@ -130,7 +130,7 @@ export default async function OfferDetailPage({
 
       <section className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <div className="space-y-4 rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40">
-          <h2 className="font-display text-base font-normal text-stone-900">
+          <h2 className="font-display text-xl font-normal text-stone-900">
             What is included
           </h2>
           <ul className="mt-2 space-y-2 text-sm text-stone-600">

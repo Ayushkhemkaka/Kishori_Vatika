@@ -80,7 +80,7 @@ function EnquiryPageContent() {
           <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
             Enquiry
           </p>
-          <h1 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
+          <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
             Tell us about your stay.
           </h1>
           <p className="max-w-xl text-sm text-stone-600 sm:text-base">
@@ -237,7 +237,7 @@ function EnquiryPageContent() {
 
       <aside className="space-y-6">
         <div className="rounded-2xl border border-emerald-100 bg-white p-5 text-sm text-stone-700 shadow-md shadow-emerald-100/40">
-          <h2 className="font-display text-base font-normal text-stone-900">
+          <h2 className="font-display text-xl font-normal text-stone-900">
             Helpful notes
           </h2>
           <ul className="mt-3 space-y-2 text-sm text-stone-600">

@@ -40,7 +40,7 @@ export default function AboutPage() {
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           About us
         </p>
-        <h1 className="font-display text-3xl font-normal tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+        <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
           A resort built for refined stays.
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
@@ -66,7 +66,7 @@ export default function AboutPage() {
             key={item.title}
             className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40 transition hover:border-emerald-200"
           >
-            <h2 className="font-display text-lg font-normal text-stone-900">
+            <h2 className="font-display text-xl font-normal text-stone-900">
               {item.title}
             </h2>
             <p className="mt-2 text-sm text-stone-600">{item.description}</p>
@@ -76,7 +76,7 @@ export default function AboutPage() {
 
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
         <div className="rounded-2xl border border-emerald-100 bg-white p-6 sm:p-8">
-          <h2 className="font-display text-lg font-normal text-stone-900">
+          <h2 className="font-display text-xl font-normal text-stone-900">
             Our story
           </h2>
           <p className="mt-3 text-sm text-stone-600">
@@ -102,7 +102,7 @@ export default function AboutPage() {
         </div>
 
         <div className="rounded-2xl border border-emerald-100 bg-white p-6 sm:p-8">
-          <h2 className="font-display text-lg font-normal text-stone-900">
+          <h2 className="font-display text-xl font-normal text-stone-900">
             What to expect
           </h2>
           <ul className="mt-4 space-y-2 text-sm text-stone-600">

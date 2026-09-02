@@ -128,7 +128,7 @@ export default async function MarketingHomePage() {
               <span className="h-px w-8 bg-white/60 sm:w-14" />
             </div>
 
-            <h1 className="mt-7 text-balance font-display text-4xl font-normal leading-[1.15] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.65)] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-7 text-balance font-display text-5xl font-normal leading-[1.12] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.65)] sm:text-6xl lg:text-7xl">
               Where greenery hosts your grandest celebrations
               <span className="block italic">
                 and your quietest escapes
@@ -164,7 +164,7 @@ export default async function MarketingHomePage() {
             <span className="h-1 w-1 rounded-full bg-amber-400" />
             Now booking
           </p>
-          <h1 className="text-balance font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
+          <h1 className="text-balance font-display text-5xl font-normal tracking-tight text-stone-900 sm:text-6xl lg:text-7xl">
             A refined stay at{" "}
             <span className="font-forte bg-gradient-to-r from-amber-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent">
               KiSHORi VATiKA
@@ -244,7 +244,7 @@ export default async function MarketingHomePage() {
 
       <section className="space-y-6">
         <div>
-          <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
+          <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
             Facilities at a glance
           </h2>
           <p className="text-sm text-stone-600">
@@ -258,7 +258,7 @@ export default async function MarketingHomePage() {
               key={feature.title}
               className="rounded-2xl border border-emerald-100 bg-white p-4 text-sm text-stone-700 shadow-md shadow-emerald-100/50"
             >
-              <h3 className="font-display text-lg font-normal text-stone-900">
+              <h3 className="font-display text-xl font-normal text-stone-900">
                 {feature.title}
               </h3>
               <p className="mt-2 text-sm text-stone-600">{feature.description}</p>
@@ -269,7 +269,7 @@ export default async function MarketingHomePage() {
 
       <section className="kv-themed-section grid gap-8 rounded-3xl border border-emerald-100 bg-white p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <div className="space-y-4">
-          <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
+          <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
             Signature experiences
           </h2>
           <p className="text-sm text-stone-600">
@@ -330,7 +330,7 @@ export default async function MarketingHomePage() {
       <section className="space-y-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
+            <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
               Room categories
             </h2>
             <p className="text-sm text-stone-600">
@@ -354,7 +354,7 @@ export default async function MarketingHomePage() {
                 <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
                   {room.badge}
                 </span>
-                <h3 className="font-display text-lg font-normal text-stone-900">
+                <h3 className="font-display text-xl font-normal text-stone-900">
                   {room.title}
                 </h3>
                 <p className="text-sm text-stone-600">{room.description}</p>
@@ -397,7 +397,7 @@ export default async function MarketingHomePage() {
       <section className="kv-themed-section space-y-6 rounded-3xl border border-emerald-100 bg-white p-6 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
+            <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
               Current offers
             </h2>
             <p className="text-sm text-stone-600">
@@ -422,7 +422,7 @@ export default async function MarketingHomePage() {
                   <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
                     Limited time
                   </span>
-                  <h3 className="font-display text-lg font-normal text-stone-900">
+                  <h3 className="font-display text-xl font-normal text-stone-900">
                     {offer.title}
                   </h3>
                   <p className="line-clamp-2 text-sm text-stone-600">

@@ -85,10 +85,15 @@
 body {
   background: var(--page-bg), var(--page-pattern);
   color: var(--foreground);
-  font-family: var(--font-body), "Source Sans 3", "Segoe UI", sans-serif;
+  font-family: var(--font-body), "Jost", "Segoe UI", sans-serif;
   font-size: var(--font-size-base);
   line-height: var(--leading-normal);
   overflow-x: hidden;
+  /* Smoothing matters for a light geometric sans; without it the thin
+     strokes render chunky on Windows. */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 [data-theme="light"] .border-emerald-100,
@@ -159,7 +164,17 @@ h1,
 h2,
 h3,
 .font-display {
-  font-family: var(--font-display), "Playfair Display", "Times New Roman", serif;
+  font-family: var(--font-display), "Cormorant Garamond", Garamond, "Times New Roman", serif;
+  /* Cormorant sets loose by default; pulling it in and tightening the leading
+     is what makes large headings read as composed rather than sprawling. */
+  letter-spacing: -0.012em;
+  line-height: 1.14;
+}
+
+/* Body copy: a touch more leading and a hair of tracking keeps the light
+   geometric sans comfortable at paragraph lengths. */
+p {
+  line-height: 1.65;
 }
 
 .font-forte {

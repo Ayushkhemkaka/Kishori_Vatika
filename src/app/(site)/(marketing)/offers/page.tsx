@@ -39,7 +39,7 @@ export default async function OffersPage() {
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           Offers
         </p>
-        <h1 className="font-display text-3xl font-normal tracking-tight text-stone-900 sm:text-4xl lg:text-5xl">
+        <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
           Curated stays with thoughtful extras.
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
@@ -77,7 +77,7 @@ export default async function OffersPage() {
                     })}
                   </span>
                 </div>
-                <h2 className="font-display text-lg font-normal text-stone-900">
+                <h2 className="font-display text-xl font-normal text-stone-900">
                   {offer.title}
                 </h2>
                 <p className="line-clamp-3 text-sm text-stone-600">
