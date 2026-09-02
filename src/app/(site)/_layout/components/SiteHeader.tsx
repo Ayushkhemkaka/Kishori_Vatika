@@ -52,26 +52,39 @@ export function SiteHeader() {
           : "sticky top-0 z-50 border-b border-emerald-200/60 bg-white/80 backdrop-blur"
       }
     >
-      <div className="kv-container flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+      {/* Dark scrim so the logo and links stay legible over a bright photo.
+          Only needed while the header is transparent. */}
+      {overlay ? (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-to-b from-black/70 via-black/40 to-transparent"
+        />
+      ) : null}
+
+      <div className="kv-container relative flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/logo.png"
             alt="Kishori Vatika resort logo"
-            width={44}
-            height={44}
-            className="h-11 w-11 object-contain"
+            width={56}
+            height={56}
+            className="h-12 w-12 object-contain sm:h-14 sm:w-14"
           />
           <div className="leading-tight">
             <div
-              className={`text-xl font-semibold tracking-[0.06em] font-display font-forte ${
-                overlay ? "text-white drop-shadow" : "text-black"
+              className={`text-2xl font-semibold tracking-[0.06em] font-display font-forte sm:text-3xl ${
+                overlay
+                  ? "text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.85)]"
+                  : "text-black"
               }`}
             >
               KiSHORi VATiKA
             </div>
             <div
-              className={`text-xs ${
-                overlay ? "text-white/80 drop-shadow" : "text-stone-500"
+              className={`text-sm ${
+                overlay
+                  ? "text-white/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]"
+                  : "text-stone-500"
               }`}
             >
               Resort - Since 2024
@@ -80,8 +93,10 @@ export function SiteHeader() {
         </Link>
 
         <nav
-          className={`hidden items-center gap-6 text-sm font-medium sm:flex ${
-            overlay ? "text-white drop-shadow" : "text-stone-700"
+          className={`hidden items-center gap-7 text-base font-semibold sm:flex lg:gap-8 lg:text-lg ${
+            overlay
+              ? "text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]"
+              : "text-stone-700"
           }`}
         >
           {NAV_LINKS.map((link) => (
