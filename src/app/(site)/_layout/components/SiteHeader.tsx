@@ -79,29 +79,6 @@ export function SiteHeader() {
           </div>
         </Link>
 
-        <div
-          className={`hidden items-center gap-2 rounded-full border px-3 py-1 sm:flex ${
-            overlay
-              ? "border-white/40 bg-black/25 backdrop-blur"
-              : "border-emerald-200 bg-white/80"
-          }`}
-        >
-          <span
-            className={`text-[11px] font-medium uppercase tracking-[0.12em] ${
-              overlay ? "text-white/80" : "text-stone-500"
-            }`}
-          >
-            Parent
-          </span>
-          <Image
-            src="/parentLogo.png"
-            alt="Parent company logo"
-            width={28}
-            height={28}
-            className="h-7 w-7 object-contain"
-          />
-        </div>
-
         <nav
           className={`hidden items-center gap-6 text-sm font-medium sm:flex ${
             overlay ? "text-white drop-shadow" : "text-stone-700"
