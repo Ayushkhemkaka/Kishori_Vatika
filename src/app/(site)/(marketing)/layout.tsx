@@ -1,89 +1,13 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
-import Image from "next/image";
 import { PageViewTracker } from "../_layout/components/PageViewTracker";
-import { ThemeToggle } from "../_layout/components/ThemeToggle";
+import { SiteHeader } from "../_layout/components/SiteHeader";
 import { NewsletterSignup } from "../_layout/components/NewsletterSignup";
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen text-stone-900">
       <PageViewTracker />
-      <header className="border-b border-emerald-200/60 bg-white/80 backdrop-blur">
-        <div className="kv-container flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/logo.png"
-              alt="Kishori Vatika resort logo"
-              width={44}
-              height={44}
-              className="h-11 w-11 object-contain"
-            />
-            <div className="leading-tight">
-              <div className="text-xl font-semibold tracking-[0.06em] text-black font-display font-forte">
-                KiSHORi VATiKA
-              </div>
-              <div className="text-xs text-stone-500">Resort - Since 2024</div>
-            </div>
-          </Link>
-          <div className="hidden items-center gap-2 rounded-full border border-emerald-200 bg-white/80 px-3 py-1 sm:flex">
-            <span className="text-[11px] font-medium uppercase tracking-[0.12em] text-stone-500">
-              Parent
-            </span>
-            <Image
-              src="/parentLogo.png"
-              alt="Parent company logo"
-              width={28}
-              height={28}
-              className="h-7 w-7 object-contain"
-            />
-          </div>
-          <nav className="hidden items-center gap-6 text-sm font-medium text-stone-700 sm:flex">
-            <Link href="/" className="transition-colors hover:text-emerald-700">
-              Home
-            </Link>
-            <Link href="/offers" className="transition-colors hover:text-emerald-700">
-              Offers
-            </Link>
-            <Link href="/about" className="transition-colors hover:text-emerald-700">
-              About
-            </Link>
-            <Link href="/contact" className="transition-colors hover:text-emerald-700">
-              Contact
-            </Link>
-          </nav>
-          <div className="flex flex-wrap items-center gap-3">
-            <ThemeToggle />
-            <Link
-              href="/enquiry"
-              className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
-            >
-              Enquire now
-            </Link>
-          </div>
-        </div>
-        <div className="border-t border-emerald-200/60 px-4 pb-4 pt-3 sm:hidden">
-          <details className="rounded-xl border border-emerald-100 bg-white/80 px-4 py-3">
-            <summary className="cursor-pointer text-sm font-semibold text-emerald-800">
-              Menu
-            </summary>
-            <div className="mt-3 grid gap-2 text-sm text-stone-700">
-              <Link href="/" className="transition-colors hover:text-emerald-700">
-                Home
-              </Link>
-              <Link href="/offers" className="transition-colors hover:text-emerald-700">
-                Offers
-              </Link>
-              <Link href="/about" className="transition-colors hover:text-emerald-700">
-                About
-              </Link>
-              <Link href="/contact" className="transition-colors hover:text-emerald-700">
-                Contact
-              </Link>
-            </div>
-          </details>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="kv-container pb-16 pt-8 sm:pt-14">
         {children}
