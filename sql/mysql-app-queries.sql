@@ -201,6 +201,19 @@ CREATE TABLE IF NOT EXISTS ErrorLog (
 -- Auth / user
 -- Find owner by email:
 -- SELECT id, email, name, role, password FROM User WHERE email = ? LIMIT 1;
+-- Insert or update owner login:
+-- INSERT INTO User (id, email, name, password, role)
+-- VALUES (
+--   'ayushkumarowner001',
+--   'kishorivatika.ramnagar@gmail.com',
+--   'Ayush Kumar',
+--   '$2b$12$Hbqynwpu0ZpcTGhmZn5FceL.lgLPb9VupQITprhUdRN9BNdH9OyZ.',
+--   'OWNER'
+-- )
+-- ON DUPLICATE KEY UPDATE
+--   name = VALUES(name),
+--   password = VALUES(password),
+--   role = VALUES(role);
 -- Update last visit:
 -- UPDATE User SET lastVisitAt = NOW() WHERE id = ?;
 
@@ -282,4 +295,3 @@ CREATE TABLE IF NOT EXISTS ErrorLog (
 -- VALUES (UUID(), ?, ?, ?, ?, ?);
 -- INSERT INTO ErrorLog (id, level, message, stack, path, context)
 -- VALUES (UUID(), ?, ?, ?, ?, ?);
-

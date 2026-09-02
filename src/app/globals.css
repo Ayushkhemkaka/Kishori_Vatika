@@ -196,6 +196,14 @@ h3,
   border-radius: var(--radius-pill);
 }
 
+.kv-home-header-text {
+  color: #1f1a14;
+}
+
+.kv-home-header-subtext {
+  color: #2f2a24;
+}
+
 ::selection {
   background: rgba(234, 179, 8, 0.35);
 }
@@ -213,6 +221,14 @@ h3,
 
 [data-theme="dark"] .kv-hero-illustration {
   filter: brightness(0.4) saturate(0.72) contrast(1.12);
+}
+
+[data-theme="dark"] .kv-home-header-text {
+  color: #10b981 !important;
+}
+
+[data-theme="dark"] .kv-home-header-subtext {
+  color: rgba(16, 185, 129, 0.9) !important;
 }
 
 /* Dark-mode overrides for light marketing gradients */
