@@ -57,7 +57,7 @@ export function SiteHeader() {
       {overlay ? (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-to-b from-black/70 via-black/40 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-to-b from-black/45 to-transparent"
         />
       ) : null}
 
@@ -73,18 +73,14 @@ export function SiteHeader() {
           <div className="leading-tight">
             <div
               className={`text-2xl font-semibold tracking-[0.06em] font-display font-forte sm:text-3xl ${
-                overlay
-                  ? "text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.85)]"
-                  : "text-black"
+                overlay ? "text-white" : "text-black"
               }`}
             >
               KiSHORi VATiKA
             </div>
             <div
-              className={`text-sm ${
-                overlay
-                  ? "text-white/90 [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]"
-                  : "text-stone-500"
+              className={`text-[10px] uppercase tracking-[0.28em] sm:text-[11px] ${
+                overlay ? "text-white/70" : "text-stone-500"
               }`}
             >
               Resort - Since 2024
@@ -93,10 +89,8 @@ export function SiteHeader() {
         </Link>
 
         <nav
-          className={`hidden items-center gap-7 text-base font-semibold sm:flex lg:gap-8 lg:text-lg ${
-            overlay
-              ? "text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.85)]"
-              : "text-stone-700"
+          className={`hidden items-center gap-8 text-sm font-medium uppercase tracking-[0.16em] sm:flex lg:gap-10 lg:text-[15px] ${
+            overlay ? "text-white/90" : "text-stone-700"
           }`}
         >
           {NAV_LINKS.map((link) => (
@@ -116,7 +110,7 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/enquiry"
-            className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition hover:bg-emerald-500"
+            className="rounded-full bg-emerald-600 px-6 py-2.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
             Enquire now
           </Link>

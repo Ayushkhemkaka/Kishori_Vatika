@@ -3,11 +3,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-const ROTATE_MS = 6000;
+const ROTATE_MS = 7000;
 
 type HeroCarouselProps = {
   images: string[];
-  /** Seconds between slides. */
   intervalMs?: number;
   children?: React.ReactNode;
 };
@@ -15,9 +14,10 @@ type HeroCarouselProps = {
 /**
  * Full-bleed photo banner for the top of the home page.
  *
- * Slides crossfade rather than slide so the overlaid text stays readable, and
- * every image is stacked in the DOM at all times — only opacity changes — which
- * keeps the transition free of layout work.
+ * Slides crossfade and drift slowly (a Ken Burns move) so the banner feels
+ * alive without distracting from the copy. A single even scrim sits over the
+ * photo — a directional gradient reads as a dirty band across the image, so
+ * contrast comes from one uniform veil plus a soft vignette instead.
  */
 export function HeroCarousel({
   images,
@@ -54,18 +54,14 @@ export function HeroCarousel({
 
   return (
     <section
-      className="kv-full-bleed relative isolate h-[70vh] min-h-[420px] w-full overflow-hidden bg-stone-900 sm:h-[80vh]"
+      className="kv-full-bleed relative isolate flex h-[92vh] min-h-[560px] w-full items-center overflow-hidden bg-stone-950"
       aria-roledescription="carousel"
       aria-label="Kishori Vatika photos"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => {
-        if (!reducedMotion.current) setPaused(false);
-      }}
     >
       {slides.map((src, i) => (
         <div
           key={src}
-          className="absolute inset-0 transition-opacity duration-1000 ease-in-out motion-reduce:transition-none"
+          className="absolute inset-0 transition-opacity duration-[1400ms] ease-in-out motion-reduce:transition-none"
           style={{ opacity: i === activeIndex ? 1 : 0 }}
           aria-hidden={i !== activeIndex}
         >
@@ -74,17 +70,20 @@ export function HeroCarousel({
             alt=""
             fill
             sizes="100vw"
-            className="object-cover"
+            className={`object-cover ${
+              i === activeIndex ? "kv-hero-zoom" : ""
+            }`}
             priority={i === 0}
           />
         </div>
       ))}
 
-      {/* Scrim keeps the headline legible over any photo. */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/65" />
+      {/* One even veil, plus a soft vignette to settle the edges. */}
+      <div className="pointer-events-none absolute inset-0 bg-black/45" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(0,0,0,0.55)_100%)]" />
 
-      <div className="relative z-10 flex h-full items-center">
-        <div className="kv-container w-full">{children}</div>
+      <div className="relative z-10 w-full">
+        <div className="kv-container">{children}</div>
       </div>
 
       {hasMultiple ? (
@@ -93,20 +92,27 @@ export function HeroCarousel({
             type="button"
             onClick={() => go(-1)}
             aria-label="Previous photo"
-            className="absolute left-3 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white backdrop-blur transition hover:bg-black/70 sm:left-6"
+            className="group absolute left-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-white/60 transition hover:text-white sm:flex lg:left-8"
           >
-            &#8592;
+            <span className="absolute inset-0 rounded-full border border-white/25 transition group-hover:border-white/60" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
           <button
             type="button"
             onClick={() => go(1)}
             aria-label="Next photo"
-            className="absolute right-3 top-1/2 z-20 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white backdrop-blur transition hover:bg-black/70 sm:right-6"
+            className="group absolute right-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-white/60 transition hover:text-white sm:flex lg:right-8"
           >
-            &#8594;
+            <span className="absolute inset-0 rounded-full border border-white/25 transition group-hover:border-white/60" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
 
-          <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+          {/* Hairline progress marks rather than dots. */}
+          <div className="absolute bottom-10 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3">
             {slides.map((src, i) => (
               <button
                 key={src}
@@ -114,10 +120,8 @@ export function HeroCarousel({
                 onClick={() => setActiveIndex(i)}
                 aria-label={`Go to photo ${i + 1}`}
                 aria-current={i === activeIndex}
-                className={`h-2 rounded-full transition-all ${
-                  i === activeIndex
-                    ? "w-7 bg-white"
-                    : "w-2 bg-white/50 hover:bg-white/80"
+                className={`h-px w-10 transition-all duration-500 ${
+                  i === activeIndex ? "bg-white" : "bg-white/35 hover:bg-white/70"
                 }`}
               />
             ))}

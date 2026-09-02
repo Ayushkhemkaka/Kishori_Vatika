@@ -118,29 +118,37 @@ export default async function MarketingHomePage() {
           under the header. */}
       <div className="-mt-8 sm:-mt-14">
         <HeroCarousel images={heroImages}>
-          <div className="max-w-2xl space-y-4 text-white drop-shadow">
-            <p className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-black/30 px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] backdrop-blur">
-              Ramnagar, Bihar
-              <span className="h-1 w-1 rounded-full bg-amber-400" />
-              Resort &amp; Restaurant
-            </p>
-            <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl font-display">
-              <span className="font-forte">KiSHORi VATiKA</span>
+          <div className="kv-hero-enter mx-auto max-w-4xl text-center text-white">
+            {/* Eyebrow, set between hairlines rather than in a pill. */}
+            <div className="flex items-center justify-center gap-4">
+              <span className="h-px w-8 bg-white/40 sm:w-14" />
+              <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-white/85 sm:text-xs">
+                Ramnagar &middot; West Champaran
+              </p>
+              <span className="h-px w-8 bg-white/40 sm:w-14" />
+            </div>
+
+            <h1 className="mt-7 text-balance font-display text-4xl font-normal leading-[1.15] tracking-tight sm:text-5xl lg:text-6xl">
+              Where greenery hosts your grandest celebrations
+              <span className="block italic text-white/90">
+                and your quietest escapes
+              </span>
             </h1>
-            <p className="max-w-xl text-balance text-base text-white/90 sm:text-lg">
-              Spacious rooms, elegant event lawns, and warm hospitality where
-              comfort, celebration, and nature come together.
+
+            <p className="mx-auto mt-6 max-w-xl text-balance text-sm leading-relaxed text-white/75 sm:text-base">
+              A garden resort for weddings, gatherings, and unhurried mornings.
             </p>
-            <div className="flex flex-wrap gap-3 pt-1">
+
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/enquiry"
-                className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-black/20 transition hover:bg-emerald-500"
+                className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-8 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
               >
                 Check availability
               </Link>
               <Link
                 href="/rooms"
-                className="inline-flex items-center justify-center rounded-full border border-white/50 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
+                className="inline-flex items-center justify-center rounded-full border border-white/45 px-8 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-white transition hover:border-white hover:bg-white/10"
               >
                 Explore rooms
               </Link>
@@ -164,13 +172,15 @@ export default async function MarketingHomePage() {
             .
           </h1>
           <p className="max-w-xl text-balance text-base text-stone-600 sm:text-lg">
-            Welcome to <span className="font-forte">KiSHORi VATiKA</span>, Ramnagar, a perfect destination where comfort, celebration,
-            and nature come together. Located on the serene Narkatiaganj–Ramnagar Road,
-            our resort offers spacious rooms, modern amenities, lush surroundings,
-            and warm hospitality to make every stay memorable. Whether you are planning
-            a relaxing family getaway, a grand wedding, or a special celebration, Kishori
-            Vatika provides the ideal setting with elegant venues, delicious dining, and
-            personalized service
+            "In the heart of rural West Champaran, where no resort had ever stood,
+             we planted a dream in 2022. A garden where celebration and stillness could
+              live side by side. We named it  <span className="font-forte">KiSHORi VATiKA</span>,
+               because like Kishori, true beauty doesn't shout. It blooms quietly, and those who
+                arrive, simply know.
+                <br/>
+                <br/>
+                Today, this garden hosts grand shaadis and silent mornings alike. 
+                And just like its name, it stays forever fresh, forever welcoming."
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
