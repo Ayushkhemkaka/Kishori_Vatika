@@ -101,8 +101,9 @@ body {
 [data-theme="light"] .border-emerald-200\/60,
 [data-theme="light"] .border-emerald-100\/60,
 [data-theme="light"] .border-amber-100 {
+  /* Colour only. Setting border-width here would force all four sides on any
+     element carrying the class, turning a border-t divider into a full box. */
   border-color: rgba(6, 95, 70, 0.45) !important;
-  border-width: 1.5px !important;
 }
 
 [data-theme="dark"] .bg-white,

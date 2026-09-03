@@ -8,6 +8,8 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
+  { href: "/rooms", label: "Rooms" },
+  { href: "/facilities", label: "Facilities" },
   { href: "/offers", label: "Offers" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
@@ -89,7 +91,7 @@ export function SiteHeader() {
         </Link>
 
         <nav
-          className={`hidden items-center gap-8 text-sm font-medium uppercase tracking-[0.16em] sm:flex lg:gap-10 lg:text-[15px] ${
+          className={`hidden items-center gap-6 text-[13px] font-medium uppercase tracking-[0.14em] lg:flex xl:gap-8 xl:text-sm ${
             overlay ? "text-white/90" : "text-stone-700"
           }`}
         >
@@ -118,7 +120,7 @@ export function SiteHeader() {
       </div>
 
       <div
-        className={`border-t px-4 pb-4 pt-3 sm:hidden ${
+        className={`border-t px-4 pb-4 pt-3 lg:hidden ${
           overlay ? "border-white/25" : "border-emerald-200/60"
         }`}
       >

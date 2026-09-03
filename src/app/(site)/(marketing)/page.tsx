@@ -4,13 +4,7 @@ import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { HeroCarousel } from "./components/HeroCarousel";
 import { FacilityCard } from "./components/FacilityCard";
 import { facilities } from "./facilities/facility-data";
-// Aliased: this module already has a local roomCategories for the pricing table.
-import { roomCategories as roomTypes } from "./rooms/room-data";
-import {
-  attachFacilityImages,
-  attachRoomImages,
-  listHeroImages,
-} from "./lib/image-loader";
+import { attachFacilityImages, listHeroImages } from "./lib/image-loader";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -120,11 +114,6 @@ export default async function MarketingHomePage() {
   const activeOffers = activeOffersData ?? [];
   const heroImages = await listHeroImages();
   const facilityCards = await attachFacilityImages(facilities);
-  // First available room photo, used as the cover for the Rooms card.
-  const roomsWithImages = await attachRoomImages(roomTypes);
-  const roomCoverImages = roomsWithImages
-    .flatMap((room) => room.images ?? [])
-    .slice(0, 1);
 
   return (
     <div className="space-y-16">
@@ -278,7 +267,7 @@ export default async function MarketingHomePage() {
               badge: "Stay",
               description:
                 "A boutique inventory for attentive, personalized service.",
-              images: roomCoverImages,
+              images: ["/hero-hotel.jpg"],
             }}
           />
         </div>
