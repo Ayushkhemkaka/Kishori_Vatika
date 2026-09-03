@@ -51,7 +51,7 @@ export const facilities = [
     slug: "banquet",
     title: "Banquet",
     badge: "Premium venue",
-    description: "One elegant banquet space for weddings and celebrations.",
+    description: "A grand indoor venue for up to 500 guests. Shaadis, receptions, conferences, all with elegance.",
     longDescription:
       "Our banquet hall is designed for premium events with customizable layouts for ceremonies, receptions, and corporate gatherings.",
     imageFolder: "facilities/banquet",
@@ -67,7 +67,7 @@ export const facilities = [
     slug: "small-hall",
     title: "Small Hall",
     badge: "Private events",
-    description: "Ideal for meetings, private dinners, or intimate events.",
+    description: "Two intimate halls for birthdays, anniversaries, small corporate meets, and private gatherings.",
     longDescription:
       "A compact and versatile indoor space suitable for private gatherings, team meetings, and focused celebrations.",
     imageFolder: "facilities/small-hall",

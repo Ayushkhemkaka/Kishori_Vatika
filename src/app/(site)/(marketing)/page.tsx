@@ -2,7 +2,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { HeroCarousel } from "./components/HeroCarousel";
-import { listHeroImages } from "./lib/image-loader";
+import { FacilityCard } from "./components/FacilityCard";
+import { facilities } from "./facilities/facility-data";
+// Aliased: this module already has a local roomCategories for the pricing table.
+import { roomCategories as roomTypes } from "./rooms/room-data";
+import {
+  attachFacilityImages,
+  attachRoomImages,
+  listHeroImages,
+} from "./lib/image-loader";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -63,27 +71,27 @@ const roomCategories = [
 const featureHighlights = [
   {
     title: "Restaurant",
-    description: "All-day dining with seasonal menus and local favorites.",
+    description: "Fresh desi flavours served all day. From a quick meal to a 500-guest feast, our kitchen is always ready",
   },
   {
     title: "Swimming Pool",
-    description: "A calm pool deck for morning laps and evening rest.",
+    description: "The only pool in the area. Dive in, cool down, let the afternoon disappear",
   },
   {
     title: "Banquet",
-    description: "One elegant banquet space for weddings and celebrations.",
+    description: "A grand indoor venue for up to 500 guests. Shaadis, receptions, conferences, all with elegance",
   },
   {
     title: "Small Hall",
-    description: "Ideal for meetings, private dinners, or intimate events.",
+    description: "Two intimate halls for birthdays, anniversaries, small corporate meets, and private gatherings",
   },
   {
     title: "Lawn",
-    description: "Open-air lawn space for celebrations, receptions, and gatherings.",
+    description: "Open-air celebrations under the sky. Sangeet, cocktail nights, or a reception wrapped in greenery",
   },
   {
     title: "Rooms",
-    description: "A boutique inventory for attentive, personalized service.",
+    description: "20 comfortable rooms with garden views. Clean, quiet, and built for rest, not just sleep",
   },
 ];
 
@@ -111,6 +119,12 @@ export default async function MarketingHomePage() {
     .limit(6);
   const activeOffers = activeOffersData ?? [];
   const heroImages = await listHeroImages();
+  const facilityCards = await attachFacilityImages(facilities);
+  // First available room photo, used as the cover for the Rooms card.
+  const roomsWithImages = await attachRoomImages(roomTypes);
+  const roomCoverImages = roomsWithImages
+    .flatMap((room) => room.images ?? [])
+    .slice(0, 1);
 
   return (
     <div className="space-y-16">
@@ -248,22 +262,25 @@ export default async function MarketingHomePage() {
             Facilities at a glance
           </h2>
           <p className="text-sm text-stone-600">
-            Everything you need for stays, dining, and celebrations in one
-            thoughtfully designed property.
+            Stay, swim, dine, celebrate. Everything under one roof, surrounded by green
           </p>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {featureHighlights.map((feature) => (
-            <article
-              key={feature.title}
-              className="rounded-2xl border border-emerald-100 bg-white p-4 text-sm text-stone-700 shadow-md shadow-emerald-100/50"
-            >
-              <h3 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
-                {feature.title}
-              </h3>
-              <p className="mt-2 text-sm text-stone-600">{feature.description}</p>
-            </article>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {facilityCards.map((facility) => (
+            <FacilityCard key={facility.slug} facility={facility} />
           ))}
+          {/* Rooms is not a facility, but it belongs in this row. */}
+          <FacilityCard
+            facility={{
+              slug: "rooms",
+              href: "/rooms",
+              title: "Rooms",
+              badge: "Stay",
+              description:
+                "A boutique inventory for attentive, personalized service.",
+              images: roomCoverImages,
+            }}
+          />
         </div>
       </section>
 

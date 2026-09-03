@@ -116,7 +116,7 @@ export default function AboutPage() {
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              A calm pool deck and lounges for quiet downtime.
+              The only pool in the area. Dive in, cool down, let the afternoon disappear.
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
