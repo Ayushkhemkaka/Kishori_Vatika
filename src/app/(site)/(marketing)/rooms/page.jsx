@@ -27,15 +27,18 @@ export default async function RoomsPage() {
           <section
             key={room.slug}
             id={room.slug}
-            className="scroll-mt-24 grid gap-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]"
+            className="scroll-mt-24 grid overflow-hidden rounded-3xl border border-emerald-100 bg-white lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]"
           >
+            {/* Photo and details share one card: the carousel runs flush to the
+                edge and the grid stretches it to the panel's height. */}
             <ImageCarousel
               images={room.images}
               title={room.title}
-              className="h-[320px] w-full object-cover sm:h-[460px] lg:h-[620px]"
+              containerClassName="h-full"
+              className="h-[320px] w-full object-cover sm:h-[460px] lg:h-full lg:min-h-[560px]"
             />
 
-            <div className="space-y-5 rounded-3xl border border-emerald-100 bg-white p-6">
+            <div className="space-y-5 p-6 lg:p-8">
               <span className="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
                 {room.badge}
               </span>

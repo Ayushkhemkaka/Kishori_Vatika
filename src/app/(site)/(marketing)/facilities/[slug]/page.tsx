@@ -67,6 +67,7 @@ export default async function FacilityDetailPage({
       <ImageCarousel
         images={images}
         title={facility.title}
+        containerClassName="rounded-3xl border border-emerald-100"
         className="h-[300px] w-full object-cover sm:h-[440px] lg:h-[560px]"
       />
 

@@ -80,7 +80,9 @@ export function ImageCarousel({ images = [], title, className = "", containerCla
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-3xl border border-emerald-100 bg-white ${containerClassName}`}
+      // Frame (rounding, border) is left to the caller so the carousel can sit
+      // flush inside a larger card.
+      className={`group relative overflow-hidden bg-white ${containerClassName}`}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       aria-label={`${title} image carousel`}
