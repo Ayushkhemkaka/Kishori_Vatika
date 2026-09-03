@@ -1,6 +1,7 @@
 ﻿import Link from "next/link";
 import type { Metadata } from "next";
 import { dbClient as db } from "@/app/(shared)/lib/db-client";
+import { offers as offersContent } from "@/content/site-content";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -10,18 +11,7 @@ function formatPrice(price: { toString: () => string }) {
   return Number.isNaN(n) ? price.toString() : `INR ${n.toLocaleString("en-IN")}`;
 }
 
-export const metadata: Metadata = {
-  title: "Offers",
-  description:
-    "Curated stay packages with dining, experiences, and event options at KiSHORi VATiKA.",
-};
-
-const offerCategories = [
-  "Weekend getaways",
-  "Business stays",
-  "Celebrations",
-  "Family escapes",
-];
+export const metadata: Metadata = offersContent.meta;
 
 export default async function OffersPage() {
   const now = new Date();
@@ -37,10 +27,10 @@ export default async function OffersPage() {
     <div className="space-y-10">
       <header className="space-y-4">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
-          Offers
+          {offersContent.header.eyebrow}
         </p>
         <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
-          Curated stays with thoughtful extras.
+          {offersContent.header.title}
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
           These packages highlight the kinds of experiences we can create for
@@ -48,7 +38,7 @@ export default async function OffersPage() {
           dates.
         </p>
         <div className="flex flex-wrap gap-3 text-xs text-emerald-700">
-          {offerCategories.map((item) => (
+          {offersContent.categories.map((item) => (
             <span
               key={item}
               className="rounded-full border border-emerald-200 bg-white px-3 py-1"

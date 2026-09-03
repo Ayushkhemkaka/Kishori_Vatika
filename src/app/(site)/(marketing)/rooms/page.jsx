@@ -2,23 +2,22 @@ import Link from "next/link";
 import { roomCategories } from "./room-data";
 import { ImageCarousel } from "../components/ImageCarousel";
 import { attachRoomImages } from "../lib/image-loader";
+import { roomsPage, site } from "@/content/site-content";
 
-export const metadata = {
-  title: "Rooms",
-  description: "Explore all room categories with photos, amenities, and stay details.",
-};
+export const metadata = roomsPage.meta;
 
 export default async function RoomsPage() {
   const roomsWithImages = await attachRoomImages(roomCategories);
   return (
     <div className="space-y-10">
       <header className="space-y-3 text-center sm:text-left">
-        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">Rooms</p>
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">{roomsPage.header.eyebrow}</p>
         <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
-          Room categories at <span className="font-forte">KiSHORi VATiKA</span>
+          {roomsPage.header.title}{" "}
+          <span className="font-forte">{site.name}</span>
         </h1>
         <p className="text-sm text-stone-600 sm:text-base">
-          Browse each room category with detailed specs, amenities, and larger photo sections.
+          {roomsPage.header.description}
         </p>
       </header>
 
@@ -64,7 +63,7 @@ export default async function RoomsPage() {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">Room highlights</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">{roomsPage.detail.highlightsTitle}</h3>
                 <ul className="mt-2 space-y-1 text-sm text-stone-600">
                   {room.perks.map((perk) => (
                     <li key={perk} className="flex items-center gap-2">
@@ -76,7 +75,7 @@ export default async function RoomsPage() {
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">Amenities</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">{roomsPage.detail.amenitiesTitle}</h3>
                 <ul className="mt-2 grid gap-2 text-sm text-stone-600 sm:grid-cols-2">
                   {(room.amenities ?? []).map((item) => (
                     <li key={item} className="rounded-full border border-emerald-100 bg-emerald-50/60 px-3 py-1.5">
@@ -91,13 +90,13 @@ export default async function RoomsPage() {
                   href="/enquiry"
                   className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
                 >
-                  Enquire for this room
+                  {roomsPage.detail.primaryCta.label}
                 </Link>
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
                 >
-                  Talk to team
+                  {roomsPage.detail.secondaryCta.label}
                 </Link>
               </div>
             </div>

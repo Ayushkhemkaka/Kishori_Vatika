@@ -2,14 +2,11 @@ import Link from "next/link";
 import { facilities } from "./facility-data";
 import { FacilityCard } from "../components/FacilityCard";
 import { attachFacilityImages } from "../lib/image-loader";
+import { facilitiesPage, site } from "@/content/site-content";
 
 export const runtime = "nodejs";
 
-export const metadata = {
-  title: "Facilities",
-  description:
-    "Explore all facilities including restaurant, lawn, pool, banquet, and event spaces.",
-};
+export const metadata = facilitiesPage.meta;
 
 export default async function FacilitiesPage() {
   const withImages = await attachFacilityImages(facilities);
@@ -18,14 +15,14 @@ export default async function FacilitiesPage() {
     <div className="space-y-10">
       <header className="space-y-3">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
-          Facilities
+          {facilitiesPage.header.eyebrow}
         </p>
         <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
-          Facilities at <span className="font-forte">KiSHORi VATiKA</span>
+          {facilitiesPage.header.title}{" "}
+          <span className="font-forte">{site.name}</span>
         </h1>
         <p className="max-w-2xl text-sm leading-relaxed text-stone-600 sm:text-base">
-          Everything the property offers, from all-day dining to open lawns
-          built for celebration. Open any facility for photos and details.
+          {facilitiesPage.header.description}
         </p>
       </header>
 
@@ -37,24 +34,23 @@ export default async function FacilitiesPage() {
 
       <section className="rounded-2xl border border-emerald-200/60 bg-emerald-50 p-6 sm:p-8">
         <h2 className="font-display text-2xl font-normal tracking-tight text-emerald-950 sm:text-3xl">
-          Planning a celebration?
+          {facilitiesPage.callout.title}
         </h2>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-emerald-800">
-          Share your dates and guest count and our team will suggest the right
-          space, layout, and catering for the occasion.
+          {facilitiesPage.callout.description}
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
-            href="/enquiry"
+            href={facilitiesPage.callout.primaryCta.href}
             className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
-            Enquire now
+            {facilitiesPage.callout.primaryCta.label}
           </Link>
           <Link
-            href="/contact"
+            href={facilitiesPage.callout.secondaryCta.href}
             className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
           >
-            Talk to team
+            {facilitiesPage.callout.secondaryCta.label}
           </Link>
         </div>
       </section>

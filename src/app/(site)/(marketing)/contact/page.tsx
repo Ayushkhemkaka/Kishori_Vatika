@@ -1,52 +1,27 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ContactForm } from "./components/ContactForm";
+import { contact } from "@/content/site-content";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Get in touch for bookings and enquiries. We respond within 24 hours.",
-};
-
-const contactItems = [
-  {
-    title: "Enquiries and bookings",
-    description:
-      "Share your dates, room preference, and event needs. Our team responds within 24 hours.",
-    action: { label: "Send an enquiry", href: "/enquiry" },
-  },
-  {
-    title: "Location",
-    description:
-      "Quiet hillside location, about 10 minutes from the city center. Address shared upon confirmation.",
-    note: "Add your exact address and map link here before launch.",
-  },
-  {
-    title: "Phone and WhatsApp",
-    description:
-      "Prefer to speak directly? Add your phone, WhatsApp, and email details here.",
-  },
-];
+export const metadata: Metadata = contact.meta;
 
 export default function ContactPage() {
   return (
     <div className="space-y-10">
       <header className="space-y-4">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
-          Contact
+          {contact.header.eyebrow}
         </p>
         <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
-          We would love to plan your stay.
+          {contact.header.title}
         </h1>
         <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
-          For bookings and enquiries, the quickest way to reach us is through
-          the enquiry form. We respond within 24 hours and can tailor rooms,
-          dining, and event setups for your dates.
+          {contact.header.description}
         </p>
       </header>
 
       <section className="grid gap-6 lg:grid-cols-3">
-        {contactItems.map((item) => (
+        {contact.items.map((item) => (
           <article
             key={item.title}
             className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40"

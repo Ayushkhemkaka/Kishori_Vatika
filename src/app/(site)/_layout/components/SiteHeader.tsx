@@ -5,15 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
-
-const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/rooms", label: "Rooms" },
-  { href: "/facilities", label: "Facilities" },
-  { href: "/offers", label: "Offers" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
+import { navLinks as NAV_LINKS, site } from "@/content/site-content";
 
 /**
  * On the home page the header floats over the photo banner: it is taken out of
@@ -78,14 +70,14 @@ export function SiteHeader() {
                 overlay ? "text-white" : "text-black"
               }`}
             >
-              KiSHORi VATiKA
+              {site.name}
             </div>
             <div
               className={`text-[10px] uppercase tracking-[0.28em] sm:text-[11px] ${
                 overlay ? "text-white/70" : "text-stone-500"
               }`}
             >
-              Resort - Since 2024
+              {site.role}
             </div>
           </div>
         </Link>

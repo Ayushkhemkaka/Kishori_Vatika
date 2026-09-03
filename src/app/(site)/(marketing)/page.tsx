@@ -5,6 +5,7 @@ import { HeroCarousel } from "./components/HeroCarousel";
 import { FacilityCard } from "./components/FacilityCard";
 import { facilities } from "./facilities/facility-data";
 import { attachFacilityImages, listHeroImages } from "./lib/image-loader";
+import { home } from "@/content/site-content";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -126,20 +127,18 @@ export default async function MarketingHomePage() {
             <div className="flex items-center justify-center gap-4">
               <span className="h-px w-8 bg-white/60 sm:w-14" />
               <p className="text-[11px] font-medium uppercase tracking-[0.32em] text-white [text-shadow:0_1px_12px_rgba(0,0,0,0.7)] sm:text-xs">
-                Ramnagar &middot; West Champaran
+                {home.hero.eyebrow}
               </p>
               <span className="h-px w-8 bg-white/60 sm:w-14" />
             </div>
 
             <h1 className="mt-7 text-balance font-display text-5xl font-normal leading-[1.12] tracking-tight [text-shadow:0_2px_24px_rgba(0,0,0,0.65)] sm:text-6xl lg:text-7xl">
-              Where greenery hosts your grandest celebrations
-              <span className="block italic">
-                and your quietest escapes
-              </span>
+              {home.hero.title}
+              <span className="block italic">{home.hero.titleAccent}</span>
             </h1>
 
             <p className="mx-auto mt-6 max-w-xl text-balance text-base leading-relaxed text-white/95 [text-shadow:0_1px_14px_rgba(0,0,0,0.7)] sm:text-lg">
-              A garden resort for weddings, gatherings, and unhurried mornings.
+              {home.hero.description}
             </p>
 
             <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
@@ -147,13 +146,13 @@ export default async function MarketingHomePage() {
                 href="/enquiry"
                 className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-8 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
               >
-                Check availability
+                {home.hero.primaryCta.label}
               </Link>
               <Link
                 href="/rooms"
                 className="inline-flex items-center justify-center rounded-full border border-white/70 bg-white/10 px-8 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-sm transition hover:border-white hover:bg-white/20"
               >
-                Explore rooms
+                {home.hero.secondaryCta.label}
               </Link>
             </div>
           </div>
@@ -176,14 +175,14 @@ export default async function MarketingHomePage() {
           </h1>
           <p className="max-w-xl text-balance text-base text-stone-600 sm:text-lg">
             "In the heart of rural West Champaran, where no resort had ever stood,
-             we planted a dream in 2022. A garden where celebration and stillness could
-              live side by side. We named it  <span className="font-forte">KiSHORi VATiKA</span>,
-               because like Kishori, true beauty doesn't shout. It blooms quietly, and those who
-                arrive, simply know.
-                <br/>
-                <br/>
-                Today, this garden hosts grand shaadis and silent mornings alike. 
-                And just like its name, it stays forever fresh, forever welcoming."
+            we planted a dream in 2022. A garden where celebration and stillness could
+            live side by side. We named it  <span className="font-forte">KiSHORi VATiKA</span>,
+            because like Kishori, true beauty doesn't shout. It blooms quietly, and those who
+            arrive, simply know.
+            <br />
+            <br />
+            Today, this garden hosts grand shaadis and silent mornings alike.
+            And just like its name, it stays forever fresh, forever welcoming."
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
@@ -248,10 +247,10 @@ export default async function MarketingHomePage() {
       <section className="space-y-6">
         <div>
           <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
-            Facilities at a glance
+            {home.facilitiesSection.title}
           </h2>
           <p className="text-sm text-stone-600">
-            Stay, swim, dine, celebrate. Everything under one roof, surrounded by green
+            {home.facilitiesSection.description}
           </p>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -263,10 +262,9 @@ export default async function MarketingHomePage() {
             facility={{
               slug: "rooms",
               href: "/rooms",
-              title: "Rooms",
-              badge: "Stay",
-              description:
-                "A boutique inventory for attentive, personalized service.",
+              title: home.facilitiesSection.roomsCard.title,
+              badge: home.facilitiesSection.roomsCard.badge,
+              description: home.facilitiesSection.roomsCard.description,
               images: ["/hero-hotel.jpg"],
             }}
           />
@@ -276,11 +274,10 @@ export default async function MarketingHomePage() {
       <section className="kv-themed-section grid gap-8 rounded-3xl border border-emerald-100 bg-white p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <div className="space-y-4">
           <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
-            Signature experiences
+            {home.experiencesSection.title}
           </h2>
           <p className="text-sm text-stone-600">
-            A resort atmosphere with warm hospitality, calm interiors,
-            and events designed with care.
+            {home.experiencesSection.description}
           </p>
           <ul className="space-y-2 text-sm text-stone-600">
             {signatureMoments.map((moment) => (
@@ -340,7 +337,7 @@ export default async function MarketingHomePage() {
               Room categories
             </h2>
             <p className="text-sm text-stone-600">
-              Five categories designed for couples, families, and business stays.
+              {home.roomsSection.description}
             </p>
           </div>
           <Link
@@ -407,7 +404,7 @@ export default async function MarketingHomePage() {
               Current offers
             </h2>
             <p className="text-sm text-stone-600">
-              Curated stays with thoughtful extras included.
+              {home.offersSection.description}
             </p>
           </div>
           <Link
