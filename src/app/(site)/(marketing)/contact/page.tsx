@@ -72,7 +72,7 @@ export default function ContactPage() {
 
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <div className="rounded-2xl border border-emerald-100 bg-white p-6 sm:p-8">
-          <h2 className="font-display text-xl font-normal text-stone-900">
+          <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
             Planning an event?
           </h2>
           <p className="mt-3 text-sm text-stone-600">
@@ -107,7 +107,7 @@ export default function ContactPage() {
 
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <div>
-          <h2 className="font-display text-xl font-normal text-stone-900">
+          <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
             Send a message
           </h2>
           <p className="mt-2 text-sm text-stone-600">

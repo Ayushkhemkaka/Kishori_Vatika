@@ -77,7 +77,7 @@ export default async function OffersPage() {
                     })}
                   </span>
                 </div>
-                <h2 className="font-display text-xl font-normal text-stone-900">
+                <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
                   {offer.title}
                 </h2>
                 <p className="line-clamp-3 text-sm text-stone-600">

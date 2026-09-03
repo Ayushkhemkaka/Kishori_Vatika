@@ -237,7 +237,7 @@ function EnquiryPageContent() {
 
       <aside className="space-y-6">
         <div className="rounded-2xl border border-emerald-100 bg-white p-5 text-sm text-stone-700 shadow-md shadow-emerald-100/40">
-          <h2 className="font-display text-xl font-normal text-stone-900">
+          <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
             Helpful notes
           </h2>
           <ul className="mt-3 space-y-2 text-sm text-stone-600">

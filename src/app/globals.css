@@ -160,9 +160,9 @@ body {
   --tw-shadow-color: var(--shadow-color) !important;
 }
 
-h1,
-h2,
-h3,
+/* Serif is opt-in via .font-display, not automatic on every heading. A
+   high-contrast serif looks spindly at small sizes, and most h2/h3 on the
+   site are component-level labels that belong in the sans. */
 .font-display {
   font-family: var(--font-display), "Cormorant Garamond", Garamond, "Times New Roman", serif;
   /* Cormorant sets loose by default; pulling it in and tightening the leading

@@ -252,13 +252,13 @@ export default async function MarketingHomePage() {
             thoughtfully designed property.
           </p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {featureHighlights.map((feature) => (
             <article
               key={feature.title}
               className="rounded-2xl border border-emerald-100 bg-white p-4 text-sm text-stone-700 shadow-md shadow-emerald-100/50"
             >
-              <h3 className="font-display text-xl font-normal text-stone-900">
+              <h3 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
                 {feature.title}
               </h3>
               <p className="mt-2 text-sm text-stone-600">{feature.description}</p>
@@ -354,7 +354,7 @@ export default async function MarketingHomePage() {
                 <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
                   {room.badge}
                 </span>
-                <h3 className="font-display text-xl font-normal text-stone-900">
+                <h3 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
                   {room.title}
                 </h3>
                 <p className="text-sm text-stone-600">{room.description}</p>
@@ -422,7 +422,7 @@ export default async function MarketingHomePage() {
                   <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium text-amber-700">
                     Limited time
                   </span>
-                  <h3 className="font-display text-xl font-normal text-stone-900">
+                  <h3 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
                     {offer.title}
                   </h3>
                   <p className="line-clamp-2 text-sm text-stone-600">

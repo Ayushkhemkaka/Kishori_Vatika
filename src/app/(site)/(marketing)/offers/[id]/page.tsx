@@ -130,7 +130,7 @@ export default async function OfferDetailPage({
 
       <section className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <div className="space-y-4 rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40">
-          <h2 className="font-display text-xl font-normal text-stone-900">
+          <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
             What is included
           </h2>
           <ul className="mt-2 space-y-2 text-sm text-stone-600">
