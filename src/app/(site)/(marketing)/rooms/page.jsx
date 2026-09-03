@@ -34,8 +34,7 @@ export default async function RoomsPage() {
             <ImageCarousel
               images={room.images}
               title={room.title}
-              containerClassName="h-full"
-              className="h-[320px] w-full object-cover sm:h-[460px] lg:h-full lg:min-h-[560px]"
+              containerClassName="h-[300px] sm:h-[420px] lg:h-full lg:min-h-[540px]"
             />
 
             <div className="space-y-5 p-6 lg:p-8">

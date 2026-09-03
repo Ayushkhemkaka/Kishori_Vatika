@@ -3,7 +3,13 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
-export function ImageCarousel({ images = [], title, className = "", containerClassName = "" }) {
+export function ImageCarousel({
+  images = [],
+  title,
+  className = "",
+  containerClassName = "",
+  sizes = "(min-width: 1024px) 60vw, 100vw",
+}) {
   const normalizedImages = useMemo(() => {
     if (!Array.isArray(images) || images.length === 0) {
       return ["/hero-hotel.jpg"];
@@ -80,19 +86,23 @@ export function ImageCarousel({ images = [], title, className = "", containerCla
 
   return (
     <div
-      // Frame (rounding, border) is left to the caller so the carousel can sit
-      // flush inside a larger card.
-      className={`group relative overflow-hidden bg-white ${containerClassName}`}
+      // The container owns the box: its size comes from `containerClassName`,
+      // never from the photo. Frame (rounding, border) is the caller's too, so
+      // the carousel can sit flush inside a larger card.
+      className={`group relative overflow-hidden bg-emerald-50 ${containerClassName}`}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       aria-label={`${title} image carousel`}
     >
+      {/* `fill` takes the image out of flow and stretches it to the container,
+          so a portrait or square photo cannot resize the box; object-cover
+          crops whatever overflows instead of letterboxing it. */}
       <Image
         src={normalizedImages[activeIndex]}
         alt={`${title} image ${activeIndex + 1}`}
-        width={1600}
-        height={1000}
-        className={className}
+        fill
+        sizes={sizes}
+        className={`object-cover ${className}`}
         priority
       />
 

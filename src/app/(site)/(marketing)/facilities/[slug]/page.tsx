@@ -67,8 +67,7 @@ export default async function FacilityDetailPage({
       <ImageCarousel
         images={images}
         title={facility.title}
-        containerClassName="rounded-3xl border border-emerald-100"
-        className="h-[300px] w-full object-cover sm:h-[440px] lg:h-[560px]"
+        containerClassName="h-[300px] rounded-3xl border border-emerald-100 sm:h-[440px] lg:h-[560px]"
       />
 
       <section className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
