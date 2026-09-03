@@ -97,7 +97,7 @@ export default async function OffersPage() {
                     href={`/enquiry?offer=${encodeURIComponent(offer.id)}`}
                     className="text-xs font-medium text-emerald-700 hover:text-emerald-600"
                   >
-                    Enquire about this &rarr;
+                    {offersContent.enquireLabel} &rarr;
                   </Link>
                 </div>
               </div>
@@ -107,27 +107,23 @@ export default async function OffersPage() {
       ) : (
         <div className="rounded-2xl border border-emerald-100 bg-white p-8 text-center">
           <p className="text-stone-600">
-            No active offers at the moment. We are updating packages - check
-            back soon or send an enquiry and we will tailor something for your
-            dates.
+            {offersContent.empty.description}
           </p>
           <Link
             href="/enquiry"
             className="mt-4 inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
-            Send an enquiry
+            {offersContent.empty.cta.label}
           </Link>
         </div>
       )}
 
       <section className="rounded-2xl border border-emerald-200/60 bg-emerald-50 p-5 text-sm text-emerald-900 sm:p-6">
         <h2 className="text-base font-semibold text-emerald-900">
-          Looking for something specific?
+          {offersContent.callout.title}
         </h2>
         <p className="mt-1 text-emerald-800">
-          Tell us your dates, number of guests, and the kind of experience you
-          are after - quiet work week, anniversary celebration, or a family
-          break - and we will respond with tailored options.
+          {offersContent.callout.description}
         </p>
         <Link
           href="/enquiry"

@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { enquiry } from "@/content/site-content";
 
 type FormState = "idle" | "submitting" | "submitted" | "error";
 
@@ -59,7 +60,7 @@ function EnquiryPageContent() {
           ? Object.entries(details)
               .map(([k, v]) => `${k}: ${Array.isArray(v) ? v[0] : v}`)
               .join("; ")
-          : data?.error ?? "Something went wrong. Please try again.";
+          : data?.error ?? enquiry.genericError;
         setErrorMessage(msg);
         return;
       }
@@ -67,7 +68,7 @@ function EnquiryPageContent() {
       setFormState("submitted");
     } catch {
       setFormState("error");
-      setErrorMessage("Network error. Please check your connection and try again.");
+      setErrorMessage(enquiry.networkError);
     }
   }
 
@@ -78,15 +79,13 @@ function EnquiryPageContent() {
       <section className="space-y-6">
         <header className="space-y-3">
           <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
-            Enquiry
+            {enquiry.header.eyebrow}
           </p>
           <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
-            Tell us about your stay.
+            {enquiry.header.title}
           </h1>
           <p className="max-w-xl text-sm text-stone-600 sm:text-base">
-            Share your dates, number of guests, and any special occasion. We
-            will respond with availability, pricing, and room suggestions that
-            fit your needs.
+            {enquiry.header.description}
           </p>
         </header>
 
@@ -97,19 +96,19 @@ function EnquiryPageContent() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-stone-700">
-                Name
+                {enquiry.fields.name.label}
               </label>
               <input
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-                placeholder="Your full name"
+                placeholder={enquiry.fields.name.placeholder}
               />
             </div>
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-stone-700">
-                Email
+                {enquiry.fields.email.label}
               </label>
               <input
                 required
@@ -117,23 +116,23 @@ function EnquiryPageContent() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-                placeholder="you@example.com"
+                placeholder={enquiry.fields.email.placeholder}
               />
             </div>
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-stone-700">
-                Phone (optional)
+                {enquiry.fields.phone.label}
               </label>
               <input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-                placeholder="Include country code if outside India"
+                placeholder={enquiry.fields.phone.placeholder}
               />
             </div>
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-stone-700">
-                Guests
+                {enquiry.fields.guests.label}
               </label>
               <input
                 required
@@ -149,7 +148,7 @@ function EnquiryPageContent() {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-stone-700">
-                Check-in
+                {enquiry.fields.checkIn.label}
               </label>
               <input
                 required
@@ -161,7 +160,7 @@ function EnquiryPageContent() {
             </div>
             <div className="space-y-1.5">
               <label className="block text-xs font-medium text-stone-700">
-                Check-out
+                {enquiry.fields.checkOut.label}
               </label>
               <input
                 required
@@ -175,22 +174,22 @@ function EnquiryPageContent() {
 
           <div className="space-y-1.5">
             <label className="block text-xs font-medium text-stone-700">
-              Interested in a specific offer?{" "}
+              {enquiry.fields.offer.label}{" "}
               <span className="font-normal text-stone-500">
-                (optional, pre-filled if you came from an offer page)
+                {enquiry.fields.offer.hint}
               </span>
             </label>
             <input
               value={offer}
               onChange={(e) => setOffer(e.target.value)}
               className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-              placeholder="Offer name or leave blank for general enquiry"
+              placeholder={enquiry.fields.offer.placeholder}
             />
           </div>
 
           <div className="space-y-1.5">
             <label className="block text-xs font-medium text-stone-700">
-              Anything you would like us to know?
+              {enquiry.fields.message.label}
             </label>
             <textarea
               required
@@ -198,7 +197,7 @@ function EnquiryPageContent() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-              placeholder="Share the purpose of your trip, dietary preferences, or room requests."
+              placeholder={enquiry.fields.message.placeholder}
             />
           </div>
 
@@ -215,8 +214,11 @@ function EnquiryPageContent() {
                   : "Send enquiry"}
             </button>
             <p className="text-xs text-stone-500">
-              We usually respond within{" "}
-              <span className="font-medium text-stone-700">24 hours</span>.
+              {enquiry.responseNote.before}{" "}
+              <span className="font-medium text-stone-700">
+                {enquiry.responseNote.value}
+              </span>
+              .
             </p>
           </div>
 
@@ -228,8 +230,7 @@ function EnquiryPageContent() {
 
           {isSubmitted && (
             <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
-              Thank you for reaching out. We have received your enquiry and will
-              get back to you with availability and pricing within 24 hours.
+              {enquiry.success}
             </p>
           )}
         </form>
@@ -238,41 +239,27 @@ function EnquiryPageContent() {
       <aside className="space-y-6">
         <div className="rounded-2xl border border-emerald-100 bg-white p-5 text-sm text-stone-700 shadow-md shadow-emerald-100/40">
           <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
-            Helpful notes
+            {enquiry.notes.title}
           </h2>
           <ul className="mt-3 space-y-2 text-sm text-stone-600">
-            <li className="flex gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-              <span>
-                Children are welcome. Share ages and we will suggest the best
-                room configuration.
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-              <span>
-                Dietary preferences can be accommodated with advance notice.
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-              <span>
-                Celebrations can include room decor, cake, or a private dinner.
-              </span>
-            </li>
+            {enquiry.notes.items.map((item) => (
+              <li key={item} className="flex gap-2">
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                <span>{item}</span>
+              </li>
+            ))}
           </ul>
         </div>
 
         <div className="rounded-2xl border border-emerald-200/60 bg-emerald-50 p-5 text-sm text-emerald-900">
           <h2 className="text-sm font-semibold text-emerald-900">
-            Need a faster response?
+            {enquiry.fasterResponse.title}
           </h2>
           <p className="mt-2 text-emerald-800">
-            Mention urgent timelines in your message and we will prioritize your
-            request.
+            {enquiry.fasterResponse.description}
           </p>
           <p className="mt-3 text-xs text-emerald-700">
-            Phone and WhatsApp details can be added here once ready to publish.
+            {enquiry.fasterResponse.note}
           </p>
         </div>
       </aside>
@@ -283,7 +270,7 @@ function EnquiryPageContent() {
 export default function EnquiryPage() {
   return (
     <Suspense
-      fallback={<div className="text-sm text-stone-500">Loading enquiry form...</div>}
+      fallback={<div className="text-sm text-stone-500">{enquiry.loading}</div>}
     >
       <EnquiryPageContent />
     </Suspense>

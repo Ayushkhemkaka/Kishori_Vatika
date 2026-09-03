@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { contactForm } from "@/content/site-content";
 
 type FormState = "idle" | "submitting" | "submitted" | "error";
 
@@ -32,7 +33,7 @@ export function ContactForm() {
       const data = await res.json();
       if (!res.ok) {
         setFormState("error");
-        setErrorMessage(data?.error ?? "Failed to send message");
+        setErrorMessage(data?.error ?? contactForm.genericError);
         return;
       }
 
@@ -43,7 +44,7 @@ export function ContactForm() {
       setMessage("");
     } catch {
       setFormState("error");
-      setErrorMessage("Network error. Please try again.");
+      setErrorMessage(contactForm.networkError);
     }
   }
 
@@ -55,19 +56,19 @@ export function ContactForm() {
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <label className="block text-xs font-medium text-stone-700">
-            Name
+            {contactForm.fields.name.label}
           </label>
           <input
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-            placeholder="Your full name"
+            placeholder={contactForm.fields.name.placeholder}
           />
         </div>
         <div className="space-y-1.5">
           <label className="block text-xs font-medium text-stone-700">
-            Email
+            {contactForm.fields.email.label}
           </label>
           <input
             required
@@ -75,25 +76,25 @@ export function ContactForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-            placeholder="you@example.com"
+            placeholder={contactForm.fields.email.placeholder}
           />
         </div>
         <div className="space-y-1.5 sm:col-span-2">
           <label className="block text-xs font-medium text-stone-700">
-            Phone (optional)
+            {contactForm.fields.phone.label}
           </label>
           <input
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-            placeholder="Include country code if outside India"
+            placeholder={contactForm.fields.phone.placeholder}
           />
         </div>
       </div>
 
       <div className="space-y-1.5">
         <label className="block text-xs font-medium text-stone-700">
-          Message
+          {contactForm.fields.message.label}
         </label>
         <textarea
           required
@@ -101,7 +102,7 @@ export function ContactForm() {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           className="w-full rounded-lg border border-emerald-200 bg-white px-3 py-2 text-sm text-stone-900 outline-none ring-0 transition focus:border-emerald-400"
-          placeholder="Tell us how we can help"
+          placeholder={contactForm.fields.message.placeholder}
         />
       </div>
 
@@ -111,10 +112,10 @@ export function ContactForm() {
         className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
       >
         {formState === "submitting"
-          ? "Sending..."
+          ? contactForm.submit.submitting
           : formState === "submitted"
-            ? "Message sent"
-            : "Send message"}
+            ? contactForm.submit.submitted
+            : contactForm.submit.idle}
       </button>
 
       {formState === "error" && errorMessage && (
@@ -125,7 +126,7 @@ export function ContactForm() {
 
       {formState === "submitted" && (
         <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
-          Thanks for reaching out. We will respond within 24 hours.
+          {contactForm.success}
         </p>
       )}
     </form>

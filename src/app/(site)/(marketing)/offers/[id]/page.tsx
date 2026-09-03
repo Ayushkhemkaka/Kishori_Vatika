@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { cache } from "react";
 import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { OfferClickLogger } from "./OfferClickLogger";
+import { offers as offersContent } from "@/content/site-content";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -68,24 +69,23 @@ export default async function OfferDetailPage({
     return (
       <div className="space-y-4">
         <h1 className="font-display text-3xl font-normal tracking-tight text-stone-900">
-          Offer not found
+          {offersContent.detail.notFound.title}
         </h1>
         <p className="text-sm text-stone-600">
-          This offer does not exist or is no longer active. Browse our current
-          offers or send an enquiry and we will curate something for your dates.
+          {offersContent.detail.notFound.description}
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link
             href="/offers"
             className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
-            Back to offers
+            {offersContent.detail.notFound.primaryCta.label}
           </Link>
           <Link
             href="/enquiry"
             className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
           >
-            Send an enquiry
+            {offersContent.detail.notFound.secondaryCta.label}
           </Link>
         </div>
       </div>
@@ -102,7 +102,7 @@ export default async function OfferDetailPage({
       <OfferClickLogger offerId={offer.id} />
       <header className="space-y-3">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
-          Offer
+          {offersContent.detail.eyebrow}
         </p>
         <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
           {offer.title}
@@ -131,7 +131,7 @@ export default async function OfferDetailPage({
       <section className="grid gap-8 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
         <div className="space-y-4 rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40">
           <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
-            What is included
+            {offersContent.detail.includesTitle}
           </h2>
           <ul className="mt-2 space-y-2 text-sm text-stone-600">
             {includes.map((item) => (
@@ -145,25 +145,23 @@ export default async function OfferDetailPage({
 
         <aside className="space-y-4 rounded-2xl border border-emerald-200/60 bg-emerald-50 p-5 text-sm text-emerald-900 shadow-md shadow-emerald-100/40">
           <h2 className="text-sm font-semibold text-emerald-900">
-            Ready to plan your stay?
+            {offersContent.detail.asideTitle}
           </h2>
           <p className="text-emerald-800">
-            Share your dates, number of guests, and any special requests. Our
-            team will get back to you with availability and pricing within 24
-            hours.
+            {offersContent.detail.asideDescription}
           </p>
           <div className="flex flex-col gap-3 pt-2 sm:flex-row">
             <Link
               href={`/enquiry?offer=${encodeURIComponent(offer.id)}`}
               className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
             >
-              Enquire about this offer
+              {offersContent.detail.primaryCta.label}
             </Link>
             <Link
               href="/offers"
               className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
             >
-              View all offers
+              {offersContent.detail.secondaryCta.label}
             </Link>
           </div>
         </aside>

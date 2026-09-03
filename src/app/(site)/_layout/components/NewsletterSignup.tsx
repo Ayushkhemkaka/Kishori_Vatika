@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { newsletter } from "@/content/site-content";
 
 type FormState = "idle" | "submitting" | "submitted" | "error";
 
@@ -23,14 +24,14 @@ export function NewsletterSignup() {
       const data = await res.json();
       if (!res.ok) {
         setState("error");
-        setError(data?.error ?? "Failed to subscribe");
+        setError(data?.error ?? newsletter.genericError);
         return;
       }
       setState("submitted");
       setEmail("");
     } catch {
       setState("error");
-      setError("Network error. Please try again.");
+      setError(newsletter.networkError);
     }
   }
 
@@ -41,7 +42,7 @@ export function NewsletterSignup() {
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email for updates"
+        placeholder={newsletter.placeholder}
         className="w-full rounded-full border border-emerald-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none transition focus:border-emerald-400 sm:w-64"
       />
       <button
@@ -50,10 +51,10 @@ export function NewsletterSignup() {
         className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300"
       >
         {state === "submitting"
-          ? "Joining..."
+          ? newsletter.submit.submitting
           : state === "submitted"
-            ? "Subscribed"
-            : "Join updates"}
+            ? newsletter.submit.submitted
+            : newsletter.submit.idle}
       </button>
       {state === "error" && (
         <span className="text-xs text-rose-700">{error}</span>

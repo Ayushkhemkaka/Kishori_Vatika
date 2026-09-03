@@ -83,11 +83,10 @@ export default function ContactPage() {
       <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <div>
           <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
-            Send a message
+            {contact.messageBlock.title}
           </h2>
           <p className="mt-2 text-sm text-stone-600">
-            Prefer a quick note? Share your dates and we will respond with
-            availability and pricing details.
+            {contact.messageBlock.description}
           </p>
           <div className="mt-4">
             <ContactForm />
@@ -95,21 +94,15 @@ export default function ContactPage() {
         </div>
         <div className="rounded-2xl border border-emerald-100 bg-white p-6 text-sm text-stone-600 shadow-md shadow-emerald-100/40">
           <h3 className="text-sm font-semibold text-stone-900">
-            What we typically need
+            {contact.checklist.title}
           </h3>
           <ul className="mt-3 space-y-2">
-            <li className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Preferred dates and guest count.
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Room category or event needs.
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Any special requests or timing.
-            </li>
+            {contact.checklist.items.map((item) => (
+              <li key={item} className="flex items-start gap-2">
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
       </section>

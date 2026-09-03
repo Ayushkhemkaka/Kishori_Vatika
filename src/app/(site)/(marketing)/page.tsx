@@ -5,7 +5,7 @@ import { HeroCarousel } from "./components/HeroCarousel";
 import { FacilityCard } from "./components/FacilityCard";
 import { facilities } from "./facilities/facility-data";
 import { attachFacilityImages, listHeroImages } from "./lib/image-loader";
-import { home } from "@/content/site-content";
+import { home, site } from "@/content/site-content";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -61,40 +61,6 @@ const roomCategories = [
     bed: "King bed",
     perks: ["Living area", "Premium bath", "Priority dining"],
   },
-];
-
-const featureHighlights = [
-  {
-    title: "Restaurant",
-    description: "Fresh desi flavours served all day. From a quick meal to a 500-guest feast, our kitchen is always ready",
-  },
-  {
-    title: "Swimming Pool",
-    description: "The only pool in the area. Dive in, cool down, let the afternoon disappear",
-  },
-  {
-    title: "Banquet",
-    description: "A grand indoor venue for up to 500 guests. Shaadis, receptions, conferences, all with elegance",
-  },
-  {
-    title: "Small Hall",
-    description: "Two intimate halls for birthdays, anniversaries, small corporate meets, and private gatherings",
-  },
-  {
-    title: "Lawn",
-    description: "Open-air celebrations under the sky. Sangeet, cocktail nights, or a reception wrapped in greenery",
-  },
-  {
-    title: "Rooms",
-    description: "20 comfortable rooms with garden views. Clean, quiet, and built for rest, not just sleep",
-  },
-];
-
-const signatureMoments = [
-  "Tea service on the terrace",
-  "Curated breakfast spreads",
-  "Evening poolside calm",
-  "Personalized event planning",
 ];
 
 function formatPrice(price: { toString: () => string }) {
@@ -162,61 +128,48 @@ export default async function MarketingHomePage() {
       <section className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
         <div className="space-y-6">
           <p className="inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
-            Resorts & Restaurant
+            {home.intro.eyebrow}
             <span className="h-1 w-1 rounded-full bg-amber-400" />
-            Now booking
+            {home.intro.eyebrowNote}
           </p>
           <h1 className="text-balance font-display text-5xl font-normal tracking-tight text-stone-900 sm:text-6xl lg:text-7xl">
-            A refined stay at{" "}
+            {home.intro.title}{" "}
             <span className="font-forte bg-gradient-to-r from-amber-500 via-emerald-500 to-lime-500 bg-clip-text text-transparent">
-              KiSHORi VATiKA
+              {site.name}
             </span>
             .
           </h1>
           <p className="max-w-xl text-balance text-base text-stone-600 sm:text-lg">
-            "In the heart of rural West Champaran, where no resort had ever stood,
-            we planted a dream in 2022. A garden where celebration and stillness could
-            live side by side. We named it  <span className="font-forte">KiSHORi VATiKA</span>,
-            because like Kishori, true beauty doesn't shout. It blooms quietly, and those who
-            arrive, simply know.
+            {home.intro.storyBefore}{" "}
+            <span className="font-forte">{site.name}</span>
+            {home.intro.storyAfter}
             <br />
             <br />
-            Today, this garden hosts grand shaadis and silent mornings alike.
-            And just like its name, it stays forever fresh, forever welcoming."
+            {home.intro.storySecond}
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
               href="/enquiry"
               className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
             >
-              Check availability
+              {home.intro.primaryCta.label}
             </Link>
             <Link
               href="/offers"
               className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
             >
-              View current offers
+              {home.intro.secondaryCta.label}
             </Link>
           </div>
           <dl className="mt-4 grid gap-4 text-sm text-stone-600 sm:grid-cols-3">
-            <div>
-              <dt className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
-                Check-in / Check-out
-              </dt>
-              <dd>12:00 pm - 10:00 am</dd>
-            </div>
-            <div>
-              <dt className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
-                Rooms inventory
-              </dt>
-              <dd>20 rooms</dd>
-            </div>
-            <div>
-              <dt className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
-                Event spaces
-              </dt>
-              <dd>1 banquet, 1 small hall, 1 lawn</dd>
-            </div>
+            {home.intro.stats.map((stat) => (
+              <div key={stat.label}>
+                <dt className="text-[11px] uppercase tracking-[0.24em] text-stone-500">
+                  {stat.label}
+                </dt>
+                <dd>{stat.value}</dd>
+              </div>
+            ))}
           </dl>
         </div>
 
@@ -234,10 +187,10 @@ export default async function MarketingHomePage() {
             />
             <div className="space-y-3 border-t border-emerald-100 bg-emerald-50/60 p-5">
               <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
-                Stay the Kishori way
+                {home.photoCaption.eyebrow}
               </p>
               <p className="text-sm text-stone-700">
-                Comfort that feels earned. Greenery that feels endless. A stay you will remember long after checkout
+                {home.photoCaption.description}
               </p>
             </div>
           </div>
@@ -280,7 +233,7 @@ export default async function MarketingHomePage() {
             {home.experiencesSection.description}
           </p>
           <ul className="space-y-2 text-sm text-stone-600">
-            {signatureMoments.map((moment) => (
+            {home.experiencesSection.moments.map((moment) => (
               <li key={moment} className="flex items-center gap-2">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                 {moment}
@@ -449,14 +402,14 @@ export default async function MarketingHomePage() {
           </div>
         ) : (
           <p className="rounded-2xl border border-emerald-100 bg-white p-5 text-sm text-stone-600">
-            No active offers at the moment. Check back soon or{" "}
+            {home.offersSection.emptyBefore}{" "}
             <Link
               href="/enquiry"
               className="font-medium text-emerald-700 hover:text-emerald-600"
             >
-              send an enquiry
+              {home.offersSection.emptyLinkLabel}
             </Link>{" "}
-            and we will tailor something for your dates.
+            {home.offersSection.emptyAfter}
           </p>
         )}
       </section>

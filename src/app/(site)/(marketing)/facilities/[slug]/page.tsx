@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { facilities } from "../facility-data";
 import { ImageCarousel } from "../../components/ImageCarousel";
 import { attachFacilityImages } from "../../lib/image-loader";
+import { facilitiesPage } from "@/content/site-content";
 
 export const runtime = "nodejs";
 
@@ -46,7 +47,7 @@ export default async function FacilityDetailPage({
     <div className="space-y-10">
       <nav className="text-[11px] font-medium uppercase tracking-[0.24em] text-stone-500">
         <Link href="/facilities" className="transition hover:text-emerald-700">
-          Facilities
+          {facilitiesPage.detail.breadcrumb}
         </Link>
         <span className="mx-2 text-stone-300">/</span>
         <span className="text-emerald-700">{facility.title}</span>
@@ -74,10 +75,10 @@ export default async function FacilityDetailPage({
         <div className="space-y-8">
           <div className="grid grid-cols-2 gap-4 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5 text-sm text-stone-700 sm:grid-cols-4">
             {[
-              ["Timing", facility.timing],
-              ["Best for", facility.bestFor],
-              ["Capacity", facility.capacity],
-              ["Access", facility.access],
+              [facilitiesPage.detail.specLabels.timing, facility.timing],
+              [facilitiesPage.detail.specLabels.bestFor, facility.bestFor],
+              [facilitiesPage.detail.specLabels.capacity, facility.capacity],
+              [facilitiesPage.detail.specLabels.access, facility.access],
             ].map(([label, value]) => (
               <div key={label}>
                 <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-700">
@@ -90,7 +91,7 @@ export default async function FacilityDetailPage({
 
           <div>
             <h2 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
-              Highlights
+              {facilitiesPage.detail.highlightsTitle}
             </h2>
             <ul className="mt-3 space-y-2 text-sm text-stone-600">
               {facility.highlights.map((item) => (
@@ -104,7 +105,7 @@ export default async function FacilityDetailPage({
 
           <div>
             <h2 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
-              Amenities
+              {facilitiesPage.detail.amenitiesTitle}
             </h2>
             <ul className="mt-3 flex flex-wrap gap-2 text-sm text-stone-600">
               {(facility.amenities ?? []).map((item) => (
@@ -121,24 +122,23 @@ export default async function FacilityDetailPage({
 
         <aside className="h-fit space-y-4 rounded-2xl border border-emerald-200/60 bg-emerald-50 p-6">
           <h2 className="font-sans text-lg font-medium text-emerald-900">
-            Planning something here?
+            {facilitiesPage.detail.asideTitle}
           </h2>
           <p className="text-sm leading-relaxed text-emerald-800">
-            Tell us your dates and guest count and we will come back with
-            availability, layouts, and pricing.
+            {facilitiesPage.detail.asideDescription}
           </p>
           <div className="flex flex-col gap-3 pt-1">
             <Link
-              href="/enquiry"
+              href={facilitiesPage.detail.primaryCta.href}
               className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
             >
-              Enquire now
+              {facilitiesPage.detail.primaryCta.label}
             </Link>
             <Link
-              href="/contact"
+              href={facilitiesPage.detail.secondaryCta.href}
               className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
             >
-              Talk to team
+              {facilitiesPage.detail.secondaryCta.label}
             </Link>
           </div>
         </aside>
@@ -146,7 +146,7 @@ export default async function FacilityDetailPage({
 
       <section className="space-y-5 border-t border-emerald-100 pt-8">
         <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
-          Other facilities
+          {facilitiesPage.detail.otherTitle}
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {others.map((other) => (
@@ -162,7 +162,7 @@ export default async function FacilityDetailPage({
                 {other.description}
               </p>
               <span className="mt-3 inline-block text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700">
-                View &rarr;
+                {facilitiesPage.detail.viewLabel} &rarr;
               </span>
             </Link>
           ))}
