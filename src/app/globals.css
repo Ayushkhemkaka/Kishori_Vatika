@@ -1,20 +1,165 @@
 @import "tailwindcss";
 
+/* ======================= THE COLOUR COMBINATION =======================
+   This block is the only place colours are chosen. Everything downstream is
+   derived from it:
+
+     - the Tailwind utilities the markup already uses (bg-emerald-600,
+       text-amber-700, text-stone-600, ...) are re-pointed at these scales in
+       the `@theme inline` block below, so no class name has to change;
+     - surfaces, borders, shadows and washes are mixed from the same scales
+       further down instead of repeating literal colours.
+
+   To re-theme the site, replace the values in --brand-*, --accent-* and
+   --neutral-* (plus the paper/charcoal grounds if the mood changes).
+   Nothing else needs touching.
+
+   Current combination: midnight ink blue + antique brass on alabaster.
+   Ink carries the structure (buttons, links, rules) and brass is spent
+   sparingly on badges and eyebrows - the restraint is what reads as
+   expensive. Both are heavily desaturated: a saturated blue would look
+   corporate and a saturated gold would look like a discount banner. */
+:root {
+  /* Brand - midnight ink, a slate-leaning navy. Buttons, links, rules. */
+  --brand-50: #f4f6f9;
+  --brand-100: #e5eaf0;
+  --brand-200: #c8d3df;
+  --brand-300: #9dadc0;
+  --brand-400: #6d8199;
+  --brand-500: #4b6079;
+  --brand-600: #344960;
+  --brand-700: #29394b;
+  --brand-800: #202c3b;
+  --brand-900: #1a2431;
+  --brand-950: #0d131b;
+
+  /* Accent - antique brass, warmer and browner than a yellow gold so it
+     sits against the ink rather than vibrating against it. */
+  --accent-50: #fbf7f1;
+  --accent-100: #f4ebdd;
+  --accent-200: #e8d5bb;
+  --accent-300: #d6b78d;
+  --accent-400: #c09a6a;
+  --accent-500: #a8804e;
+  --accent-600: #8c6840;
+  --accent-700: #6f5334;
+  --accent-800: #57422c;
+  --accent-900: #473726;
+  --accent-950: #261d14;
+
+  /* Neutral - greys pulled a few degrees toward the brand so text, rules and
+     ink read as one family. Tailwind's stone-* utilities map onto this. */
+  --neutral-50: #f8f8f7;
+  --neutral-100: #f1f1f0;
+  --neutral-200: #e3e4e3;
+  --neutral-300: #cbcdd0;
+  --neutral-400: #8a8f98;
+  --neutral-500: #646972;
+  --neutral-600: #4f545c;
+  --neutral-700: #383c43;
+  --neutral-800: #24272c;
+  --neutral-900: #17191d;
+  --neutral-950: #0e1014;
+
+  /* Ink - the text tones, named for what they do. */
+  --ink-strong: var(--neutral-900);
+  --ink: var(--neutral-700);
+  --ink-muted: var(--neutral-500);
+  --ink-faint: var(--neutral-400);
+
+  /* Paper - alabaster: an off-white with a trace of warmth, so the ink
+     never reads as harsh and the brass has something to sit on. */
+  --paper-100: #fdfcfa;
+  --paper-200: #f7f5f1;
+  --paper-300: #efece5;
+
+  /* Charcoal - the dark-mode ground: near-black carrying the same blue
+     cast as the brand, plus its ink. */
+  --charcoal-900: #070910;
+  --charcoal-800: #0a0d14;
+  --charcoal-700: #0c0f16;
+  --charcoal-600: #14181f;
+  --charcoal-500: #191e26;
+  --dark-ink: #f2f1ee;
+}
+
+/* The markup keeps Tailwind's emerald/amber utility names; they are pointed
+   at the scales above. `inline` makes each utility read the variable at use
+   time, so a [data-theme] block can re-point a whole scale if ever needed. */
+@theme inline {
+  --color-emerald-50: var(--brand-50);
+  --color-emerald-100: var(--brand-100);
+  --color-emerald-200: var(--brand-200);
+  --color-emerald-300: var(--brand-300);
+  --color-emerald-400: var(--brand-400);
+  --color-emerald-500: var(--brand-500);
+  --color-emerald-600: var(--brand-600);
+  --color-emerald-700: var(--brand-700);
+  --color-emerald-800: var(--brand-800);
+  --color-emerald-900: var(--brand-900);
+  --color-emerald-950: var(--brand-950);
+
+  --color-amber-50: var(--accent-50);
+  --color-amber-100: var(--accent-100);
+  --color-amber-200: var(--accent-200);
+  --color-amber-300: var(--accent-300);
+  --color-amber-400: var(--accent-400);
+  --color-amber-500: var(--accent-500);
+  --color-amber-600: var(--accent-600);
+  --color-amber-700: var(--accent-700);
+  --color-amber-800: var(--accent-800);
+  --color-amber-900: var(--accent-900);
+  --color-amber-950: var(--accent-950);
+
+  --color-stone-50: var(--neutral-50);
+  --color-stone-100: var(--neutral-100);
+  --color-stone-200: var(--neutral-200);
+  --color-stone-300: var(--neutral-300);
+  --color-stone-400: var(--neutral-400);
+  --color-stone-500: var(--neutral-500);
+  --color-stone-600: var(--neutral-600);
+  --color-stone-700: var(--neutral-700);
+  --color-stone-800: var(--neutral-800);
+  --color-stone-900: var(--neutral-900);
+  --color-stone-950: var(--neutral-950);
+}
+
 :root,
 [data-theme="light"] {
-  --background: #f9f8f2;
-  --foreground: #1f1a14;
-  --page-bg: radial-gradient(circle at top, #ffffff 0%, #f6f4ec 55%, #f0efe6 100%);
-  --page-pattern: linear-gradient(120deg, rgba(16, 185, 129, 0.05), transparent 45%),
-    linear-gradient(300deg, rgba(234, 179, 8, 0.08), transparent 40%);
+  --background: var(--paper-200);
+  --foreground: var(--ink-strong);
+  --page-bg: radial-gradient(
+    circle at top,
+    var(--paper-100) 0%,
+    var(--paper-200) 55%,
+    var(--paper-300) 100%
+  );
+  /* Barely-there wash: a premium page reads as paper, so the tints stay under
+     the threshold where they register as colour blocks. */
+  --page-pattern: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--brand-600) 4%, transparent),
+      transparent 45%
+    ),
+    linear-gradient(
+      300deg,
+      color-mix(in srgb, var(--accent-500) 5%, transparent),
+      transparent 40%
+    );
   --card-bg: #ffffff;
-  --card-border: rgba(16, 185, 129, 0.18);
+  --card-border: color-mix(in srgb, var(--brand-800) 15%, transparent);
   --surface-muted: rgba(255, 255, 255, 0.85);
-  --text-strong: #1f1a14;
-  --text: #3f3a34;
-  --text-muted: #6b645d;
-  --text-faint: #8a827a;
-  --shadow-color: rgba(16, 185, 129, 0.22);
+  --text-strong: var(--ink-strong);
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --text-faint: var(--ink-faint);
+  --shadow-color: color-mix(in srgb, var(--brand-900) 16%, transparent);
+  /* Border colour for the card hairlines, and the text selection wash. */
+  --hairline: color-mix(in srgb, var(--brand-700) 20%, transparent);
+  --selection: color-mix(in srgb, var(--accent-400) 32%, transparent);
+  --wordmark: var(--accent-700);
+  /* Thickness of the framing rule around cards and panels. */
+  --rule-width: 2px;
   --container-max: 80rem;
   --gutter: 1rem;
   --gutter-sm: 1.25rem;
@@ -47,25 +192,30 @@
   --leading-snug: 1.35;
   --leading-normal: 1.5;
   --leading-relaxed: 1.65;
-  --shadow-sm: 0 6px 16px rgba(16, 185, 129, 0.12);
-  --shadow-md: 0 12px 26px rgba(16, 185, 129, 0.18);
-  --shadow-lg: 0 18px 40px rgba(16, 185, 129, 0.22);
+  --shadow-sm: 0 4px 14px color-mix(in srgb, var(--brand-900) 7%, transparent);
+  --shadow-md: 0 10px 28px color-mix(in srgb, var(--brand-900) 9%, transparent);
+  --shadow-lg: 0 22px 48px color-mix(in srgb, var(--brand-900) 12%, transparent);
 }
 
 [data-theme="dark"] {
-  --background: #0e0e0c;
-  --foreground: #f5f2ea;
-  --page-bg: linear-gradient(180deg, #090909 0%, #070707 100%);
+  --background: var(--charcoal-700);
+  --foreground: var(--dark-ink);
+  --page-bg: linear-gradient(180deg, var(--charcoal-800) 0%, var(--charcoal-900) 100%);
   --page-pattern: none;
 
-  --card-bg: #171614;
-  --card-border: rgba(16, 185, 129, 0.25);
-  --surface-muted: rgba(23, 22, 20, 0.85);
-  --text-strong: #f5f2ea;
-  --text: rgba(245, 242, 234, 0.82);
-  --text-muted: rgba(245, 242, 234, 0.7);
-  --text-faint: rgba(245, 242, 234, 0.6);
-  --shadow-color: rgba(16, 185, 129, 0.12);
+  --card-bg: var(--charcoal-600);
+  /* A thin gold hairline is what separates a dark surface that looks premium
+     from one that just looks unlit. */
+  --card-border: color-mix(in srgb, var(--accent-400) 18%, transparent);
+  --surface-muted: color-mix(in srgb, var(--charcoal-500) 85%, transparent);
+  --text-strong: var(--dark-ink);
+  --text: color-mix(in srgb, var(--dark-ink) 82%, transparent);
+  --text-muted: color-mix(in srgb, var(--dark-ink) 68%, transparent);
+  --text-faint: color-mix(in srgb, var(--dark-ink) 55%, transparent);
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --hairline: var(--card-border);
+  --selection: color-mix(in srgb, var(--accent-400) 32%, transparent);
+  --wordmark: var(--accent-300);
 }
 
 @theme inline {
@@ -96,6 +246,28 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Card edges. Tailwind's `border` is a 1px hairline, which at these card
+   sizes disappears into the photo above it; a heavier rule reads as a frame
+   and is what gives the boxes their weight.
+
+   The selectors are compound on purpose: only elements carrying the
+   all-sides `border` utility are widened, so `border-t` dividers stay
+   hairlines instead of turning into full boxes. */
+.border.border-emerald-100,
+.border.border-emerald-200,
+.border.border-emerald-200\/60,
+.border.border-emerald-100\/60,
+.border.border-amber-100,
+.border.border-rose-200 {
+  border-width: var(--rule-width);
+}
+
+/* Pills and buttons keep the hairline - the heavier rule is for panels, and
+   at pill size it reads as chunky rather than considered. */
+.border.rounded-full {
+  border-width: 1px;
+}
+
 [data-theme="light"] .border-emerald-100,
 [data-theme="light"] .border-emerald-200,
 [data-theme="light"] .border-emerald-200\/60,
@@ -103,7 +275,29 @@ body {
 [data-theme="light"] .border-amber-100 {
   /* Colour only. Setting border-width here would force all four sides on any
      element carrying the class, turning a border-t divider into a full box. */
-  border-color: rgba(6, 95, 70, 0.45) !important;
+  border-color: var(--hairline) !important;
+}
+
+/* Brand text on a dark ground. The brand scale is ink, so its dark steps
+   (the eyebrows, aside headings, and the secondary button label) disappear
+   against the charcoal. On dark they become brass instead - the accent is
+   the one hue in the palette that stays legible over both grounds. */
+[data-theme="dark"] .text-emerald-700,
+[data-theme="dark"] .text-emerald-800,
+[data-theme="dark"] .text-emerald-900,
+[data-theme="dark"] .text-emerald-950 {
+  color: var(--accent-300) !important;
+}
+
+[data-theme="dark"] .text-emerald-700\/60 {
+  color: color-mix(in srgb, var(--accent-300) 60%, transparent) !important;
+}
+
+/* Hover states go a step brighter rather than a step darker. */
+[data-theme="dark"] .hover\:text-emerald-700:hover,
+[data-theme="dark"] .hover\:text-emerald-600:hover,
+[data-theme="dark"] .group:hover .group-hover\:text-emerald-600 {
+  color: var(--accent-200) !important;
 }
 
 [data-theme="dark"] .bg-white,
@@ -122,6 +316,16 @@ body {
 [data-theme="dark"] .bg-amber-50\/80,
 [data-theme="dark"] .bg-amber-50\/90 {
   background-color: var(--surface-muted) !important;
+}
+
+/* The accent badge: a cream pill would burn a hole in a dark page, so on
+   dark it becomes a brass-tinted chip with brass text. */
+[data-theme="dark"] .bg-amber-100 {
+  background-color: color-mix(in srgb, var(--accent-400) 14%, transparent) !important;
+}
+
+[data-theme="dark"] .text-amber-700 {
+  color: var(--accent-300) !important;
 }
 
 [data-theme="dark"] .text-stone-900,
@@ -180,6 +384,13 @@ p {
 
 .font-forte {
   font-family: "Forte", "Brush Script MT", cursive;
+}
+
+/* The hotel name set as a wordmark. A single brass tone - the gradient it
+   replaced fought the script letterforms - stepped up in dark mode so it
+   keeps its contrast against the charcoal ground. */
+.kv-wordmark {
+  color: var(--wordmark);
 }
 
 .kv-container {
@@ -246,19 +457,23 @@ p {
 }
 
 .kv-home-header-text {
-  color: #1f1a14;
+  color: var(--ink-strong);
 }
 
 .kv-home-header-subtext {
-  color: #2f2a24;
+  color: var(--ink);
 }
 
 ::selection {
-  background: rgba(234, 179, 8, 0.35);
+  background: var(--selection);
 }
 
 [data-theme="dark"] .kv-themed-section {
-  background: linear-gradient(145deg, rgba(20, 19, 17, 0.96), rgba(14, 14, 12, 0.96)) !important;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--charcoal-600) 96%, transparent),
+    color-mix(in srgb, var(--charcoal-700) 96%, transparent)
+  ) !important;
 }
 [data-theme="dark"] .kv-hero-frame::after {
   content: "";
@@ -273,28 +488,28 @@ p {
 }
 
 [data-theme="dark"] .kv-home-header-text {
-  color: #10b981 !important;
+  color: var(--accent-400) !important;
 }
 
 [data-theme="dark"] .kv-home-header-subtext {
-  color: rgba(16, 185, 129, 0.9) !important;
+  color: color-mix(in srgb, var(--accent-400) 85%, transparent) !important;
 }
 
 /* Dark-mode overrides for light marketing gradients */
 [data-theme="dark"] .bg-gradient-to-br.from-amber-50\/80.via-white.to-emerald-50\/80 {
   background-image: linear-gradient(
     135deg,
-    rgba(20, 19, 17, 0.96),
-    rgba(16, 16, 14, 0.94),
-    rgba(22, 21, 18, 0.96)
+    color-mix(in srgb, var(--charcoal-500) 96%, transparent),
+    color-mix(in srgb, var(--charcoal-600) 94%, transparent),
+    color-mix(in srgb, var(--charcoal-500) 96%, transparent)
   ) !important;
 }
 
 [data-theme="dark"] .bg-gradient-to-br.from-emerald-50\/80.via-white.to-amber-50\/80 {
   background-image: linear-gradient(
     135deg,
-    rgba(18, 19, 17, 0.96),
-    rgba(16, 16, 14, 0.94),
-    rgba(24, 22, 18, 0.96)
+    color-mix(in srgb, var(--charcoal-600) 96%, transparent),
+    color-mix(in srgb, var(--charcoal-500) 94%, transparent),
+    color-mix(in srgb, var(--charcoal-600) 96%, transparent)
   ) !important;
 }

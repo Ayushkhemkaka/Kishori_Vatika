@@ -9,7 +9,7 @@ export const metadata = roomsPage.meta;
 export default async function RoomsPage() {
   const roomsWithImages = await attachRoomImages(roomCategories);
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <header className="space-y-3 text-center sm:text-left">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">{roomsPage.header.eyebrow}</p>
         <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
@@ -21,7 +21,7 @@ export default async function RoomsPage() {
         </p>
       </header>
 
-      <div className="space-y-10">
+      <div className="space-y-8">
         {roomsWithImages.map((room) => (
           <section
             key={room.slug}
@@ -40,7 +40,11 @@ export default async function RoomsPage() {
               <span className="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
                 {room.badge}
               </span>
-              <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900">{room.title}</h2>
+              <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900">
+                <Link href={`/rooms/${room.slug}`} className="transition hover:text-emerald-700">
+                  {room.title}
+                </Link>
+              </h2>
               <p className="text-sm text-stone-600 sm:text-base">{room.longDescription}</p>
 
               <div className="grid grid-cols-2 gap-3 rounded-xl border border-emerald-100 bg-emerald-50/60 p-4 text-sm text-stone-700">
@@ -97,6 +101,12 @@ export default async function RoomsPage() {
                   className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
                 >
                   {roomsPage.detail.secondaryCta.label}
+                </Link>
+                <Link
+                  href={`/rooms/${room.slug}`}
+                  className="inline-flex items-center justify-center text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700 transition hover:text-emerald-600"
+                >
+                  {roomsPage.detail.viewLabel} &rarr;
                 </Link>
               </div>
             </div>

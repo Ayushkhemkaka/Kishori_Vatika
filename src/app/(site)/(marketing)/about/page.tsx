@@ -6,7 +6,7 @@ export const metadata: Metadata = about.meta;
 
 export default function AboutPage() {
   return (
-    <div className="space-y-12">
+    <div className="space-y-9">
       <header className="space-y-4">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           {about.header.eyebrow}

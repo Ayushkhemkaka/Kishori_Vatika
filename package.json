@@ -11,6 +11,8 @@
         "prisma:generate": "prisma generate",
         "postinstall": "npm run prisma:generate",
         "db:init": "node scripts/run-sql-on-build.cjs",
+        "google:setup": "node scripts/google-business-setup.mjs",
+        "google:check": "node scripts/google-business-check.mjs",
     "build": "npm run prisma:generate && next build",
     "build:cf": "npm run prisma:generate && npx @cloudflare/next-on-pages && node scripts/write-assetsignore.cjs",
         "start": "next start -p 5002",

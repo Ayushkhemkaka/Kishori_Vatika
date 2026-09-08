@@ -27,7 +27,7 @@ export type TitledItem = { title: string; description: string };
 export const site = {
   name: "KiSHORi VATiKA",
   role: "Resort - Since 2024",
-  location: "Ramnagar · West Champaran",
+  location: "Ramnagar, Bihar · Resort & Restaurant",
   responseTime: "We respond within 24 hours.",
 };
 
@@ -37,9 +37,9 @@ export const home = {
   hero: {
     eyebrow: site.location,
     title: "Where greenery hosts your grandest celebrations",
-    titleAccent: "and your quietest escapes",
+    titleAccent: "and your quietest escapes.",
     description:
-      "A garden resort for weddings, gatherings, and unhurried mornings.",
+      "West Champaran's first resort. Stay, swim, celebrate, all surrounded by nature.",
     primaryCta: { label: "Check availability", href: "/enquiry" } as Cta,
     secondaryCta: { label: "Explore rooms", href: "/rooms" } as Cta,
   },
@@ -48,7 +48,6 @@ export const home = {
     eyebrow: "Resorts & Restaurant",
     eyebrowNote: "Now booking",
     title: "A refined stay at",
-    // Split around the brand name, which is set in the display face.
     storyBefore:
       "\"In the heart of rural West Champaran, where no resort had ever stood, we planted a dream in 2022. A garden where celebration and stillness could live side by side. We named it",
     storyAfter:
@@ -67,36 +66,63 @@ export const home = {
   facilitiesSection: {
     title: "Facilities at a glance",
     description:
-      "Stay, swim, dine, celebrate. Everything under one roof, surrounded by green",
+      "Stay, swim, dine, celebrate. Everything under one roof, surrounded by green.",
     roomsCard: {
       title: "Rooms",
       badge: "Stay",
-      description: "A boutique inventory for attentive, personalized service.",
+      description:
+        "20 comfortable rooms with garden views. Clean, quiet, and built for rest, not just sleep.",
     },
   },
 
   experiencesSection: {
-    title: "Signature experiences",
+    title: "The Kishori experience",
     description:
-      "A resort atmosphere with warm hospitality, calm interiors, and events designed with care.",
+      "No traffic. No noise. Just warm hospitality, calm spaces, and celebrations done with care.",
+    contactCta: { label: "Speak with our team", href: "/contact" } as Cta,
     moments: [
-      "Tea service on the terrace",
-      "Curated breakfast spreads",
-      "Evening poolside calm",
-      "Personalized event planning",
+      "Morning chai amidst birdsong",
+      "Fresh desi breakfast spreads",
+      "Poolside afternoons with family",
+      "Shaadis planned down to the last detail",
     ],
+  },
+
+  locationSection: {
+    title: "Find us",
+    description:
+      "Ten minutes from Ramnagar town, with parking on site and easy access for event convoys.",
+    mapTitle: "Map showing KiSHORi VATiKA, Ramnagar, West Champaran",
+    /* Used for the directions link, and as the map fallback when no place id
+       is configured. Keep it specific enough to resolve on its own. */
+    mapQuery: "KiSHORi VATiKA Resort, Ramnagar, West Champaran, Bihar",
+    directionsLabel: "Get directions",
+  },
+
+  reviewsSection: {
+    title: "What guests say",
+    description: "Reviews from guests who have stayed and celebrated with us.",
+    countBefore: "from",
+    countAfter: "Google reviews",
+    ctaLabel: "Read reviews on Google",
+    /* Used only when the Google API returns nothing. Paste real quotes from
+       the listing here - author, rating, text, and when it was left - and
+       they render in place of the fetched ones. Left empty on purpose: the
+       block shows nothing rather than anything invented. */
+    manual: [] as { author: string; rating: number; text: string; when: string }[],
   },
 
   roomsSection: {
     title: "Rooms for every kind of stay",
     description:
-      "Five categories designed for couples, families, and business stays.",
+      "Designed for couples, families, business travellers, and wedding guests alike.",
+    inclusionNote: "Breakfast and Wi-Fi included",
+    cardCta: "View room",
   },
 
   offersSection: {
     title: "Current offers",
-    description: "Curated stays with thoughtful extras included.",
-    // Split around the inline enquiry link.
+    description: "Seasonal stays and celebration packages, crafted for you.",
     emptyBefore: "No active offers at the moment. Check back soon or",
     emptyLinkLabel: "send an enquiry",
     emptyAfter: "and we will tailor something for your dates.",
@@ -105,7 +131,7 @@ export const home = {
   photoCaption: {
     eyebrow: "Stay the Kishori way",
     description:
-      "Comfort that feels earned. Greenery that feels endless. A stay you will remember long after checkout",
+      "No traffic. No noise. Just clean rooms, green views, and the kind of rest that cities cannot offer.",
   },
 };
 
@@ -115,47 +141,47 @@ export const about = {
   meta: {
     title: "About",
     description:
-      "Learn about KiSHORi VATiKA, our rooms, dining, and event spaces designed for elegant stays.",
+      "Learn about KiSHORi VATiKA, West Champaran's first resort. Rooms, dining, pool, and event spaces designed for elegant stays and grand celebrations.",
   },
   header: {
     eyebrow: "About us",
-    title: "A resort built for refined stays.",
+    title: "A garden named after grace. Built for celebration.",
     description:
-      "is a thoughtfully designed hotel with elegant rooms, calm interiors, and warm hospitality. We focus on comfort, privacy, and the small details that make every stay feel effortless.",
+      "is West Champaran's first resort, set on the peaceful outskirts of Ramnagar. Built around the greenery and silence that define this land, we offer 20 rooms, a swimming pool, a restaurant, and event spaces for gatherings of up to 500 guests. Every detail is designed to make your stay feel personal and your celebration feel grand.",
   } as PageHeader,
 
   propertyHighlights: [
-    "5 room categories",
-    "20 rooms total",
-    "Restaurant and dining",
-    "Swimming pool",
-    "Banquet, small hall, and lawn",
+    "West Champaran's first resort",
+    "20 rooms across 5 categories",
+    "Restaurant with desi and event menus",
+    "The only swimming pool in the area",
+    "Banquet, 1 small hall, and a green lawn",
+    "Children's play area",
   ],
 
   values: [
     {
-      title: "Warm hospitality",
+      title: "Greenery first",
       description:
-        "A small team, attentive service, and a calm pace that lets you settle in quickly.",
+        "We did not build a resort and add gardens. We found the greenest land in West Champaran and built around it. Nature is not our backdrop, it is our foundation.",
     },
     {
-      title: "Boutique comfort",
+      title: "Trust above all",
       description:
-        "Twenty rooms across five categories, with thoughtful layouts and restful interiors.",
+        "From transparent pricing to honest service, we believe real hospitality begins with trust. Every guest is parivaar.",
     },
     {
       title: "Celebrations made easy",
       description:
-        "One banquet, one small hall, and one lawn supported by a focused, experienced events team.",
+        "Grand shaadi or quiet birthday. Corporate meet or family trip. We believe every gathering deserves a beautiful setting, regardless of its size.",
     },
   ] as TitledItem[],
 
   story: {
     title: "Our story",
-    // Split so the brand name can be rendered in the display face between them.
     bodyBefore: "We created",
     bodyAfter:
-      "to feel like a proper hotel stay with boutique charm. Whether you are here for a weekend escape, a family gathering, or a formal celebration, our spaces are designed to keep things simple, elegant, and comfortable.",
+      "because West Champaran deserved a place where families could celebrate, travellers could rest, and nature could remain untouched. Set on the outskirts of Ramnagar, away from the rush of town, this resort was born from a simple belief: that luxury and nature belong together. Whether you are here for a weekend escape, a grand shaadi, or a corporate offsite, our spaces are designed to keep things elegant, comfortable, and distinctly ours.",
     primaryCta: { label: "View current offers", href: "/offers" } as Cta,
     secondaryCta: { label: "Get in touch", href: "/contact" } as Cta,
   },
@@ -163,10 +189,11 @@ export const about = {
   expectations: {
     title: "What to expect",
     items: [
-      "Concierge-led service for stays and events.",
-      "Restaurant dining with tailored menus on request.",
+      "Warm, attentive service from a team that treats every guest like parivaar.",
+      "A restaurant serving fresh desi comfort food and custom event menus for up to 500 guests.",
       "The only pool in the area. Dive in, cool down, let the afternoon disappear.",
-      "Event support for weddings, corporate stays, and celebrations.",
+      "Full event support for shaadis, sangeet, birthdays, anniversaries, and corporate gatherings.",
+      "A safe children's play area where little guests have their own adventure.",
     ],
   },
 };
@@ -177,27 +204,27 @@ export const contact = {
   meta: {
     title: "Contact",
     description:
-      "Get in touch for bookings and enquiries. We respond within 24 hours.",
+      "Get in touch with KiSHORi VATiKA for room bookings, event enquiries, and celebrations. We respond within 24 hours.",
   },
   header: {
     eyebrow: "Contact",
-    title: "We would love to plan your stay.",
+    title: "Aaiye, apna samjhiye.",
     description:
-      "For bookings and enquiries, the quickest way to reach us is through the enquiry form. We respond within 24 hours and can tailor rooms, dining, and event setups for your dates.",
+      "Whether you want to book a room, plan a shaadi, or simply know what we offer, we are here to help. Share your dates and requirements and our team will respond within 24 hours with availability and pricing.",
   } as PageHeader,
 
   messageBlock: {
     title: "Send a message",
     description:
-      "Prefer a quick note? Share your dates and we will respond with availability and pricing details.",
+      "Share your dates, guest count, and occasion. We will respond with the best options for your stay or celebration.",
   },
 
   checklist: {
     title: "What we typically need",
     items: [
-      "Preferred dates and guest count.",
-      "Room category or event needs.",
-      "Any special requests or timing.",
+      "Preferred dates and number of guests.",
+      "Room category, event type, or celebration details.",
+      "Any special requests for food, decor, or arrangements.",
     ],
   },
 
@@ -211,13 +238,13 @@ export const contact = {
     {
       title: "Location",
       description:
-        "Quiet hillside location, about 10 minutes from the city center. Address shared upon confirmation.",
-      note: "Add your exact address and map link here before launch.",
+        "On the peaceful outskirts of Ramnagar, West Champaran, Bihar. A quiet, green setting away from the noise of town.",
+      note: "Add your exact address and Google Maps link here before launch.",
     },
     {
       title: "Phone and WhatsApp",
       description:
-        "Prefer to speak directly? Add your phone, WhatsApp, and email details here.",
+        "Prefer to speak directly? Call or WhatsApp us anytime. Add your phone number and email here.",
     },
   ],
 };
@@ -228,19 +255,20 @@ export const offers = {
   meta: {
     title: "Offers",
     description:
-      "Curated stay packages with dining, experiences, and event options at KiSHORi VATiKA.",
+      "Seasonal stay packages, celebration deals, and event offers at KiSHORi VATiKA, West Champaran's first resort.",
   },
   header: {
     eyebrow: "Offers",
-    title: "Curated stays with thoughtful extras.",
+    title: "Stays and celebrations, thoughtfully packaged.",
     description:
-      "These packages highlight the kinds of experiences we can create for your stay. Enquire to confirm availability and custom details for your dates.",
+      "Seasonal packages for getaways, shaadis, birthdays, and corporate stays. Enquire to confirm availability and we will customise the details for your dates.",
   } as PageHeader,
 
   categories: [
     "Weekend getaways",
-    "Business stays",
-    "Celebrations",
+    "Wedding packages",
+    "Birthday & anniversary",
+    "Corporate stays",
     "Family escapes",
   ],
 
@@ -248,14 +276,14 @@ export const offers = {
 
   empty: {
     description:
-      "No active offers at the moment. We are updating packages - check back soon or send an enquiry and we will tailor something for your dates.",
+      "No active offers at the moment. We are preparing new packages. Check back soon or send an enquiry and we will tailor something for your dates and occasion.",
     cta: { label: "Send an enquiry", href: "/enquiry" } as Cta,
   },
 
   callout: {
     title: "Looking for something specific?",
     description:
-      "Tell us your dates, number of guests, and the kind of experience you are after - quiet work week, anniversary celebration, or a family break - and we will respond with tailored options.",
+      "Tell us your dates, number of guests, and the kind of occasion you have in mind. A quiet family weekend, a grand shaadi, a corporate offsite, or a birthday bash. We will respond with tailored options and pricing.",
     cta: { label: "Send an enquiry", href: "/enquiry" } as Cta,
   },
 
@@ -270,7 +298,7 @@ export const offers = {
     notFound: {
       title: "Offer not found",
       description:
-        "This offer does not exist or is no longer active. Browse our current offers or send an enquiry and we will curate something for your dates.",
+        "This offer does not exist or is no longer active. Browse our current offers or send an enquiry and we will put together something for your dates.",
       primaryCta: { label: "Back to offers", href: "/offers" } as Cta,
       secondaryCta: { label: "Send an enquiry", href: "/enquiry" } as Cta,
     },
@@ -283,19 +311,19 @@ export const facilitiesPage = {
   meta: {
     title: "Facilities",
     description:
-      "Explore all facilities including restaurant, lawn, pool, banquet, and event spaces.",
+      "Explore all facilities at KiSHORi VATiKA including restaurant, swimming pool, banquet hall, lawn, small halls, and children's play area.",
   },
   header: {
     eyebrow: "Facilities",
     title: "Facilities at",
     description:
-      "Everything the property offers, from all-day dining to open lawns built for celebration. Open any facility for photos and details.",
+      "Everything the resort offers. From a desi kitchen that feeds 500 to a green lawn built for the grandest celebrations. Open any facility for photos and details.",
   } as PageHeader,
 
   callout: {
-    title: "Planning a celebration?",
+    title: "Planning a shaadi or celebration?",
     description:
-      "Share your dates and guest count and our team will suggest the right space, layout, and catering for the occasion.",
+      "Share your dates and guest count and our team will suggest the right venue, layout, menu, and decor for the occasion.",
     primaryCta: { label: "Enquire now", href: "/enquiry" } as Cta,
     secondaryCta: { label: "Talk to team", href: "/contact" } as Cta,
   },
@@ -326,18 +354,30 @@ export const roomsPage = {
   meta: {
     title: "Rooms",
     description:
-      "Explore all room categories with photos, amenities, and stay details.",
+      "20 rooms across 5 categories at KiSHORi VATiKA. Garden views, clean comfort, and the silence of West Champaran's greenest resort.",
   },
   header: {
     eyebrow: "Rooms",
     title: "Room categories at",
     description:
-      "Browse each room category with detailed specs, amenities, and larger photo sections.",
+      "20 rooms designed for business travellers, couples, families, and wedding guests. Browse each category for photos, amenities, and pricing.",
   } as PageHeader,
 
   detail: {
+    breadcrumb: "Rooms",
+    specLabels: {
+      price: "From",
+      occupancy: "Occupancy",
+      size: "Room size",
+      bed: "Bed type",
+    },
+    viewLabel: "View room",
     highlightsTitle: "Room highlights",
     amenitiesTitle: "Amenities",
+    asideTitle: "Ready to book this room?",
+    asideDescription:
+      "Share your dates and number of guests. We will confirm availability and pricing for this category within 24 hours.",
+    otherTitle: "Other room categories",
     primaryCta: { label: "Enquire for this room", href: "/enquiry" } as Cta,
     secondaryCta: { label: "Talk to team", href: "/contact" } as Cta,
   },
@@ -348,9 +388,9 @@ export const roomsPage = {
 export const enquiry = {
   header: {
     eyebrow: "Enquiry",
-    title: "Tell us about your stay.",
+    title: "Tell us what you are planning.",
     description:
-      "Share your dates, number of guests, and any special occasion. We will respond with availability, pricing, and room suggestions that fit your needs.",
+      "A room for the night, a weekend with family, or a shaadi for 500. Share your details and we will respond with availability, pricing, and the right setup for your occasion.",
   } as PageHeader,
 
   fields: {
@@ -371,7 +411,7 @@ export const enquiry = {
     message: {
       label: "Anything you would like us to know?",
       placeholder:
-        "Share the purpose of your trip, dietary preferences, or room requests.",
+        "Tell us about your occasion, dietary preferences, room requests, or event requirements.",
     },
   },
 
@@ -392,16 +432,17 @@ export const enquiry = {
   notes: {
     title: "Helpful notes",
     items: [
-      "Children are welcome. Share ages and we will suggest the best room configuration.",
-      "Dietary preferences can be accommodated with advance notice.",
-      "Celebrations can include room decor, cake, or a private dinner.",
+      "Children are welcome. Share ages and we will suggest the best room setup.",
+      "Dietary preferences and special menus can be arranged with advance notice.",
+      "Celebrations can include room decor, cake arrangements, or a private dinner on the lawn.",
+      "For shaadis and large events, our team handles venue layout, catering, and coordination.",
     ],
   },
 
   fasterResponse: {
     title: "Need a faster response?",
     description:
-      "Mention urgent timelines in your message and we will prioritize your request.",
+      "Mention urgent timelines in your message and we will prioritise your request.",
     note: "Phone and WhatsApp details can be added here once ready to publish.",
   },
 };
@@ -416,14 +457,19 @@ export const contactForm = {
       label: "Phone (optional)",
       placeholder: "Include country code if outside India",
     },
-    message: { label: "Message", placeholder: "Tell us how we can help" },
+    message: {
+      label: "Message",
+      placeholder:
+        "Tell us about your stay, event, or any questions you have.",
+    },
   },
   submit: {
     idle: "Send message",
     submitting: "Sending...",
     submitted: "Message sent",
   },
-  success: "Thanks for reaching out. We will respond within 24 hours.",
+  success:
+    "Thank you for reaching out. We will respond within 24 hours.",
   genericError: "Failed to send message",
   networkError: "Network error. Please try again.",
 };
@@ -442,12 +488,59 @@ export const newsletter = {
 /* ---------------------------------------------------------------- footer */
 
 export const footer = {
+  /** Short positioning line under the wordmark in the first column. */
+  about:
+    "West Champaran's first resort. Twenty rooms, a pool, a restaurant, and event spaces for up to 500 guests, set in the green quiet outside Ramnagar.",
+
+  explore: {
+    title: "Explore",
+    // Kept separate from the header nav: a footer usually carries the
+    // booking-intent pages the header does not have room for.
+    links: [
+      { label: "Rooms", href: "/rooms" },
+      { label: "Facilities", href: "/facilities" },
+      { label: "Offers", href: "/offers" },
+      { label: "About us", href: "/about" },
+      { label: "Contact", href: "/contact" },
+      { label: "Enquire", href: "/enquiry" },
+    ] as Cta[],
+  },
+
+  contact: {
+    title: "Visit us",
+    address: ["Outskirts of Ramnagar", "West Champaran, Bihar, India"],
+    /* Fill these in before launch. Each is rendered only when non-empty, so
+       an unset value leaves no dead link or blank row in the footer. */
+    phone: "",
+    whatsapp: "",
+    email: "",
+    hoursLabel: "Reception",
+    hours: "Open 24 hours",
+  },
+
+  stay: {
+    title: "Your stay",
+    items: [
+      { label: "Check-in", value: "12:00 pm" },
+      { label: "Check-out", value: "10:00 am" },
+      { label: "Rooms", value: "20 across 5 categories" },
+      { label: "Events", value: "Banquet, small hall, lawn" },
+    ],
+  },
+
+  /* Social profiles. Add { label, href } entries and the row appears; the
+     block stays hidden while this is empty rather than linking nowhere. */
+  socials: [] as Cta[],
+
+  bookCta: { label: "Check availability", href: "/enquiry" } as Cta,
+
   rights: "All rights reserved.",
-  tagline: "resort and event spaces.",
+  tagline: "West Champaran ka apna resort.",
   credit: "Crafted with Next.js and Tailwind.",
   newsletter: {
     title: "Stay in the loop",
-    description: "Monthly updates on offers, events, and seasonal dining.",
+    description:
+      "Seasonal offers, upcoming events, and new experiences, a few times a year.",
   },
 };
 

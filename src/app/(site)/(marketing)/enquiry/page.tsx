@@ -75,7 +75,7 @@ function EnquiryPageContent() {
   const isSubmitted = formState === "submitted";
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-start">
+    <div className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-start">
       <section className="space-y-6">
         <header className="space-y-3">
           <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">

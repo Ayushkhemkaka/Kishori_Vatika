@@ -7,7 +7,7 @@ export const metadata: Metadata = contact.meta;
 
 export default function ContactPage() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <header className="space-y-4">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           {contact.header.eyebrow}

@@ -1,63 +1,61 @@
 import { NextResponse } from "next/server";
+import {
+  fetchGoogleReviews,
+  getServerPlacesKey,
+} from "@/app/(shared)/lib/google-reviews";
+import {
+  fetchBusinessReviews,
+  hasBusinessProfileConfig,
+} from "@/app/(shared)/lib/google-business";
 
-const REQUIRED_FIELDS = "rating,user_ratings_total,reviews";
-const CACHE_SECONDS = 300;
+const CACHE_SECONDS = 3600;
 
-function buildPlaceDetailsUrl() {
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY ?? process.env.GOOGLE_BUSINESS_API_KEY;
-  const placeId = process.env.GOOGLE_PLACE_ID;
-  if (!apiKey || !placeId) return null;
-
-  const url = new URL("https://maps.googleapis.com/maps/api/place/details/json");
-  url.searchParams.set("key", apiKey);
-  url.searchParams.set("place_id", placeId);
-  url.searchParams.set("fields", REQUIRED_FIELDS);
-
-  return url;
-}
-
-function normalizeReview(review) {
-  return {
-    author: review.author_name,
-    rating: review.rating,
-    text: review.text,
-    relativeTime: review.relative_time_description,
-    profilePhoto: review.profile_photo_url,
-    time: review.time
-  };
-}
-
+/**
+ * JSON view of the reviews the site renders, and the diagnostic for setting
+ * them up: it reports what each source did rather than a single opaque error,
+ * because the two have entirely different failure modes.
+ */
 export async function GET() {
-  const url = buildPlaceDetailsUrl();
-  if (!url) {
+  const business = hasBusinessProfileConfig()
+    ? await fetchBusinessReviews(5)
+    : null;
+
+  if (business?.reviews.length) {
     return NextResponse.json(
-      { error: "Missing GOOGLE_MAPS_API_KEY or GOOGLE_PLACE_ID" },
-      { status: 400 }
+      {
+        source: "business-profile",
+        overallRating: business.rating,
+        totalReviews: business.total,
+        reviews: business.reviews,
+      },
+      { headers: { "Cache-Control": `public, max-age=${CACHE_SECONDS}` } }
     );
   }
 
-  const response = await fetch(url.toString(), {
-    next: { revalidate: CACHE_SECONDS }
-  });
+  const places = getServerPlacesKey() ? await fetchGoogleReviews(5) : null;
 
-  const payload = await response.json();
-
-  if (!response.ok || payload.status !== "OK") {
-    const message = payload?.error_message ?? payload.status ?? "Failed to fetch place details";
-    return NextResponse.json({ error: message }, { status: 502 });
+  if (places?.reviews.length) {
+    return NextResponse.json(
+      {
+        source: "places",
+        overallRating: places.rating,
+        totalReviews: places.total,
+        reviews: places.reviews,
+      },
+      { headers: { "Cache-Control": `public, max-age=${CACHE_SECONDS}` } }
+    );
   }
 
-  const reviews = (payload.result.reviews ?? [])
-    .map(normalizeReview)
-    .slice(0, 4);
-
-  const result = {
-    overallRating: payload.result.rating ?? null,
-    totalReviews: payload.result.user_ratings_total ?? null,
-    reviews
-  };
-
-  return NextResponse.json(result, {
-    headers: { "Cache-Control": `public, max-age=${CACHE_SECONDS}` }
-  });
+  return NextResponse.json(
+    {
+      error: "No review source returned data.",
+      businessProfile: hasBusinessProfileConfig()
+        ? "Configured, but returned nothing. Usual cause: the project is not yet approved for the Business Profile API, or GOOGLE_BUSINESS_LOCATION is wrong."
+        : "Not configured. Run `npm run google:setup` and set GOOGLE_OAUTH_* and GOOGLE_BUSINESS_LOCATION.",
+      places: getServerPlacesKey()
+        ? "Configured, but Google refused. A referer-restricted browser key cannot be used server-side; use an IP-restricted key in GOOGLE_PLACES_SERVER_KEY."
+        : "Not configured. Set GOOGLE_PLACES_SERVER_KEY and GOOGLE_PLACE_ID.",
+    },
+    { status: 502 }
+  );
 }

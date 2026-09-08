@@ -1,16 +1,16 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { facilities } from "../facility-data";
+import { roomCategories, getRoomBySlug } from "../room-data";
 import { ImageCarousel } from "../../components/ImageCarousel";
-import { attachFacilityImages } from "../../lib/image-loader";
-import { facilitiesPage } from "@/content/site-content";
+import { attachRoomImages } from "../../lib/image-loader";
+import { roomsPage } from "@/content/site-content";
 
 export const runtime = "nodejs";
 
-// The facility list is static, so every detail page can be built ahead of time.
+// The room list is static, so every detail page can be built ahead of time.
 export function generateStaticParams() {
-  return facilities.map((facility) => ({ slug: facility.slug }));
+  return roomCategories.map((room) => ({ slug: room.slug }));
 }
 
 export async function generateMetadata({
@@ -19,29 +19,29 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const facility = facilities.find((f) => f.slug === slug);
-  if (!facility) return { title: "Facility" };
+  const room = getRoomBySlug(slug);
+  if (!room) return { title: "Room" };
   return {
-    title: facility.title,
-    description: facility.longDescription ?? facility.description,
+    title: room.title,
+    description: room.longDescription ?? room.description,
   };
 }
 
-export default async function FacilityDetailPage({
+export default async function RoomDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const facility = facilities.find((f) => f.slug === slug);
-  if (!facility) notFound();
+  const room = getRoomBySlug(slug);
+  if (!room) notFound();
 
-  // Pull photos from public/facilities/<slug>/ so images can be added by
-  // dropping files into the folder, with no code change.
-  const [withImages] = await attachFacilityImages([facility]);
+  // Photos come from public/rooms/<slug>/, so images can be added by dropping
+  // files into the folder with no code change.
+  const [withImages] = await attachRoomImages([room]);
   const images = withImages.images ?? [];
 
-  const others = facilities.filter((f) => f.slug !== slug);
+  const others = roomCategories.filter((other) => other.slug !== slug);
 
   return (
     <div className="space-y-7">
@@ -49,32 +49,37 @@ export default async function FacilityDetailPage({
           a breadcrumb trail that would only repeat the title below it. */}
       <nav>
         <Link
-          href="/facilities"
+          href="/rooms"
           className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.24em] text-stone-500 transition hover:text-emerald-700"
         >
           <span aria-hidden>&larr;</span>
-          {facilitiesPage.detail.breadcrumb}
+          {roomsPage.detail.breadcrumb}
         </Link>
       </nav>
 
       {/* Photo first, sized to what is left of the viewport, so the whole
           frame is in view on landing with the detail below hinting at more.
-          The name and the line about the place ride on the photo instead of
+          The name and the line about the room ride on the photo instead of
           stacking above it, which is what pushed the image off-screen. */}
       <header className="relative overflow-hidden rounded-3xl border border-emerald-100">
         <ImageCarousel
           images={images}
-          title={facility.title}
+          title={room.title}
           containerClassName="h-[min(calc(100svh-13rem),640px)] min-h-[300px]"
           counterClassName="right-4 top-4"
           sizes="(min-width: 1024px) 90vw, 100vw"
         />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/45 to-transparent px-6 pb-6 pt-16 sm:px-8 sm:pb-8">
-          <h1 className="font-display text-3xl font-normal tracking-tight text-white drop-shadow-sm sm:text-4xl lg:text-5xl">
-            {facility.title}
+          {room.badge ? (
+            <span className="inline-flex rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-white backdrop-blur-sm">
+              {room.badge}
+            </span>
+          ) : null}
+          <h1 className="mt-3 font-display text-3xl font-normal tracking-tight text-white drop-shadow-sm sm:text-4xl lg:text-5xl">
+            {room.title}
           </h1>
           <p className="mt-2 text-sm leading-relaxed text-white/85 sm:text-base">
-            {facility.longDescription ?? facility.description}
+            {room.longDescription ?? room.description}
           </p>
         </div>
       </header>
@@ -83,10 +88,10 @@ export default async function FacilityDetailPage({
         <div className="space-y-8">
           <div className="grid grid-cols-2 gap-4 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5 text-sm text-stone-700 sm:grid-cols-4">
             {[
-              [facilitiesPage.detail.specLabels.timing, facility.timing],
-              [facilitiesPage.detail.specLabels.bestFor, facility.bestFor],
-              [facilitiesPage.detail.specLabels.capacity, facility.capacity],
-              [facilitiesPage.detail.specLabels.access, facility.access],
+              [roomsPage.detail.specLabels.price, room.price],
+              [roomsPage.detail.specLabels.occupancy, room.occupancy],
+              [roomsPage.detail.specLabels.size, room.size],
+              [roomsPage.detail.specLabels.bed, room.bed],
             ].map(([label, value]) => (
               <div key={label}>
                 <p className="text-[10px] uppercase tracking-[0.22em] text-emerald-700">
@@ -99,10 +104,10 @@ export default async function FacilityDetailPage({
 
           <div>
             <h2 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
-              {facilitiesPage.detail.highlightsTitle}
+              {roomsPage.detail.highlightsTitle}
             </h2>
             <ul className="mt-3 space-y-2 text-sm text-stone-600">
-              {facility.highlights.map((item) => (
+              {room.perks.map((item: string) => (
                 <li key={item} className="flex items-start gap-3">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
                   {item}
@@ -113,10 +118,10 @@ export default async function FacilityDetailPage({
 
           <div>
             <h2 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
-              {facilitiesPage.detail.amenitiesTitle}
+              {roomsPage.detail.amenitiesTitle}
             </h2>
             <ul className="mt-3 flex flex-wrap gap-2 text-sm text-stone-600">
-              {(facility.amenities ?? []).map((item) => (
+              {(room.amenities ?? []).map((item: string) => (
                 <li
                   key={item}
                   className="rounded-full border border-emerald-100 bg-emerald-50/60 px-3.5 py-1.5"
@@ -130,23 +135,23 @@ export default async function FacilityDetailPage({
 
         <aside className="h-fit space-y-4 rounded-2xl border border-emerald-200/60 bg-emerald-50 p-6">
           <h2 className="font-sans text-lg font-medium text-emerald-900">
-            {facilitiesPage.detail.asideTitle}
+            {roomsPage.detail.asideTitle}
           </h2>
           <p className="text-sm leading-relaxed text-emerald-800">
-            {facilitiesPage.detail.asideDescription}
+            {roomsPage.detail.asideDescription}
           </p>
           <div className="flex flex-col gap-3 pt-1">
             <Link
-              href={facilitiesPage.detail.primaryCta.href}
+              href={roomsPage.detail.primaryCta.href}
               className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
             >
-              {facilitiesPage.detail.primaryCta.label}
+              {roomsPage.detail.primaryCta.label}
             </Link>
             <Link
-              href={facilitiesPage.detail.secondaryCta.href}
+              href={roomsPage.detail.secondaryCta.href}
               className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
             >
-              {facilitiesPage.detail.secondaryCta.label}
+              {roomsPage.detail.secondaryCta.label}
             </Link>
           </div>
         </aside>
@@ -154,13 +159,13 @@ export default async function FacilityDetailPage({
 
       <section className="space-y-4 border-t border-emerald-100 pt-6">
         <h2 className="font-display text-2xl font-normal tracking-tight text-stone-900 sm:text-3xl">
-          {facilitiesPage.detail.otherTitle}
+          {roomsPage.detail.otherTitle}
         </h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {others.map((other) => (
             <Link
               key={other.slug}
-              href={`/facilities/${other.slug}`}
+              href={`/rooms/${other.slug}`}
               className="group rounded-2xl border border-emerald-100 bg-white p-4 transition hover:border-emerald-300"
             >
               <h3 className="font-sans text-base font-medium text-stone-900">
@@ -170,7 +175,7 @@ export default async function FacilityDetailPage({
                 {other.description}
               </p>
               <span className="mt-3 inline-block text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700">
-                {facilitiesPage.detail.viewLabel} &rarr;
+                {roomsPage.detail.viewLabel} &rarr;
               </span>
             </Link>
           ))}

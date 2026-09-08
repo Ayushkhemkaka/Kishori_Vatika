@@ -2,12 +2,26 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { CarouselArrow } from "./CarouselArrow";
 
+/**
+ * @param {{
+ *   images?: string[],
+ *   title: string,
+ *   className?: string,
+ *   containerClassName?: string,
+ *   counterClassName?: string,
+ *   sizes?: string,
+ * }} props
+ */
 export function ImageCarousel({
   images = [],
   title,
   className = "",
   containerClassName = "",
+  // Where the "2 / 5" counter sits. Callers that lay their own caption over
+  // the photo move it out of the way rather than fight it for the corner.
+  counterClassName = "bottom-4 right-4",
   sizes = "(min-width: 1024px) 60vw, 100vw",
 }) {
   const normalizedImages = useMemo(() => {
@@ -29,7 +43,9 @@ export function ImageCarousel({
 
     const timer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % normalizedImages.length);
-    }, 15000);
+      // Paced with the banner (7s) and the card covers (6s) so nothing on a
+      // page changes on a visibly different clock.
+    }, 8000);
 
     return () => clearInterval(timer);
   }, [hasMultiple, normalizedImages.length]);
@@ -108,26 +124,24 @@ export function ImageCarousel({
 
       {hasMultiple ? (
         <>
-          <div className="pointer-events-none absolute bottom-4 right-4 rounded-full border border-emerald-200 bg-black/65 px-3 py-1 text-xs font-semibold text-white">
+          <div className={`pointer-events-none absolute rounded-full ${counterClassName} border border-emerald-200 bg-black/65 px-3 py-1 text-xs font-semibold text-white`}>
             {activeIndex + 1} / {normalizedImages.length}
           </div>
           <div className="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4">
-            <button
-              type="button"
+            {/* The banner arrow, revealed on hover. A light scrim rides under
+                it because a card photo has no veil of its own to sit on. */}
+            <CarouselArrow
+              direction="prev"
               onClick={handlePrevClick}
-              className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-emerald-200 bg-black/60 text-white opacity-0 transition duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:bg-black/80"
-              aria-label={`Previous ${title} image`}
-            >
-              &#8592;
-            </button>
-            <button
-              type="button"
+              label={`Previous ${title} image`}
+              className="pointer-events-auto bg-black/20 opacity-0 backdrop-blur-[2px] duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
+            />
+            <CarouselArrow
+              direction="next"
               onClick={handleNextClick}
-              className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-emerald-200 bg-black/60 text-white opacity-0 transition duration-200 group-hover:opacity-100 group-focus-within:opacity-100 hover:bg-black/80"
-              aria-label={`Next ${title} image`}
-            >
-              &#8594;
-            </button>
+              label={`Next ${title} image`}
+              className="pointer-events-auto bg-black/20 opacity-0 backdrop-blur-[2px] duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
+            />
           </div>
         </>
       ) : null}

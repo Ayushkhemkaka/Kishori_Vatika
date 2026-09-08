@@ -24,7 +24,7 @@ export default async function OffersPage() {
   const offers = offersData ?? [];
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <header className="space-y-4">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           {offersContent.header.eyebrow}

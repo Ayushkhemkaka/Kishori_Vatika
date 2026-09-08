@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { CarouselArrow } from "./CarouselArrow";
 
 const ROTATE_MS = 7000;
 
@@ -94,28 +95,18 @@ export function HeroCarousel({
 
       {hasMultiple ? (
         <>
-          <button
-            type="button"
+          <CarouselArrow
+            direction="prev"
             onClick={() => go(-1)}
-            aria-label="Previous photo"
-            className="group absolute left-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-white/60 transition hover:text-white sm:flex lg:left-8"
-          >
-            <span className="absolute inset-0 rounded-full border border-white/25 transition group-hover:border-white/60" />
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M15 5l-7 7 7 7" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <button
-            type="button"
+            label="Previous photo"
+            className="absolute left-4 top-1/2 z-20 -translate-y-1/2 max-sm:hidden lg:left-8"
+          />
+          <CarouselArrow
+            direction="next"
             onClick={() => go(1)}
-            aria-label="Next photo"
-            className="group absolute right-4 top-1/2 z-20 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full text-white/60 transition hover:text-white sm:flex lg:right-8"
-          >
-            <span className="absolute inset-0 rounded-full border border-white/25 transition group-hover:border-white/60" />
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-              <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
+            label="Next photo"
+            className="absolute right-4 top-1/2 z-20 -translate-y-1/2 max-sm:hidden lg:right-8"
+          />
 
           {/* Hairline progress marks rather than dots. */}
           <div className="absolute bottom-10 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3">

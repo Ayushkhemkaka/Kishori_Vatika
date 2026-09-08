@@ -12,7 +12,7 @@ export default async function FacilitiesPage() {
   const withImages = await attachFacilityImages(facilities);
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
       <header className="space-y-3">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           {facilitiesPage.header.eyebrow}
@@ -27,8 +27,8 @@ export default async function FacilitiesPage() {
       </header>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {withImages.map((facility) => (
-          <FacilityCard key={facility.slug} facility={facility} />
+        {withImages.map((facility, index) => (
+          <FacilityCard key={facility.slug} facility={facility} index={index} />
         ))}
       </div>
 

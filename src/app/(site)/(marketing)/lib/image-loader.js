@@ -51,6 +51,15 @@ export function listHeroImages(folder = "head") {
   return listFolderImages(folder);
 }
 
+/**
+ * Photos for the framed showcase beside the intro copy on the home page.
+ * Drop images into public/Photo/ and they are picked up automatically,
+ * ordered by filename.
+ */
+export function listShowcaseImages(folder = "Photo") {
+  return listFolderImages(folder);
+}
+
 export function attachRoomImages(rooms) {
   return attachImages(rooms, "imageFolder");
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import { PhotoCycle } from "./PhotoCycle";
 
 export type FacilityCardData = {
   slug: string;
@@ -16,9 +16,16 @@ export type FacilityCardData = {
  * Facility box used on the home page and the facilities index. Shared so the
  * two stay in step; the whole card is the link target.
  */
-export function FacilityCard({ facility }: { facility: FacilityCardData }) {
+export function FacilityCard({
+  facility,
+  /** Passed by the grid so neighbouring cards do not change photo together. */
+  index = 0,
+}: {
+  facility: FacilityCardData;
+  index?: number;
+}) {
   const href = facility.href ?? `/facilities/${facility.slug}`;
-  const cover = facility.images?.[0];
+  const photos = facility.images ?? [];
 
   return (
     <Link
@@ -26,13 +33,12 @@ export function FacilityCard({ facility }: { facility: FacilityCardData }) {
       className="group flex flex-col overflow-hidden rounded-2xl border border-emerald-100 bg-white transition hover:border-emerald-300"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-emerald-50">
-        {cover ? (
-          <Image
-            src={cover}
+        {photos.length > 0 ? (
+          <PhotoCycle
+            images={photos}
             alt={facility.title}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+            offsetMs={index * 900}
+            className="transition-transform duration-700 group-hover:scale-[1.04]"
           />
         ) : (
           // No photos in the folder yet - keep the card's shape rather than
