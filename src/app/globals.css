@@ -147,7 +147,7 @@
       transparent 40%
     );
   --card-bg: #ffffff;
-  --card-border: color-mix(in srgb, var(--brand-800) 15%, transparent);
+  --card-border: color-mix(in srgb, var(--ink-strong) 11%, transparent);
   --surface-muted: rgba(255, 255, 255, 0.85);
   --text-strong: var(--ink-strong);
   --text: var(--ink);
@@ -155,15 +155,18 @@
   --text-faint: var(--ink-faint);
   --shadow-color: color-mix(in srgb, var(--brand-900) 16%, transparent);
   /* Border colour for the card hairlines, and the text selection wash. */
-  --hairline: color-mix(in srgb, var(--brand-700) 20%, transparent);
+  --hairline: color-mix(in srgb, var(--ink-strong) 11%, transparent);
   --selection: color-mix(in srgb, var(--accent-400) 32%, transparent);
   --wordmark: var(--accent-700);
   /* Thickness of the framing rule around cards and panels. */
-  --rule-width: 2px;
-  --container-max: 80rem;
-  --gutter: 1rem;
-  --gutter-sm: 1.25rem;
-  --gutter-lg: 1.25rem;
+  /* A hairline, not a frame. A 2px rule around every panel is what made the
+     boxes read as UI cards; at 1px the edge is felt and the photo or the type
+     inside it is what carries the block. */
+  --rule-width: 1px;
+  --container-max: 88rem;
+  --gutter: 0.875rem;
+  --gutter-sm: 1rem;
+  --gutter-lg: 1rem;
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
@@ -206,7 +209,7 @@
   --card-bg: var(--charcoal-600);
   /* A thin gold hairline is what separates a dark surface that looks premium
      from one that just looks unlit. */
-  --card-border: color-mix(in srgb, var(--accent-400) 18%, transparent);
+  --card-border: rgb(255 255 255 / 0.11);
   --surface-muted: color-mix(in srgb, var(--charcoal-500) 85%, transparent);
   --text-strong: var(--dark-ink);
   --text: color-mix(in srgb, var(--dark-ink) 82%, transparent);
@@ -235,12 +238,12 @@
 body {
   background: var(--page-bg), var(--page-pattern);
   color: var(--foreground);
-  font-family: var(--font-body), "Jost", "Segoe UI", sans-serif;
+  font-family: var(--font-body), "Montserrat", "Segoe UI", sans-serif;
   font-size: var(--font-size-base);
   line-height: var(--leading-normal);
   overflow-x: hidden;
-  /* Smoothing matters for a light geometric sans; without it the thin
-     strokes render chunky on Windows. */
+  /* Smoothing matters for a light humanist sans; without it the thin strokes
+     render chunky on Windows. */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -369,11 +372,22 @@ body {
    high-contrast serif looks spindly at small sizes, and most h2/h3 on the
    site are component-level labels that belong in the sans. */
 .font-display {
-  font-family: var(--font-display), "Cormorant Garamond", Garamond, "Times New Roman", serif;
-  /* Cormorant sets loose by default; pulling it in and tightening the leading
-     is what makes large headings read as composed rather than sprawling. */
-  letter-spacing: -0.012em;
-  line-height: 1.14;
+  font-family: var(--font-display), "Cinzel", Georgia, "Times New Roman", serif;
+  /* An inscriptional face wants the opposite treatment to a printed one:
+     letters cut in stone are spaced apart, so Cinzel is given positive
+     tracking rather than the negative a text serif needs. */
+  letter-spacing: 0.02em;
+  line-height: 1.22;
+}
+
+/* Reserved for the largest titles - see the note in layout.tsx. Italiana has
+   one weight and hairline strokes, so it is set with air around it and never
+   asked to carry a heading below 3xl. */
+.font-accent {
+  font-family: var(--font-accent), "Italiana", Georgia, serif;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  font-weight: 400;
 }
 
 /* Body copy: a touch more leading and a hair of tracking keeps the light
@@ -391,6 +405,97 @@ p {
    keeps its contrast against the charcoal ground. */
 .kv-wordmark {
   color: var(--wordmark);
+}
+
+/* The wordmark in the header bar reads as ink, not brass - but it has to be
+   the ink token, not literal black: on the charcoal bar in dark mode a
+   hard-coded black wordmark disappears into the header. */
+.kv-wordmark-ink {
+  color: var(--text-strong);
+}
+
+/* ---------------------------------------------------------------- motion */
+
+/* Blocks arrive with a short lift as they scroll in. One easing curve and one
+   distance for the whole site: motion that varies per section is what makes a
+   page feel assembled rather than authored. */
+.kv-reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.kv-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition-delay: var(--kv-delay, 0ms);
+}
+
+/* A link's underline draws in from the left rather than blinking on. */
+.kv-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  padding-bottom: 1px;
+}
+
+.kv-underline:hover,
+.kv-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Cards rise a little under the cursor. Small enough to read as a response,
+   not as an effect. */
+.kv-lift {
+  transition:
+    transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-color 0.3s ease;
+}
+
+.kv-lift:hover {
+  transform: translateY(-3px);
+}
+
+/* An arrow that leans forward when its link is hovered. */
+.group:hover .kv-nudge {
+  transform: translateX(3px);
+}
+
+.kv-nudge {
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Every one of the above is decoration; none of it should move for a reader
+   who has asked the OS for stillness. */
+@media (prefers-reduced-motion: reduce) {
+  .kv-reveal,
+  .kv-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .kv-lift:hover,
+  .group:hover .kv-nudge {
+    transform: none;
+  }
+
+  .kv-underline {
+    transition: none;
+  }
+}
+
+/* The founder's line about the place, set as a quote: a brass rule down the
+   side and the opening words in the serif, so one block on the page reads as
+   somebody talking rather than as copy. */
+.kv-quote {
+  border-inline-start: 2px solid var(--wordmark);
+  padding-inline-start: 1.25rem;
 }
 
 .kv-container {

@@ -55,19 +55,19 @@ export function SiteHeader() {
         />
       ) : null}
 
-      <div className="kv-container relative flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="kv-container relative flex flex-col gap-3 py-2.5 sm:flex-row sm:items-center sm:justify-between">
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/logo.png"
             alt="Kishori Vatika resort logo"
             width={56}
             height={56}
-            className="h-12 w-12 object-contain sm:h-14 sm:w-14"
+            className="h-10 w-10 object-contain sm:h-11 sm:w-11"
           />
           <div className="leading-tight">
             <div
-              className={`text-2xl font-semibold tracking-[0.06em] font-display font-forte sm:text-3xl ${
-                overlay ? "text-white" : "text-black"
+              className={`text-xl font-semibold tracking-[0.06em] font-display font-forte sm:text-2xl ${
+                overlay ? "text-white" : "kv-wordmark-ink"
               }`}
             >
               {site.name}
@@ -91,7 +91,7 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className={`transition-colors ${
+              className={`kv-underline transition-colors ${
                 overlay ? "hover:text-emerald-200" : "hover:text-emerald-700"
               }`}
             >
@@ -104,7 +104,7 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/enquiry"
-            className="rounded-full bg-emerald-600 px-6 py-2.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
+            className="rounded-sm bg-emerald-600 px-5 py-2 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
             Enquire now
           </Link>
@@ -117,7 +117,7 @@ export function SiteHeader() {
         }`}
       >
         <details
-          className={`rounded-xl border px-4 py-3 ${
+          className={`rounded-md border px-4 py-3 ${
             overlay
               ? "border-white/30 bg-black/30 backdrop-blur"
               : "border-emerald-100 bg-white/80"

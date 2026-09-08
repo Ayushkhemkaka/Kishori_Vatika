@@ -1,9 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { enquiry } from "@/content/site-content";
+import { contact, enquiry } from "@/content/site-content";
+import { Reveal } from "../components/Reveal";
 
 type FormState = "idle" | "submitting" | "submitted" | "error";
 
@@ -75,13 +77,13 @@ function EnquiryPageContent() {
   const isSubmitted = formState === "submitted";
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-start">
-      <section className="space-y-6">
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-start">
+      <section className="space-y-5">
         <header className="space-y-3">
           <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
             {enquiry.header.eyebrow}
           </p>
-          <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
+          <h1 className="font-display text-3xl font-normal text-stone-900 sm:text-4xl lg:text-5xl">
             {enquiry.header.title}
           </h1>
           <p className="max-w-xl text-sm text-stone-600 sm:text-base">
@@ -91,7 +93,7 @@ function EnquiryPageContent() {
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-5 rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40"
+          className="space-y-4 rounded-md border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40"
         >
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
@@ -205,7 +207,7 @@ function EnquiryPageContent() {
             <button
               type="submit"
               disabled={formState === "submitting"}
-              className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-sm bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
             >
               {formState === "submitting"
                 ? "Sending your enquiry..."
@@ -236,9 +238,9 @@ function EnquiryPageContent() {
         </form>
       </section>
 
-      <aside className="space-y-6">
-        <div className="rounded-2xl border border-emerald-100 bg-white p-5 text-sm text-stone-700 shadow-md shadow-emerald-100/40">
-          <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
+      <aside className="space-y-5">
+        <div className="rounded-md border border-emerald-100 bg-white p-5 text-sm text-stone-700 shadow-md shadow-emerald-100/40">
+          <h2 className="font-display text-xl font-medium tracking-tight text-stone-900">
             {enquiry.notes.title}
           </h2>
           <ul className="mt-3 space-y-2 text-sm text-stone-600">
@@ -251,8 +253,8 @@ function EnquiryPageContent() {
           </ul>
         </div>
 
-        <div className="rounded-2xl border border-emerald-200/60 bg-emerald-50 p-5 text-sm text-emerald-900">
-          <h2 className="text-sm font-semibold text-emerald-900">
+        <div className="rounded-md border border-emerald-200/60 bg-emerald-50 p-5 text-sm text-emerald-900">
+          <h2 className="font-display text-base font-semibold text-emerald-900">
             {enquiry.fasterResponse.title}
           </h2>
           <p className="mt-2 text-emerald-800">
@@ -261,6 +263,37 @@ function EnquiryPageContent() {
           <p className="mt-3 text-xs text-emerald-700">
             {enquiry.fasterResponse.note}
           </p>
+        </div>
+
+        {/* The form is tall; without a third block this column ran out of
+            content halfway down it. These are the ways to reach us that do
+            not involve the form, which is the right thing to offer beside
+            one. */}
+        <div className="rounded-md border border-emerald-100 bg-white p-5">
+          <h2 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
+            {contact.header.eyebrow}
+          </h2>
+          <ul className="mt-4 space-y-4">
+            {contact.items.map((item) => (
+              <li key={item.title} className="space-y-1">
+                <p className="text-sm font-medium text-stone-900">
+                  {item.title}
+                </p>
+                <p className="text-sm leading-relaxed text-stone-600">
+                  {item.description}
+                </p>
+                {item.action ? (
+                  <Link
+                    href={item.action.href}
+                    className="group inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700 transition-colors hover:text-emerald-600"
+                  >
+                    <span className="kv-underline">{item.action.label}</span>
+                    <span className="kv-nudge">&rarr;</span>
+                  </Link>
+                ) : null}
+              </li>
+            ))}
+          </ul>
         </div>
       </aside>
     </div>

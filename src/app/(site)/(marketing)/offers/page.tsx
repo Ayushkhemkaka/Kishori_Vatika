@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import { dbClient as db } from "@/app/(shared)/lib/db-client";
 import { offers as offersContent } from "@/content/site-content";
+import { Reveal } from "../components/Reveal";
 
 export const runtime = "nodejs";
 export const revalidate = 300;
@@ -24,15 +25,16 @@ export default async function OffersPage() {
   const offers = offersData ?? [];
 
   return (
-    <div className="space-y-8">
-      <header className="space-y-4">
+    <div className="space-y-6">
+      <Reveal>
+        <header className="space-y-3">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
           {offersContent.header.eyebrow}
         </p>
-        <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
+        <h1 className="font-display text-3xl font-normal text-stone-900 sm:text-4xl lg:text-5xl">
           {offersContent.header.title}
         </h1>
-        <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
+        <p className="text-sm text-stone-600 sm:text-base">
           These packages highlight the kinds of experiences we can create for
           your stay. Enquire to confirm availability and custom details for your
           dates.
@@ -41,24 +43,25 @@ export default async function OffersPage() {
           {offersContent.categories.map((item) => (
             <span
               key={item}
-              className="rounded-full border border-emerald-200 bg-white px-3 py-1"
+              className="rounded-sm border border-emerald-200 bg-white px-3 py-1"
             >
               {item}
             </span>
           ))}
         </div>
-      </header>
+        </header>
+      </Reveal>
 
       {offers.length > 0 ? (
         <section className="grid gap-5 md:grid-cols-2">
-          {offers.map((offer) => (
+          {offers.map((offer, index) => (
+            <Reveal key={offer.id} delay={index * 100} className="h-full">
             <article
-              key={offer.id}
-              className="group flex flex-col justify-between rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40 transition hover:border-emerald-200"
+              className="kv-lift group flex h-full flex-col justify-between rounded-md border border-emerald-100 bg-white p-5 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-900/10"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="inline-flex rounded-full bg-amber-100 px-2 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-amber-700">
+                  <span className="inline-flex rounded-sm bg-amber-100 px-2 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-amber-700">
                     Valid to{" "}
                     {new Date(offer.validTo).toLocaleDateString("en-IN", {
                       day: "numeric",
@@ -67,14 +70,14 @@ export default async function OffersPage() {
                     })}
                   </span>
                 </div>
-                <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
+                <h2 className="font-display text-xl font-medium tracking-tight text-stone-900">
                   {offer.title}
                 </h2>
                 <p className="line-clamp-3 text-sm text-stone-600">
                   {offer.description}
                 </p>
               </div>
-              <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="text-xs uppercase tracking-[0.18em] text-stone-500">
                     From
@@ -89,7 +92,7 @@ export default async function OffersPage() {
                 <div className="flex flex-col gap-2 text-sm">
                   <Link
                     href={`/offers/${offer.id}`}
-                    className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
+                    className="inline-flex items-center justify-center rounded-sm bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
                   >
                     View offer
                   </Link>
@@ -102,24 +105,25 @@ export default async function OffersPage() {
                 </div>
               </div>
             </article>
+            </Reveal>
           ))}
         </section>
       ) : (
-        <div className="rounded-2xl border border-emerald-100 bg-white p-8 text-center">
+        <div className="rounded-md border border-emerald-100 bg-white p-8 text-center">
           <p className="text-stone-600">
             {offersContent.empty.description}
           </p>
           <Link
             href="/enquiry"
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
+            className="mt-4 inline-flex items-center justify-center rounded-sm bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
           >
             {offersContent.empty.cta.label}
           </Link>
         </div>
       )}
 
-      <section className="rounded-2xl border border-emerald-200/60 bg-emerald-50 p-5 text-sm text-emerald-900 sm:p-6">
-        <h2 className="text-base font-semibold text-emerald-900">
+      <section className="rounded-md border border-emerald-200/60 bg-emerald-50 p-5 text-sm text-emerald-900 sm:p-6">
+        <h2 className="font-display text-lg font-semibold text-emerald-900">
           {offersContent.callout.title}
         </h2>
         <p className="mt-1 text-emerald-800">
@@ -127,7 +131,7 @@ export default async function OffersPage() {
         </p>
         <Link
           href="/enquiry"
-          className="mt-3 inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
+          className="mt-3 inline-flex items-center justify-center rounded-sm bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
         >
           Send an enquiry
         </Link>

@@ -275,7 +275,7 @@ export function GoogleReviews({
           {reviews.map((review) => (
             <figure
               key={`${review.author}-${review.when}-${review.text.slice(0, 24)}`}
-              className="flex h-full flex-col justify-between rounded-2xl border border-emerald-100 bg-white p-5"
+              className="flex h-full flex-col justify-between rounded-md border border-emerald-100 bg-white p-5"
             >
               <blockquote className="line-clamp-6 text-sm leading-relaxed text-stone-600">
                 {review.text}

@@ -30,7 +30,7 @@ export function FacilityCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-emerald-100 bg-white transition hover:border-emerald-300"
+      className="kv-lift group flex flex-col overflow-hidden rounded-md border border-emerald-100 bg-white hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-900/10"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-emerald-50">
         {photos.length > 0 ? (
@@ -51,24 +51,22 @@ export function FacilityCard({
         )}
 
         {facility.badge ? (
-          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-800 backdrop-blur">
+          <span className="absolute left-3 top-3 rounded-sm bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-800 backdrop-blur">
             {facility.badge}
           </span>
         ) : null}
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
+      <div className="flex flex-1 flex-col p-4">
+        <h3 className="font-display text-xl font-medium tracking-tight text-stone-900">
           {facility.title}
         </h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-stone-600">
+        <p className="mt-1.5 flex-1 text-sm leading-relaxed text-stone-600">
           {facility.description}
         </p>
-        <span className="mt-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700">
+        <span className="mt-3 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700">
           Explore
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            &rarr;
-          </span>
+          <span className="kv-nudge">&rarr;</span>
         </span>
       </div>
     </Link>

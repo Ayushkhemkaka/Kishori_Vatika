@@ -1,23 +1,37 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Cinzel, Italiana, Montserrat } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
-// High-contrast old-style serif for headings; its lighter cuts are what give
-// the pages their elegance, so the weights stop at 500.
-const display = Cormorant_Garamond({
+// Engraved Roman serif for headings. Cinzel is drawn from classical
+// inscriptions, which is why it reads as carved rather than printed - the
+// note a hotel wordmark wants under it.
+const display = Cinzel({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
-// Geometric sans for body copy and the tracked uppercase labels.
-const body = Jost({
+// A single very fine display cut, reserved for the largest titles. At hero
+// size its hairline strokes are the whole effect; anywhere smaller it just
+// looks faint, so it is never used below 3xl.
+const accent = Italiana({
+  variable: "--font-accent",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+// Body copy and the tracked uppercase labels. The site leans hard on small
+// tracked caps ("WHAT TO EXPECT", "BEST FOR", the nav), and Montserrat is
+// drawn from old signage lettering - wide, even, and built for exactly that,
+// with a full weight range so 500 and 600 are real cuts rather than
+// synthesised ones.
+const body = Montserrat({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -71,7 +85,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="light" suppressHydrationWarning>
-      <body className={`${display.variable} ${body.variable} antialiased`}>
+      <body className={`${display.variable} ${accent.variable} ${body.variable} antialiased`}>
+        {/* Scroll reveals start at opacity 0 and are switched on by script.
+            Without this, a visitor with JavaScript off would meet a page of
+            blank sections. */}
+        <noscript>
+          <style>{".kv-reveal{opacity:1!important;transform:none!important}"}</style>
+        </noscript>
         <Providers>{children}</Providers>
       </body>
     </html>

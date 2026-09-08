@@ -1,111 +1,136 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { ContactForm } from "./components/ContactForm";
-import { contact } from "@/content/site-content";
+import { LocationMap } from "../components/LocationMap";
+import { Reveal } from "../components/Reveal";
+import { contact, home } from "@/content/site-content";
 
 export const metadata: Metadata = contact.meta;
 
+/**
+ * One ask, not four: the channels carry text links and the form is the only
+ * filled button on the page. Each block keeps its own hairline frame so the
+ * page reads as cards rather than one continuous column, and every block
+ * arrives on scroll behind the one above it.
+ */
 export default function ContactPage() {
   return (
-    <div className="space-y-8">
-      <header className="space-y-4">
-        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
-          {contact.header.eyebrow}
-        </p>
-        <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl lg:text-6xl">
-          {contact.header.title}
-        </h1>
-        <p className="max-w-2xl text-sm text-stone-600 sm:text-base">
-          {contact.header.description}
-        </p>
-      </header>
+    <div className="space-y-10">
+      <Reveal>
+        <header className="space-y-3">
+          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">
+            {contact.header.eyebrow}
+          </p>
+          <h1 className="font-display text-3xl font-normal text-stone-900 sm:text-4xl lg:text-5xl">
+            {contact.header.title}
+          </h1>
+          <p className="text-base leading-relaxed text-stone-600">
+            {contact.header.description}
+          </p>
+        </header>
+      </Reveal>
 
-      <section className="grid gap-6 lg:grid-cols-3">
-        {contact.items.map((item) => (
-          <article
-            key={item.title}
-            className="rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40"
-          >
-            <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
-              {item.title}
-            </h2>
-            <p className="mt-2 text-sm text-stone-600">{item.description}</p>
-            {item.note && (
-              <p className="mt-3 text-xs text-stone-500">{item.note}</p>
-            )}
-            {item.action && (
-              <Link
-                href={item.action.href}
-                className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 sm:w-auto"
-              >
-                {item.action.label}
-              </Link>
-            )}
-          </article>
+      {/* How to reach us: three ways, each in its own frame. The actions stay
+          text links - three filled buttons in a row was most of the noise. */}
+      <section className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {contact.items.map((item, index) => (
+          <Reveal key={item.title} delay={index * 110} className="h-full">
+            <article className="kv-lift flex h-full flex-col gap-2 rounded-md border border-emerald-100 bg-white p-5 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-900/10 sm:p-6">
+              <h2 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
+                {item.title}
+              </h2>
+              <p className="text-sm leading-relaxed text-stone-700">
+                {item.description}
+              </p>
+              {item.note ? (
+                <p className="text-xs text-stone-500">{item.note}</p>
+              ) : null}
+              {item.action ? (
+                <Link
+                  href={item.action.href}
+                  className="group mt-auto inline-flex items-center gap-1.5 pt-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700 transition-colors hover:text-emerald-600"
+                >
+                  <span className="kv-underline">{item.action.label}</span>
+                  <span className="kv-nudge">&rarr;</span>
+                </Link>
+              ) : null}
+            </article>
+          </Reveal>
         ))}
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-        <div className="rounded-2xl border border-emerald-100 bg-white p-6 sm:p-8">
-          <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
-            Planning an event?
-          </h2>
-          <p className="mt-3 text-sm text-stone-600">
-            Our banquet, small hall, and lawn are designed for weddings, corporate
-            gatherings, and intimate celebrations. Tell us your guest count and
-            preferred layout and we will share options quickly.
-          </p>
-          <Link
-            href="/enquiry"
-            className="mt-5 inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
-          >
-            Send an event enquiry
-          </Link>
-        </div>
-
-        <aside className="rounded-2xl border border-emerald-200/60 bg-emerald-50 p-6 text-sm text-emerald-900">
-          <h2 className="text-base font-semibold text-emerald-900">
-            Quick response promise
-          </h2>
-          <p className="mt-2 text-emerald-800">
-            We usually reply within 24 hours. Include your dates and we will
-            confirm room availability and pricing.
-          </p>
-          <Link
-            href="/enquiry"
-            className="mt-4 inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
-          >
-            Send an enquiry
-          </Link>
-        </aside>
-      </section>
-
-      <section className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-        <div>
-          <h2 className="font-sans text-lg font-medium leading-snug tracking-[-0.005em] text-stone-900">
-            {contact.messageBlock.title}
-          </h2>
-          <p className="mt-2 text-sm text-stone-600">
-            {contact.messageBlock.description}
-          </p>
-          <div className="mt-4">
+      {/* The form and the map sit side by side: a visitor deciding how to
+          reach us wants the message box and the way here in one glance. The
+          map carries its own directions link. */}
+      <section className="grid gap-5 lg:grid-cols-2">
+        <Reveal className="h-full">
+          <div className="h-full space-y-4 rounded-md border border-emerald-100 bg-white p-5 sm:p-6">
+            <div className="space-y-2">
+              <h2 className="font-display text-2xl font-normal text-stone-900 sm:text-3xl">
+                {contact.messageBlock.title}
+              </h2>
+              <p className="text-sm leading-relaxed text-stone-600">
+                {contact.messageBlock.description} We usually reply within 24
+                hours - include your dates and we will confirm room availability
+                and pricing.
+              </p>
+            </div>
             <ContactForm />
           </div>
-        </div>
-        <div className="rounded-2xl border border-emerald-100 bg-white p-6 text-sm text-stone-600 shadow-md shadow-emerald-100/40">
-          <h3 className="text-sm font-semibold text-stone-900">
-            {contact.checklist.title}
-          </h3>
-          <ul className="mt-3 space-y-2">
-            {contact.checklist.items.map((item) => (
-              <li key={item} className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
+        </Reveal>
+
+        <Reveal delay={130} className="h-full">
+          <div className="kv-themed-section flex h-full flex-col gap-3 rounded-md border border-emerald-100 bg-white p-5 sm:p-6">
+            <h2 className="font-display text-2xl font-normal text-stone-900 sm:text-3xl">
+              {home.locationSection.title}
+            </h2>
+            <LocationMap />
+            <p className="text-sm leading-relaxed text-stone-600">
+              {home.locationSection.description}
+            </p>
+          </div>
+        </Reveal>
       </section>
+
+      {/* What to include, and the one ask that is not a room enquiry. */}
+      <section className="grid gap-5 lg:grid-cols-2">
+        <Reveal className="h-full">
+          <div className="h-full rounded-md border border-emerald-100 bg-emerald-50/50 p-5 sm:p-6">
+            <h2 className="text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-700">
+              {contact.checklist.title}
+            </h2>
+            <ul className="mt-4 space-y-2.5 text-sm text-stone-700">
+              {contact.checklist.items.map((item) => (
+                <li key={item} className="flex items-start gap-2.5">
+                  <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-emerald-500" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+
+        <Reveal delay={130} className="h-full">
+          <div className="kv-lift h-full rounded-md border border-emerald-100 bg-white p-5 hover:border-emerald-300 hover:shadow-lg hover:shadow-emerald-900/10 sm:p-6">
+            <h2 className="font-display text-xl font-medium text-stone-900">
+              Planning an event?
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-stone-600">
+              Our banquet, small hall, and lawn suit weddings, corporate
+              gatherings, and intimate celebrations. Send your guest count and
+              preferred layout and we will share options quickly.
+            </p>
+            <Link
+              href="/enquiry"
+              className="group mt-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700 transition-colors hover:text-emerald-600"
+            >
+              <span className="kv-underline">Send an event enquiry</span>
+              <span className="kv-nudge">&rarr;</span>
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
     </div>
   );
 }

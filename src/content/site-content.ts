@@ -328,6 +328,12 @@ export const facilitiesPage = {
     secondaryCta: { label: "Talk to team", href: "/contact" } as Cta,
   },
 
+  // Wording for the catalogue rows on /facilities.
+  list: {
+    footerLabel: "Best for",
+    ctaLabel: "Details",
+  },
+
   detail: {
     breadcrumb: "Facilities",
     specLabels: {
@@ -362,6 +368,12 @@ export const roomsPage = {
     description:
       "20 rooms designed for business travellers, couples, families, and wedding guests. Browse each category for photos, amenities, and pricing.",
   } as PageHeader,
+
+  // Wording for the catalogue rows on /rooms.
+  list: {
+    rateLabel: "Per night",
+    ctaLabel: "Details",
+  },
 
   detail: {
     breadcrumb: "Rooms",

@@ -32,7 +32,7 @@ export function LocationMap() {
   return (
     <div className="space-y-3">
       {embedSrc ? (
-        <div className="overflow-hidden rounded-2xl border border-emerald-100">
+        <div className="overflow-hidden rounded-md border border-emerald-100">
           <iframe
             src={embedSrc}
             title={home.locationSection.mapTitle}

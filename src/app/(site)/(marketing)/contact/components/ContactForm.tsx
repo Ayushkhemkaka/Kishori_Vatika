@@ -51,7 +51,7 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 rounded-2xl border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40"
+      className="space-y-4 rounded-md border border-emerald-100 bg-white p-5 shadow-md shadow-emerald-100/40"
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
@@ -109,7 +109,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={formState === "submitting"}
-        className="inline-flex w-full items-center justify-center rounded-full bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
+        className="inline-flex w-full items-center justify-center rounded-sm bg-emerald-600 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300 sm:w-auto"
       >
         {formState === "submitting"
           ? contactForm.submit.submitting

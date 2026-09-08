@@ -21,7 +21,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
       <PageViewTracker />
       <SiteHeader />
 
-      <main className="kv-container pb-12 pt-6 sm:pt-9">
+      <main className="kv-container pb-10 pt-5 sm:pt-7">
         {children}
       </main>
 
@@ -29,16 +29,16 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
           hotel sites settle on: who we are, where to go, how to reach us,
           and the practical stay details a guest checks before booking. */}
       <footer className="border-t border-emerald-200/60 bg-white/80">
-        <div className="kv-container py-9 sm:py-10">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]">
-            <div className="space-y-4">
+        <div className="kv-container py-8">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.4fr)_repeat(3,minmax(0,1fr))]">
+            <div className="space-y-3">
               <p className="font-forte kv-wordmark text-2xl">{site.name}</p>
               <p className="max-w-sm text-sm leading-relaxed text-stone-600">
                 {footer.about}
               </p>
               <Link
                 href={footer.bookCta.href}
-                className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
+                className="inline-flex items-center justify-center rounded-sm bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
               >
                 {footer.bookCta.label}
               </Link>
@@ -138,7 +138,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
 
           {/* One row, not a panel: the label and the field sit on the same
               line from `lg` up, so the strip costs a single line of height. */}
-          <div className="mt-8 flex flex-col gap-3 border-t border-emerald-100 pt-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+          <div className="mt-6 flex flex-col gap-3 border-t border-emerald-100 pt-5 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
             <div className="min-w-0">
               <p className="text-sm font-semibold text-stone-900">
                 {footer.newsletter.title}
@@ -154,7 +154,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
         </div>
 
         <div className="border-t border-emerald-100">
-          <div className="kv-container flex flex-col gap-1.5 py-4 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
+          <div className="kv-container flex flex-col gap-1.5 py-3 text-xs text-stone-500 sm:flex-row sm:items-center sm:justify-between">
             <p>
               &copy; {new Date().getFullYear()}{" "}
               <span className="font-forte">{site.name}</span>. {footer.rights}

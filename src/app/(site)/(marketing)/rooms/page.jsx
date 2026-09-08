@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { roomCategories } from "./room-data";
-import { ImageCarousel } from "../components/ImageCarousel";
+import { CatalogueCard } from "../components/CatalogueCard";
+import { Reveal } from "../components/Reveal";
 import { attachRoomImages } from "../lib/image-loader";
 import { roomsPage, site } from "@/content/site-content";
 
@@ -9,108 +9,41 @@ export const metadata = roomsPage.meta;
 export default async function RoomsPage() {
   const roomsWithImages = await attachRoomImages(roomCategories);
   return (
-    <div className="space-y-8">
-      <header className="space-y-3 text-center sm:text-left">
+    <div className="space-y-6">
+      <Reveal>
+        <header className="space-y-2 text-center sm:text-left">
         <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-emerald-700">{roomsPage.header.eyebrow}</p>
-        <h1 className="font-display text-4xl font-normal tracking-tight text-stone-900 sm:text-5xl">
+        <h1 className="font-display text-3xl font-normal text-stone-900 sm:text-4xl lg:text-5xl">
           {roomsPage.header.title}{" "}
           <span className="font-forte">{site.name}</span>
         </h1>
         <p className="text-sm text-stone-600 sm:text-base">
           {roomsPage.header.description}
         </p>
-      </header>
+        </header>
+      </Reveal>
 
-      <div className="space-y-8">
-        {roomsWithImages.map((room) => (
-          <section
-            key={room.slug}
-            id={room.slug}
-            className="scroll-mt-24 grid overflow-hidden rounded-3xl border border-emerald-100 bg-white lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]"
-          >
-            {/* Photo and details share one card: the carousel runs flush to the
-                edge and the grid stretches it to the panel's height. */}
-            <ImageCarousel
-              images={room.images}
+      <div className="space-y-6">
+        {roomsWithImages.map((room, index) => (
+          <Reveal key={room.slug} delay={index * 90} className="scroll-mt-24">
+            <CatalogueCard
+              href={`/rooms/${room.slug}`}
               title={room.title}
-              containerClassName="h-[300px] sm:h-[420px] lg:h-full lg:min-h-[540px]"
+              description={room.longDescription ?? room.description}
+              badge={room.badge}
+              images={room.images}
+              // Bed, guests and size are what a visitor compares first; the
+              // rest of the row is filled from the amenity list so the card
+              // still shows six specs without repeating the detail page.
+              specs={[room.bed, room.occupancy, room.size, ...(room.amenities ?? []).slice(0, 3)].filter(Boolean)}
+              tags={(room.perks ?? []).slice(0, 4)}
+              footerLabel={roomsPage.list.rateLabel}
+              footerValue={room.price}
+              ctaLabel={roomsPage.list.ctaLabel}
+              flip={index % 2 === 1}
+              index={index}
             />
-
-            <div className="space-y-5 p-6 lg:p-8">
-              <span className="inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
-                {room.badge}
-              </span>
-              <h2 className="font-display text-4xl font-normal tracking-tight text-stone-900">
-                <Link href={`/rooms/${room.slug}`} className="transition hover:text-emerald-700">
-                  {room.title}
-                </Link>
-              </h2>
-              <p className="text-sm text-stone-600 sm:text-base">{room.longDescription}</p>
-
-              <div className="grid grid-cols-2 gap-3 rounded-xl border border-emerald-100 bg-emerald-50/60 p-4 text-sm text-stone-700">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-emerald-700">From</p>
-                  <p className="mt-1 font-semibold text-stone-900">{room.price}</p>
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-emerald-700">Occupancy</p>
-                  <p className="mt-1">{room.occupancy}</p>
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-emerald-700">Room size</p>
-                  <p className="mt-1">{room.size}</p>
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-emerald-700">Bed type</p>
-                  <p className="mt-1">{room.bed}</p>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">{roomsPage.detail.highlightsTitle}</h3>
-                <ul className="mt-2 space-y-1 text-sm text-stone-600">
-                  {room.perks.map((perk) => (
-                    <li key={perk} className="flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                      {perk}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">{roomsPage.detail.amenitiesTitle}</h3>
-                <ul className="mt-2 grid gap-2 text-sm text-stone-600 sm:grid-cols-2">
-                  {(room.amenities ?? []).map((item) => (
-                    <li key={item} className="rounded-full border border-emerald-100 bg-emerald-50/60 px-3 py-1.5">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="flex flex-wrap gap-3 pt-2">
-                <Link
-                  href="/enquiry"
-                  className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500"
-                >
-                  {roomsPage.detail.primaryCta.label}
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center rounded-full border border-emerald-200 bg-white px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-900 transition hover:border-emerald-400 hover:text-emerald-700"
-                >
-                  {roomsPage.detail.secondaryCta.label}
-                </Link>
-                <Link
-                  href={`/rooms/${room.slug}`}
-                  className="inline-flex items-center justify-center text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700 transition hover:text-emerald-600"
-                >
-                  {roomsPage.detail.viewLabel} &rarr;
-                </Link>
-              </div>
-            </div>
-          </section>
+          </Reveal>
         ))}
       </div>
     </div>

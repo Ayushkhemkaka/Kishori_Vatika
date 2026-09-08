@@ -43,12 +43,12 @@ export function NewsletterSignup() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={newsletter.placeholder}
-        className="w-full rounded-full border border-emerald-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none transition focus:border-emerald-400 sm:w-64"
+        className="w-full rounded-sm border border-emerald-200 bg-white px-4 py-2 text-sm text-stone-900 outline-none transition focus:border-emerald-400 sm:w-64"
       />
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300"
+        className="inline-flex items-center justify-center rounded-sm bg-emerald-600 px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-emerald-300"
       >
         {state === "submitting"
           ? newsletter.submit.submitting
